@@ -1,0 +1,25 @@
+<nz-breadcrumb>
+  <nz-breadcrumb-item>
+    <span nz-icon nzType="home"></span>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>
+    <a routerLink="/students">
+      <span nz-icon nzType="user"></span>
+      <span>Stduents</span>
+    </a>
+  </nz-breadcrumb-item>
+  <nz-breadcrumb-item>Create Student</nz-breadcrumb-item>
+</nz-breadcrumb>
+<nz-spin [nzSpinning]="isLoading">
+<nz-tabset>
+  <nz-tab nzTitle="Student">
+    <app-studentinformation #studentTab [studentData]="studentData"></app-studentinformation>
+  </nz-tab>
+  <nz-tab nzTitle="Parents">
+    <app-studentparentinformation #parentTab [parentData]="parentData"></app-studentparentinformation>
+  </nz-tab>
+  <nz-tab nzTitle="Account">
+    <app-studentaccountinformation #accountTab [accountData]="accountData"></app-studentaccountinformation>
+  </nz-tab>
+</nz-tabset>
+</nz-spin>

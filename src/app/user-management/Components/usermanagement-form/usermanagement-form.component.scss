@@ -1,0 +1,34 @@
+.loading-spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Translucent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+
+  /* Flexbox container to align each form field on a new row */
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adds space between rows */
+}
+
+mat-form-field {
+  width: 100%; /* Ensures form field takes full width */
+}
+
+button {
+  margin-top: 20px;
+}
+
+
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}

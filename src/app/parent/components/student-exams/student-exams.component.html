@@ -1,0 +1,70 @@
+<div class="row">
+  <!-- No Exams Message -->
+  <div *ngIf="!exams || exams.length === 0" class="text-center w-100">
+    <p class="f-s-16 text-muted">
+      {{ "NO EXAMS AVAILABLE" | translate }}
+    </p>
+  </div>
+
+  <!-- Exams List -->
+  <div class="col-sm-6 col-lg-4" *ngFor="let exam of exams">
+    <mat-card class="cardWithShadow card2 position-relative card-hover">
+      <img mat-card-image src="/assets/images/blog/blog-img9.jpg" />
+      <mat-card-content>
+        <div class="user-category pt-n70">
+          <img
+            src="assets/images/profile/exam.png"
+            class="rounded-circle pill-center"
+            width="40"
+          />
+        </div>
+
+        <!-- Exam Title -->
+        <mat-card-title class="m-t-20">{{ exam.title }}</mat-card-title>
+
+        <!-- Exam Description -->
+        <p class="f-s-14">{{ exam.description }}</p>
+
+        <!-- Due Date with Indicator -->
+        <div class="d-flex align-items-center justify-content-between m-t-12">
+          <div>
+            <i-tabler
+              *ngIf="isLate(exam.dueDate)"
+              name="alert-triangle"
+              class="icon-18 text-warn m-r-4"
+            ></i-tabler>
+            <span
+              class="f-s-14"
+              [ngClass]="{ 'text-warn': isLate(exam.dueDate) }"
+            >
+              {{ "DUE DATE" | translate }}:
+              {{ exam.dueDate | date : "short" }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Exam Actions -->
+        <div class="d-flex justify-content-between m-t-16">
+          <!-- View Exam Details -->
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="viewExamDetails(exam)"
+          >
+            {{ "VIEW DETAILS" | translate }}
+          </button>
+
+          <!-- Start Exam Button: Display Only if Not In-Person -->
+          <button
+            *ngIf="!exam.isInPerson"
+            mat-flat-button
+            color="accent"
+            (click)="startExam(exam)"
+          >
+            {{ "START EXAM" | translate }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

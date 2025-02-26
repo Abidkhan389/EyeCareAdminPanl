@@ -1,0 +1,89 @@
+<div class="modal-header p-3 d-flex justify-content-between align-items-center w-100 modalHeader">
+  <h4 class="modal-title text-bold-500 font-medium-1 hrStyleForMaring">
+    {{ data.isEdit ? "Update PRoject" : "Create Project" }}
+  </h4>
+  <button type="button" mat-icon-button (click)="closeClick()" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+
+<form [formGroup]="projectForm" (ngSubmit)="onSubmit()" class="project-form">
+  <div class="modal-body" style=" overflow-y: auto; padding: 1rem;">
+    
+    <!-- Row 1: Title, Description, Due Date -->
+    <div class="row g-3">
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Title</mat-label>
+          <input matInput formControlName="title" placeholder="Project Title" />
+          <mat-error *ngIf="projectForm.get('title')?.hasError('required')">
+            Title is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Description</mat-label>
+          <textarea matInput formControlName="description" placeholder="Description"></textarea>
+          <mat-error *ngIf="projectForm.get('description')?.hasError('required')">
+            Description is required.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Due Date</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dueDate"   [min]="minDate"/>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!-- Row 2: Max Score, Select Students, Notes -->
+    <div class="row g-3 mt-3">
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Max Score</mat-label>
+          <input matInput type="number" formControlName="maxScore" min="0" />
+          <mat-error *ngIf="projectForm.get('maxScore')?.hasError('required')">
+            Max score is required.
+          </mat-error>
+          <mat-error *ngIf="projectForm.get('maxScore')?.hasError('min')">
+            Max score cannot be negative.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Select Students</mat-label>
+          <mat-select formControlName="studentIds" multiple>
+            <mat-option *ngFor="let student of students" [value]="student.studentId">
+              {{ student.firstName }} - {{ student.lastName }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Notes</mat-label>
+          <textarea matInput formControlName="notes" placeholder="Additional Notes"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="modal-footer p-2 d-flex justify-content-end modalHeader" style=" margin-top: 2px;">
+    <button mat-raised-button color="secondary" class="me-2 cancelButtonMargin" type="button" (click)="closeClick()">
+      <i class="fa fa-close"></i> Cancel
+    </button>
+    <button mat-raised-button color="primary" class="createButtonMargin" type="submit">
+      {{ data.isEdit ? "Update Project" : "Create Project" }}
+    </button>
+  </div>
+</form>

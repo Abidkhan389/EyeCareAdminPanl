@@ -1,0 +1,108 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>
+      {{
+        isEditMode
+          ? ("Update ClassRoom" | translate)
+          : ("Create ClassRoom" | translate)
+      }}
+    </mat-card-title>
+
+    <div *ngIf="isLoading" class="loading-spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <form
+      [formGroup]="classRoomForm"
+      (ngSubmit)="onSubmit()"
+      class="classroom-form"
+    >
+      <div class="d-flex flex-wrap align-items-center">
+        <!-- Classroom Name -->
+        <mat-form-field appearance="outline" class="me-3">
+          <mat-label>{{ "Classroom Name" | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="classroomName"
+            placeholder="{{ 'Enter classroom name' | translate }}"
+          />
+          <mat-error *ngIf="classRoomForm.get('classroomName')?.invalid">
+            {{
+              "Classroom Name is required and must be less than 100 characters."
+                | translate
+            }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Classroom Capacity -->
+        <mat-form-field appearance="outline" class="me-3">
+          <mat-label>{{ "Classroom Capacity" | translate }}</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="classroomCapacity"
+            placeholder="{{ 'Enter classroom capacity' | translate }}"
+          />
+          <mat-error *ngIf="classRoomForm.get('classroomCapacity')?.invalid">
+            {{
+              "Classroom Capacity is required and must be a positive number."
+                | translate
+            }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Classroom Level -->
+        <mat-form-field appearance="outline" class="me-3">
+          <mat-label>{{ "Classroom Level" | translate }}</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="classroomLevel"
+            placeholder="{{ 'Enter classroom level' | translate }}"
+          />
+          <mat-error *ngIf="classRoomForm.get('classroomLevel')?.invalid">
+            {{ "Classroom Level is required." | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Room Number -->
+        <mat-form-field appearance="outline" class="me-3">
+          <mat-label>{{ "Room Number" | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="roomNumber"
+            placeholder="{{ 'Enter room number' | translate }}"
+          />
+          <mat-error *ngIf="classRoomForm.get('roomNumber')?.invalid">
+            {{ "Room Number is required." | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Registered Students Count (Optional) -->
+        <mat-form-field appearance="outline" class="me-3">
+          <mat-label>{{ "Registered Students Count" | translate }}</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="registeredStudentsCount"
+            placeholder="{{ 'Enter students count' | translate }}"
+          />
+        </mat-form-field>
+
+        <!-- Submit Button -->
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="!classRoomForm.valid"
+        >
+          {{
+            isEditMode
+              ? ("Update ClassRoom" | translate)
+              : ("Create ClassRoom" | translate)
+          }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

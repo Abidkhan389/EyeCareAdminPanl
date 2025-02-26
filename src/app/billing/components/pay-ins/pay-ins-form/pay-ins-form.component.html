@@ -1,0 +1,127 @@
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+<form [formGroup]="payInForm" (ngSubmit)="onSubmit()">
+  <!-- Amount -->
+  <mat-form-field appearance="outline" class="me-3">
+    <mat-label>{{ "Amount" | translate }}</mat-label>
+    <input
+      matInput
+      type="number"
+      formControlName="amount"
+      placeholder="{{ 'Enter Amount' | translate }}"
+    />
+    <mat-error
+      *ngIf="
+        payInForm.get('amount')?.invalid && payInForm.get('amount')?.touched
+      "
+    >
+      {{ "Amount is required and must be greater than 0." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Currency Code -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label class="mat-label">{{ "Currency" | translate }}</mat-label>
+    <mat-select formControlName="currencyCode" required>
+      <mat-option *ngFor="let currency of currencies" [value]="currency.code">
+        {{ currency.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error
+      *ngIf="
+      payInForm.get('currencyCode')?.invalid &&
+      payInForm.get('currencyCode')?.touched
+      "
+    >
+      {{ "Currency is required" | translate }}
+    </mat-error>
+  </mat-form-field>
+
+ 
+  <!-- Paid On -->
+  <mat-form-field appearance="outline" class="me-3">
+    <mat-label>{{ "Paid On" | translate }}</mat-label>
+    <input
+      matInput
+      [matDatepicker]="picker"
+      formControlName="paidOn"
+      placeholder="{{ 'Select Paid On Date' | translate }}"
+    />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+    <mat-error
+      *ngIf="
+        payInForm.get('paidOn')?.invalid && payInForm.get('paidOn')?.touched
+      "
+    >
+      {{ "Paid On date is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Vendor Dropdown -->
+  <mat-form-field appearance="outline" class="me-3">
+    <mat-label>{{ "Select Vendor" | translate }}</mat-label>
+    <mat-select formControlName="vendorId">
+      <mat-option *ngFor="let vendor of vendors" [value]="vendor.vendorId">
+        {{ vendor.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error
+      *ngIf="
+        payInForm.get('vendorId')?.invalid && payInForm.get('vendorId')?.touched
+      "
+    >
+      {{ "Vendor selection is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Income Type Dropdown -->
+  <mat-form-field appearance="outline" class="me-3">
+    <mat-label>{{ "Select Income Type" | translate }}</mat-label>
+    <mat-select formControlName="incomeTypeId">
+      <mat-option
+        *ngFor="let income of incomeTypes"
+        [value]="income.incomeTypeId"
+      >
+        {{ income.incomeName }}
+      </mat-option>
+    </mat-select>
+    <mat-error
+      *ngIf="
+        payInForm.get('incomeTypeId')?.invalid &&
+        payInForm.get('incomeTypeId')?.touched
+      "
+    >
+      {{ "Income type selection is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <div class="row payin-margin">
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ "Description" | translate }}</mat-label>
+      <textarea
+        matInput
+        formControlName="description"
+        placeholder="{{ 'Enter Description' | translate }}"
+      ></textarea>
+      <mat-error
+        *ngIf="
+          payInForm.get('description')?.invalid &&
+          payInForm.get('description')?.touched
+        "
+      >
+        {{ "Description is required." | translate }}
+      </mat-error>
+    </mat-form-field>
+  </div>
+  <!-- Submit Button -->
+  <div class="form-group">
+    <button mat-raised-button color="primary" type="submit">
+      {{
+        isEdit ? ("Update Pay-In" | translate) : ("Create Pay-In" | translate)
+      }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,59 @@
+.nav-container {
+  padding: 1rem;
+  //  background: #f9f9f9;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.subject-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.subject-item {
+  margin-bottom: 1rem;
+}
+
+.link-list {
+  list-style-type: none;
+  padding-left: 1.5rem;
+}
+
+.link-list li {
+  margin: 0.5rem 0;
+}
+
+.link-list a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+.link-list a:hover {
+  text-decoration: underline;
+}
+
+.learning-nav {
+  position: absolute;
+  left: -16rem;
+  top: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 700px;
+}
+.adjusted-size {
+  padding: 0 0px !important;
+  width: 210px !important;
+  & a {
+    margin-left: -25px;
+  }
+}
+.white-text {
+  color: white !important;
+}
+.activeMenu span span {
+  color: white !important;
+}
+.activeMenu svg {
+  color: white !important;
+}

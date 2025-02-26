@@ -1,0 +1,55 @@
+<div class="assignment-view-card">
+  <!-- Close Button -->
+  <button mat-icon-button class="close-button" (click)="closeDialog()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <!-- Assignment Title and Due Date -->
+  <header class="assignment-header">
+    <h1 class="assignment-title">{{ assignment.title | translate }}</h1>
+    <p class="due-date">
+      <mat-icon>calendar_today</mat-icon>
+      {{ "Due Date:" | translate }} {{ assignment.dueDate | date : "fullDate" }}
+    </p>
+  </header>
+
+  <!-- Assignment Details -->
+  <div class="assignment-content">
+    <p class="assignment-description">
+      <strong>{{ "Description:" | translate }}</strong>
+      {{ assignment.description || ("N/A" | translate) }}
+    </p>
+    <p class="assignment-notes" *ngIf="assignment.notes">
+      <strong>{{ "Notes:" | translate }}</strong> {{ assignment.notes }}
+    </p>
+
+    <!-- Additional Information -->
+    <div class="additional-info">
+      <p>
+        <strong>{{ "Max Score:" | translate }}</strong>
+        {{ assignment.maxScore }}
+      </p>
+      <p>
+        <strong>{{ "Created Date:" | translate }}</strong>
+        {{ assignment.createdDate | date : "short" }}
+      </p>
+      <p>
+        <strong>{{ "Created By Faculty ID:" | translate }}</strong>
+        {{ assignment.createdByFacultyId }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Active Status and Due Status Badge -->
+  <footer class="assignment-footer">
+    <span class="status-badge" [ngClass]="dueStatus">
+      {{
+        dueStatus === "active"
+          ? ("Active" | translate)
+          : dueStatus === "dueSoon"
+          ? ("Due Soon" | translate)
+          : ("Past Due" | translate)
+      }}
+    </span>
+  </footer>
+</div>

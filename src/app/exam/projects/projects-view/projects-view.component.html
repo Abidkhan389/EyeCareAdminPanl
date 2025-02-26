@@ -1,0 +1,39 @@
+<div class="project-card">
+  <button mat-icon-button class="close-btn" (click)="closeModal()">
+    <mat-icon>close</mat-icon>
+  </button>
+
+  <h2 class="project-title">{{ _project.title }}</h2>
+  <div class="project-info">
+    <p class="project-description">
+      {{ _project.description || "No description available." | translate }}
+    </p>
+    <p>
+      <strong>{{ "Due Date" | translate }}:</strong> {{ formattedDueDate }}
+    </p>
+    <p>
+      <strong>{{ "Max Score" | translate }}:</strong> {{ _project.maxScore }}
+    </p>
+    <p>
+      <strong>{{ "Group Project" | translate }}:</strong>
+      {{ _project.isGroupProject ? ("Yes" | translate) : ("No" | translate) }}
+    </p>
+    <p>
+      <strong>{{ "Created On" | translate }}:</strong>
+      {{ _project.createdDate | date }}
+    </p>
+  </div>
+
+  <div *ngIf="_project.students?.length" class="students-section">
+    <h3>{{ "Participating Students" | translate }}</h3>
+    <ul>
+      <li *ngFor="let student of _project.students">
+        {{ student.firstName }} {{ student.lastName }}
+      </li>
+    </ul>
+  </div>
+
+  <div *ngIf="!_project.students?.length" class="no-students">
+    <p>{{ "No students assigned to this project." | translate }}</p>
+  </div>
+</div>

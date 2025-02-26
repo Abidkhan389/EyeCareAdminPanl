@@ -1,0 +1,47 @@
+
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-card-content>
+      <div class="container">
+        <div class="row p-y-15">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Fisrt Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ userDetail?.firstName  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">Last Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ userDetail?.lastName  || 'N/A'}}
+            </h6>
+          </div>
+        </div>
+        <div class="row p-y-15">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Email: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ userDetail?.emailorPhone  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">User Role: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ userDetail?.employeeTypeText || 'N/A'}}
+            </h6>
+          </div>
+        </div> 
+        <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">IsActive: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ userDetail?.isActive || 'N/A'}}
+              </h6>
+            </div>
+          </div>             
+      </div>
+    </mat-card-content>
+  
+  
+  

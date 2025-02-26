@@ -1,0 +1,16 @@
+<mat-drawer-container autosize style="height: 100vh">
+  <mat-drawer
+    #sidenav
+    class="sidenav"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="!(isHandset$ | async)"
+    disableClose="false"
+  >
+    <app-navigation class="app-nav"></app-navigation>
+  </mat-drawer>
+
+  <div class="container-fluid">
+    <app-header (navToggle)="navToggle()"></app-header>
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

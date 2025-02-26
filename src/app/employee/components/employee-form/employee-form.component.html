@@ -1,0 +1,519 @@
+<mat-card-title>{{
+  isEditMode ? ("Update Employee" | translate) : ("Create Employee" | translate)
+}}</mat-card-title>
+
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="employee-form">
+  <div class="row">
+    <!-- Highest Education -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Highest Education" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="heighestEducatioin"
+          placeholder="{{ 'Enter Highest Education' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('heighestEducatioin')?.invalid">
+          {{ "Highest Education is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- GPA -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "GPA" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="gpa"
+          placeholder="{{ 'Enter GPA' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('gpa')?.invalid">
+          {{ "GPA is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Years of Experience -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Years of Experience" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="yearsOfExperience"
+          placeholder="{{ 'Enter Years of Experience' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('yearsOfExperience')?.invalid">
+          {{ "Years of Experience is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Specialty -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Specialty" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="specialty"
+          placeholder="{{ 'Enter Specialty' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('specialty')?.invalid">
+          {{ "Specialty is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Children Count -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Children Count" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="childrenCount"
+          placeholder="{{ 'Enter Children Count' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('childrenCount')?.invalid">
+          {{ "Children Count is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Monthly Salary -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Monthly Salary" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="monthlySalary"
+          placeholder="{{ 'Enter Monthly Salary' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('monthlySalary')?.invalid">
+          {{ "Monthly Salary is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Sick Days -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Sick Days" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="sickDays"
+          placeholder="{{ 'Enter Sick Days' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('sickDays')?.invalid">
+          {{ "Sick Days are required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Sick Days Available -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Sick Days Available" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="sickDaysAvailable"
+          placeholder="{{ 'Enter Sick Days Available' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+    <!-- Holiday Days -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Holiday Days" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="holidayDays"
+          placeholder="{{ 'Enter Holiday Days' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('holidayDays')?.invalid">
+          {{ "Holiday Days are required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Holiday Days Available -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Holiday Days Available" | translate }}</mat-label>
+        <input
+          matInput
+          type="number"
+          formControlName="holidayDaysAvailable"
+          placeholder="{{ 'Enter Holiday Days Available' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- First Name -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "First Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="firstName"
+          placeholder="{{ 'Enter First Name' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('firstName')?.invalid">
+          {{
+            "First Name is required and must be less than 100 characters."
+              | translate
+          }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Middle Name -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Middle Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="middleName"
+          placeholder="{{ 'Enter Middle Name' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('middleName')?.invalid">
+          {{
+            "Middle Name is required and must be less than 100 characters."
+              | translate
+          }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Grand Parent Name -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Grand Parent Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="grandParentName"
+          placeholder="{{ 'Enter Grand Parent Name' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+
+    <!-- Last Name -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Last Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="lastName"
+          placeholder="{{ 'Enter Last Name' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('lastName')?.invalid">
+          {{ "Last Name is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Email -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Email" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="email"
+          placeholder="{{ 'Enter Email' | translate }}"
+        />
+        <mat-error *ngIf="employeeForm.get('email')?.invalid">
+          {{ "Email is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Phone Number -->
+  <div class="row">
+    <!-- Country Code Dropdown -->
+    <div class="col-xl-6 col-lg-6 col-mg-6 col-sm-6 col-12">
+      <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+        <mat-label>{{ "Country Code" | translate }}</mat-label>
+        <mat-select
+          formControlName="countryCode"
+          [(value)]="selectedCountryCode"
+          placeholder="{{ 'Select Country Code' | translate }}"
+        >
+          <mat-option
+            *ngFor="let country of countryCodes"
+            [value]="country.code"
+          >
+            {{ country.name }} ({{ country.code }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="employeeForm.get('countryCode')?.invalid">
+          {{ "Country code is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Phone Number Input -->
+    <div class="col-xl-6 col-lg-6 col-mg-6 col-sm-6 col-12">
+      <mat-form-field appearance="outline" class="me-3">
+        <mat-label>{{ "Phone Number" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="phoneNumber"
+          placeholder="{{ 'Enter Phone Number' | translate }}"
+          class="formInputHeight"
+          required
+        />
+        <mat-error *ngIf="employeeForm.get('phoneNumber')?.invalid">
+          {{ "Phone number is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <!-- Date of Birth -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Date of Birth" | translate }}</mat-label>
+        <input
+          matInput
+          [matDatepicker]="picker"
+          formControlName="dateOfBirth"
+          placeholder="{{ 'Choose a date' | translate }}"
+        />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="employeeForm.get('dateOfBirth')?.invalid">
+          {{ "Date of Birth is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Social Security Input -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Social Security" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="socialSeucirty"
+          placeholder="Enter Social Security number"
+        />
+        <mat-error *ngIf="employeeForm.get('socialSecurity')?.invalid">
+          {{ "Social security is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+    <!-- Identification Type Select -->
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Identification Type" | translate }}</mat-label>
+        <mat-select
+          formControlName="identificationType"
+          placeholder="Select Identification Type"
+        >
+          <mat-option
+            *ngFor="let type of appresourceIdentificationType"
+            [value]="type.resourceId"
+          >
+            {{ type.resourceKey }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="employeeForm.get('identificationType')?.invalid">
+        {{ "Identifiation type is required." | translate }}
+      </mat-error>
+    </div>
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Identification Number Input -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Identification Number" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="identificationNumber"
+          placeholder="Enter Identification Number"
+        />
+        <mat-error *ngIf="employeeForm.get('identificationNumber')?.invalid">
+          {{ "Date of Birth is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Is Active Select -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Is Active" | translate }}</mat-label>
+        <mat-select
+          formControlName="isActive"
+          placeholder="{{ 'Select Status' | translate }}"
+        >
+          <mat-option [value]="true">{{ "True" | translate }}</mat-option>
+          <mat-option [value]="false">{{ "False" | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <!-- CitizenShip Input -->
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "CitizenShip" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="citizenShip"
+          placeholder="{{ 'Enter CitizenShip' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Notes -->
+  <div class="row">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>{{ "Notes" | translate }}</mat-label>
+      <textarea
+        matInput
+        formControlName="notes"
+        placeholder="{{ 'Enter Notes' | translate }}"
+      ></textarea>
+    </mat-form-field>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Gender Select -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Gender" | translate }}</mat-label>
+        <mat-select
+          formControlName="gender"
+          placeholder="{{ 'Select Gender' | translate }}"
+        >
+          <mat-option
+            *ngFor="let gender of appresourceGender"
+            [value]="gender.resourceId"
+          >
+            {{ gender.resourceKey | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="employeeForm.get('gender')?.invalid">
+          {{ "Gender is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Mother Name -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Mother's Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="motherName"
+          class="formInputHeight"
+          placeholder="{{ 'Enter Mother\'s Name' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Marital Status Select -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Marital Status" | translate }}</mat-label>
+        <mat-select
+          formControlName="maritalStatus"
+          placeholder="{{ 'Select Marital Status' | translate }}"
+        >
+          <mat-option
+            *ngFor="let marital of appresourceMarital"
+            [value]="marital.resourceId"
+          >
+            {{ marital.resourceKey | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Religion Select -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Religion" | translate }}</mat-label>
+        <mat-select
+          formControlName="religion"
+          placeholder="{{ 'Select Religion' | translate }}"
+        >
+          <mat-option
+            *ngFor="let religion of appresourceReligion"
+            [value]="religion.resourceId"
+          >
+            {{ religion.resourceKey | translate }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Place of Birth -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Place of Birth" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="placeOfBirth"
+          class="formInputHeight"
+          placeholder="{{ 'Enter Place of Birth' | translate }}"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="col-xl-4 col-lg-4 col-mg-4 col-sm-4 col-12">
+      <!-- Employee Type -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Employee Type" | translate }}</mat-label>
+        <mat-select
+          formControlName="employeeType"
+          placeholder="{{ 'Select Employee Type' | translate }}"
+          required
+        >
+          <mat-option *ngFor="let role of roleList" [value]="role.id">
+            {{ role.name | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="employeeForm.get('employeeType')?.invalid">
+          {{ "Employee Type is required." | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <!-- Submit Button -->
+  <div class="custom-button-container">
+    <button
+      mat-raised-button
+      color="primary"
+      type="submit"
+      class="custom-submit-button"     
+    >
+      {{
+        isEditMode
+          ? ("Update Employee" | translate)
+          : ("Create Employee" | translate)
+      }}
+    </button>
+  </div>
+</form>

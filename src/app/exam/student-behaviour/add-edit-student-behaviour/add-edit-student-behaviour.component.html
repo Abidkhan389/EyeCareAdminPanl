@@ -1,0 +1,265 @@
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="col-lg-12 modal-content">
+    <!-- Close Button Row -->
+    <div class="modal-header row d-flex justify-content-end ">
+
+        <button mat-icon-button class="close-btn buttonMargin" (click)="closeDialog()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form [formGroup]="studentBehaviourForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <!-- Date of Incident -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Date of Incident" | translate }}</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="dateOfIncident" [max]="maxDate" />
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="studentBehaviourForm.get('dateOfIncident')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Behavior Type -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Behavior Type" | translate }}</mat-label>
+                        <mat-select formControlName="behaviorTypeId" placeholder="{{ 'Select Behavior' | translate }}"
+                            required>
+                            <mat-option *ngFor="let behaviour of appresourceRouteType" [value]="behaviour.resourceId">
+                                {{ behaviour.resourceValue | translate }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="studentBehaviourForm?.get('behaviorTypeId')?.hasError('required')">
+                            {{ "Please select a behaviour" | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Date of Incident -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Students</mat-label>
+                        <mat-select formControlName="studentId">
+                            <mat-option *ngFor="let student of students" [value]="student.studentId">
+                                {{ student.firstName }} - {{ student.lastName }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+                <!-- Behavior Type -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Description" | translate }}</mat-label>
+                        <textarea matInput type="text" formControlName="description"
+                            placeholder="Description"></textarea>
+                        <mat-error *ngIf="studentBehaviourForm.get('description')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Date of Incident -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Action Taken" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="actionTaken" placeholder="Action Taken" />
+                        <mat-error *ngIf="studentBehaviourForm.get('actionTaken')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Behavior Type -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Reported By" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="reportedBy" placeholder="Reported By" />
+                        <mat-error *ngIf="studentBehaviourForm.get('reportedBy')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Date of Incident -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Category" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="category" placeholder="Category" />
+                        <mat-error *ngIf="studentBehaviourForm.get('category')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Behavior Type -->
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Location" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="location" placeholder="Location" />
+                        <mat-error *ngIf="studentBehaviourForm.get('location')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- witnesses -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-chip-grid #chipGrid aria-label="Enter witnesses">
+                            <mat-chip-row *ngFor="let witness of witnesses.controls; let i = index" [editable]="true"
+                                (removed)="removeWitness(i)" (edited)="editWitness(i, $event)"
+                                [aria-description]="'press enter to edit witness ' + witness.value">
+                                {{ witness.value }}
+                                <button matChipRemove [attr.aria-label]="'remove witness ' + witness.value">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip-row>
+                            <input placeholder="New witness..." formControlName="witnesses" [matChipInputFor]="chipGrid"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                                (matChipInputTokenEnd)="addWitness($event)" />
+                        </mat-chip-grid>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- followUpDetails -->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 margin-followupdetails">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "followUp Details" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="followUpDetails" placeholder="followUp Details" />
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error *ngIf="studentBehaviourForm.get('followUpDetails')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- FollowUpRequired -->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 margin-followuprequired">
+                    <mat-slide-toggle formControlName="FollowUpRequired" color="primary"
+                        class="toggle-inline formFieldMarginRight slideTogglemargintop">
+                        {{ "FollowUp Required" | translate }}
+                    </mat-slide-toggle>
+                </div>
+
+                <!-- ParentNotified -->
+
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <mat-slide-toggle formControlName="ParentNotified"
+                        class="toggle-inline formFieldMarginRight slideTogglemargintop">
+                        {{ "Parent Notified" | translate }}
+                    </mat-slide-toggle>
+
+                </div>
+            </div>
+            <div class="row">
+                <!-- Notification Details -->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Notification Details" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="notificationDetails"
+                            placeholder="Notification Details" />
+
+                        <mat-error *ngIf="studentBehaviourForm.get('notificationDetails')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <!-- Resolution Status -->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Resolution Status" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="resolutionStatus"
+                            placeholder="Resolution Status" />
+
+                        <mat-error *ngIf="studentBehaviourForm.get('resolutionStatus')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <!-- Points Affected -->
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Points Affected" | translate }}</mat-label>
+                        <input matInput type="number" min="0" formControlName="pointsAffected"
+                            placeholder="Points Affected" />
+                        <mat-error *ngIf="studentBehaviourForm.get('pointsAffected')?.hasError('required')">
+                            Date is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                <button mat-flat-button color="primary" type="button" class="m-r-8" (click)="fileInput.click()">
+                  {{ 'Upload Files' | translate }} 
+                  <span *ngIf="selectedFileCount > 0">
+                    ({{ selectedFileCount }} {{ 'file(s) selected' | translate }})
+                  </span>
+                  <input 
+                    type="file" 
+                    accept=".pdf,.doc,.docx,image/*" 
+                    class="file-input" 
+                    #fileInput
+                    (change)="onFileSelected($event)" 
+                    style="display: none;" 
+                    multiple 
+                  />
+                </button>
+                
+                <!-- Display Existing Files -->
+                <div *ngIf="existingFiles.length > 0">
+                  <h5>{{ "Existing Attachments" | translate }}</h5>
+                  <div class="attachment-list">
+                    <div *ngFor="let file of existingFiles" class="attachment-item">
+                      <span>{{ extractFileName(file) }}</span>
+                      <button type="button" class="remove-btn" (click)="removeExistingFile(file)">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              
+                <!-- Display Newly Selected Files -->
+                <div *ngIf="selectedFiles.length > 0">
+                  <h5>{{ "Newly Selected Files" | translate }}</h5>
+                  <div class="attachment-list">
+                    <div *ngFor="let file of selectedFiles" class="attachment-item">
+                      <span>{{ file.name }}</span>
+                      <button type="button" class="remove-btn" (click)="removeNewFile(file)">
+                        &times;
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+             <!-- Modal Footer -->
+                <div class="modal-footer d-flex justify-content-end">
+                    <button mat-raised-button color="secondary" class="closeButtonMargin" type="button" (click)="closeDialog()">
+                        <i class="fa fa-close"></i> Cancel
+                    </button>
+                    
+                    <button mat-raised-button color="primary" type="submit" class="saveButton" [disabled]="studentBehaviourForm.invalid">
+                        {{ data.studentBehaviourId ? "Update Behaviour" : "Create Behaviour" }}
+                    </button>
+                </div>
+        </form>
+    </div>
+
+
+   
+</div>

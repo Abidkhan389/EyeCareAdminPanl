@@ -1,0 +1,22 @@
+
+
+<nz-descriptions
+  nzTitle="Student Parents"
+  nzBordered
+  [nzColumn]="1"
+  *ngFor="let parent of parentData; let i = index"
+  [nzSize]="'default'"
+>
+  <nz-descriptions-item nzTitle="Country Code">{{ parent.countryCode }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="First Name">{{ parent.firstName }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Last Name">{{ parent.lastName }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Home Phone">{{ parent.homePhone }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Employer">{{ parent.employer }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Is Employed">{{ parent.isEmployed ? 'Yes' : 'No' }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Is Active">{{ parent.isActive ? 'Yes' : 'No' }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Employer Number">{{ parent.employerNumber }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Employer Address">{{ parent.employerAddress }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Emergency Contact">{{ parent.emergencyContact }}</nz-descriptions-item>
+  <nz-descriptions-item nzTitle="Salary">{{ parent.salary | currency }}</nz-descriptions-item>
+</nz-descriptions>
+

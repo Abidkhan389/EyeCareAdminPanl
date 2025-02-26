@@ -1,0 +1,52 @@
+.loading-spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Translucent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+.invoiceButtinTop
+{
+    margin-top: 2px !important;
+}
+.invoiceCreateButton
+{
+    margin-right: 2px !important;
+}
+.marginTopButtonForCrossWidthHeight {
+    width: 39px; /* Adjust the width */
+    height: 37px; /* Adjust the height */
+    min-width: unset; /* Remove the default Material button minimum width */
+    padding: 4px; /* Add some padding */
+    border-radius: 6px; /* Add slight rounding */
+  }
+  .buttonStyleOfCross
+  {
+    margin-top: 1px !important;
+  }
+  .danger-button {
+    background-color: #d32f2f !important;/* Custom red color */
+    color: #ffffff; /* White text */
+  }
+  
+  .danger-button:hover {
+    background-color: #b71c1c !important; /* Darker red for hover state */
+  }
+
+  .no-gutters {
+    margin-right: 1px !important;
+    margin-left: 1px !important;
+  }
+  
+  .no-gutters > [class*='col-'] {
+    padding-right: 1px !important;
+    padding-left: 1px !important;
+  }
+  
+  
+  

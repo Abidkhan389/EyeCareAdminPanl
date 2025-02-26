@@ -1,0 +1,135 @@
+<mat-card class="cardWithShadow">
+    <div class="row justify-content-between">
+      <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100 hide-hint">
+          <input
+            matInput
+            placeholder="{{ 'Search User' | translate }}"
+            (keyup)="filterData($event)"
+          />
+          <mat-icon matSuffix>
+            <i-tabler name="search" class="icon-20"></i-tabler>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-4 d-flex align-items-center justify-content-end">
+        <button
+          mat-flat-button
+          (click)="createUser()"
+          color="primary"
+          class="m-r-10"
+        >
+          {{ "Add" | translate }}
+        </button>
+        <button
+          mat-flat-button
+          color="warn"
+          [disabled]="selectedRows.selected.length === 0"
+          (click)="deleteSelectedUsers()"
+        >
+          {{ "Delete Selected Users" | translate }}
+        </button>
+      </div>
+    </div>
+  </mat-card>
+  <div *ngIf="isLoading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <mat-card class="cardWithShadow">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="users" class="w-100">
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selectedRows.hasValue() && isAllSelected()"
+              [indeterminate]="selectedRows.hasValue() && !isAllSelected()"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selectedRows.toggle(row) : null"
+              [checked]="selectedRows.isSelected(row)"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="FirstName">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            {{ "First Name" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <div class="d-flex align-items-center">
+              <img
+                class="rounded-circle"
+                [src]="row.profilePicture??'assets/images/profile/user-3.jpg'"
+                width="40"
+              />
+              <div class="m-l-16">
+                <p class="f-w-600 mat-subtitle-1 f-s-16 m-t-0">
+                  {{ row.firstName }}
+                </p>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="LastName">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            {{ "LastName" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.lastName }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="EmailOrPhone">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            {{ "EmailOrPhone" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.emailOrPhone }}</td>
+        </ng-container>
+  
+       
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            {{ "Actions" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+           
+            <a
+              class="m-r-10 cursor-pointer"
+              matTooltip="{{ 'View' | translate }}"
+              (click)="viewuser(row.userId)"
+            >
+              <i-tabler name="eye" class="icon-18"></i-tabler>
+            </a>
+            <a
+              (click)="edituser(row.userId)"
+              class="m-r-10 cursor-pointer"
+              matTooltip="{{ 'Edit' | translate }}"
+            >
+              <i-tabler name="edit" class="icon-18"></i-tabler>
+            </a>
+            <a
+              (click)="deleteUser(row.userId)"
+              class="m-r-10 cursor-pointer"
+              matTooltip="{{ 'Delete' | translate }}"
+            >
+              <i-tabler name="trash" class="icon-18"></i-tabler>
+            </a>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-card>
+  

@@ -1,0 +1,25 @@
+<nz-descriptions nzTitle="studentData Detail" [nzColumn]="2" nzBordered>
+    <nz-descriptions-item nzTitle="Grade Label">{{studentData?.gradeLabel }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="First Name">{{studentData?.firstName }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Middle Name">{{ studentData?.middleName }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Grand Parent Name">{{ studentData?.grandParentName }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Last Name">{{ studentData?.lastName }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Country Code">{{ studentData?.countryCode }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Phone Number">{{ studentData?.phoneNumber }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Date of Birth">{{ studentData?.dateOfBirth | date }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Social Security">{{ studentData?.socialSecurity }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Identification Type">{{ studentData?.identificationType }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Identification Number">{{ studentData?.identificationNumber }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Created By">{{ studentData?.createdBy }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Created On">{{ studentData?.createdOn | date }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Updated By">{{ studentData?.updatedBy }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Updated On">{{ studentData?.updatedOn | date }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Is Active">{{ studentData?.isActive ? 'Yes' : 'No' }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Notes">{{ studentData?.notes }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Citizenship">{{ studentData?.citizenship }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Gender">{{ studentData?.genderText }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Mother's Name">{{ studentData?.motherName }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Marital Status">{{ studentData?.maritalStatusText }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Religion">{{ studentData?.religionText }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Place of Birth">{{ studentData?.placeOfBirth }}</nz-descriptions-item>
+  </nz-descriptions>

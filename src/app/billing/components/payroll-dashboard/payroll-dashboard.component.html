@@ -1,0 +1,195 @@
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex align-items-center justify-content-between">
+        <div class="--page-actions">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="createEmployeePayRoll()"
+          >
+            {{ "Pay Single Employee" | translate }}
+          </button>
+        </div>
+        <div class="--page-actions">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="autoPayAllEmployees()"
+            appAdminOnly
+          >
+            {{ "Auto Pay All Employees" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- Employee Selection Dropdown -->
+    <div class="col-12 mb-3 mt-3 payroll-margin-tab">
+      <mat-form-field appearance="outline">
+        <mat-label>{{ "Select Employee" | translate }}</mat-label>
+        <mat-select
+          [(value)]="selectedEmployeeId"
+          (selectionChange)="onEmployeeSelect($event.value)"
+        >
+          <mat-option *ngFor="let employee of employees" [value]="employee.id">
+            {{ employee.firstName }} - {{ employee.lastName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Table for Pay History -->
+    <div class="table-wrapper">
+      <table
+        mat-table
+        [dataSource]="payHistory"
+        matSort
+        class="scrollable-table"
+      >
+        <!-- Select Checkbox Column -->
+        <ng-container matColumnDef="select" sticky>
+          <th mat-header-cell *matHeaderCellDef class="mat-select mat-sticky">
+            <mat-checkbox
+              (change)="$event ? toggleAllRows() : null"
+              [checked]="selectedRows.hasValue() && isAllSelected()"
+              [indeterminate]="selectedRows.hasValue() && !isAllSelected()"
+            ></mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row" class="mat-select mat-sticky">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? selectedRows.toggle(row) : null"
+              [checked]="selectedRows.isSelected(row)"
+            ></mat-checkbox>
+          </td>
+        </ng-container>
+
+        <!-- SalaryPaymentsId Column as Link -->
+        <ng-container matColumnDef="salaryPaymentsId">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "ID" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <a (click)="getSalaryPaymentDetails(row.salaryPaymentsId)">
+              {{ row.salaryPaymentsId }}
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- Employee ID Column -->
+        <ng-container matColumnDef="employeeId">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "Employee ID" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.employeeId }}</td>
+        </ng-container>
+
+        <!-- Payment Amount Column -->
+        <ng-container matColumnDef="paymentAmount">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "Payment Amount" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            {{ row.paymentAmount | currency }}
+          </td>
+        </ng-container>
+
+        <!-- For Pay Period Column -->
+        <ng-container matColumnDef="forPayPeriod">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "Pay Period" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.forPayPeriod }}</td>
+        </ng-container>
+
+        <!-- Paid On Column -->
+        <ng-container matColumnDef="paidOn">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "Paid On" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.paidOn | date }}</td>
+        </ng-container>
+
+        <!-- Paid By Column -->
+        <ng-container matColumnDef="paidBy">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            class="text-uppercase"
+          >
+            {{ "Paid By" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">{{ row.paidBy }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            {{ "Actions" | translate }}
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <a
+            class="m-r-10 cursor-pointer"
+            (click)="loadEmplyeeById(row.salaryPaymentsId)"
+            [matTooltip]="'View Project' | translate"
+          >
+            <i-tabler name="eye" class="icon-18"></i-tabler>
+          </a>
+            <a
+              (click)="editSalaryPayment(row.salaryPaymentsId)"
+              class="m-r-10 cursor-pointer"
+              matTooltip="{{ 'Edit' | translate }}"
+            >
+              <i-tabler name="edit" class="icon-18"></i-tabler>
+            </a>
+            <a 
+              (click)="deleteSalaryPayment(row.salaryPaymentsId)"
+              class="m-r-10 cursor-pointer"
+              matTooltip="{{ 'Delete' | translate }}"
+            >
+              <i-tabler name="trash" class="icon-18"></i-tabler>
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- Table Rows and No Data Message -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="7">
+            {{ "No Data Found" | translate }}
+          </td>
+        </tr>
+      </table>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

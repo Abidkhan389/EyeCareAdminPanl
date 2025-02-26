@@ -1,0 +1,27 @@
+.header {
+  background: 0;
+  color: #252f4a;
+
+  &.fixed-top {
+    position: fixed;
+    z-index: 10;
+  }
+
+  > .nav-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+
+  .logo {
+    width: 2.8rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+  }
+}

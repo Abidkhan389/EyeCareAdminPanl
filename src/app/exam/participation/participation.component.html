@@ -1,0 +1,186 @@
+<mat-card class="cardWithShadow">
+  <div class="row justify-content-between">
+    <div class="col-lg-4">
+      <mat-form-field appearance="outline" class="w-100 hide-hint">
+        <mat-label>{{ "Select Period" | translate }}</mat-label>
+        <mat-select (selectionChange)="onPeriodChange($event)">
+          <mat-option *ngFor="let period of periods" [value]="period">
+            {{ period }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-6 d-flex align-items-center justify-content-end">
+      <button
+        mat-flat-button
+        (click)="onGetParticipation()"
+        color="primary"
+        class="m-r-10 w-100"
+        [disabled]="!selectedPeriod"
+      >
+        {{ "Get Participation" | translate }}
+      </button>
+      <button
+        mat-flat-button
+        class="w-100"
+        color="primary"
+        (click)="createParticipation()"
+      >
+        {{ "Create Participation Sheet" | translate }}
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-card class="cardWithShadow">
+  <div class="table-responsive">
+    <table mat-table [dataSource]="dataSource" class="w-100">
+      <!-- Student Name Column -->
+      <ng-container matColumnDef="studentName">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Student Name" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.studentDto.studentName }}
+        </td>
+      </ng-container>
+
+      <!-- Earned Points Column -->
+      <ng-container matColumnDef="earnedPoints">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Earned Points" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container
+            *ngIf="
+              editingRow &&
+                editingRow!.studentParticipationId ===
+                  element.studentParticipationId;
+              else viewEarnedPoints
+            "
+          >
+            <mat-form-field appearance="outline" class="w-100 hide-hint">
+              <mat-label>{{ "Earned Points" | translate }}</mat-label>
+              <input
+                matInput
+                [(ngModel)]="editingRow!.earnedPoints"
+                type="number"
+              />
+            </mat-form-field>
+          </ng-container>
+          <ng-template #viewEarnedPoints>{{
+            element.earnedPoints
+          }}</ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Max Score Column -->
+      <ng-container matColumnDef="maxScore">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Max Score" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.maxScore }}</td>
+      </ng-container>
+
+      <!-- Participation Period Column -->
+      <ng-container matColumnDef="participationPeriod">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Period" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.participationPeriod }}
+        </td>
+      </ng-container>
+
+      <!-- Attendance Percentage Column -->
+      <ng-container matColumnDef="attendancePercentage">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Attendance %" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.attendancePercentage }}%
+        </td>
+      </ng-container>
+
+      <!-- Comments Column -->
+      <ng-container matColumnDef="comments">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Comments" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container
+            *ngIf="
+              editingRow &&
+                editingRow!.studentParticipationId ===
+                  element.studentParticipationId;
+              else viewComments
+            "
+          >
+            <mat-form-field appearance="outline" class="w-100 hide-hint">
+              <mat-label>{{ "Comments" | translate }}</mat-label>
+              <textarea
+                matInput
+                [placeholder]="'Enter your comments' | translate"
+                [(ngModel)]="editingRow!.comments"
+              ></textarea>
+            </mat-form-field>
+          </ng-container>
+          <ng-template #viewComments>{{ element.comments }}</ng-template>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Actions" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <ng-container
+            *ngIf="
+              editingRow &&
+                editingRow!.studentParticipationId ===
+                  element.studentParticipationId;
+              else editButton
+            "
+          >
+            <button
+              mat-icon-button
+              color="primary"
+              (click)="saveStudentParticipation(element)"
+            >
+              <i-tabler name="square-check" class="icon-18"></i-tabler>
+            </button>
+            <button mat-icon-button color="warn" (click)="cancelEdit()">
+              <i-tabler name="circle-x" class="icon-18"></i-tabler>
+            </button>
+          </ng-container>
+          <ng-template #editButton>
+            <a
+              class="m-r-10 cursor-pointer"
+              (click)="editStudentParticipation(element)"
+              [matTooltip]="'Edit Participation Row' | translate"
+            >
+              <i-tabler name="edit" class="icon-18"></i-tabler>
+            </a>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <!-- No Data Row -->
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="6">{{ "No Data Found" | translate }}</td>
+      </tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      [showFirstLastButtons]="true"
+    ></mat-paginator>
+  </div>
+</mat-card>

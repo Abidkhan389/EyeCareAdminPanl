@@ -1,0 +1,110 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>
+      {{
+        inEditMode
+          ? ("Update Subject Faculty" | translate)
+          : ("Create Subject Faculty" | translate)
+      }}
+    </mat-card-title>
+
+    <div *ngIf="isLoading" class="loading-spinner-overlay">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <form
+      [formGroup]="ClassRoomManagementForm"
+      (ngSubmit)="onSubmit()"
+      class="classroom-form mt-4"
+    >
+      <div class="row g-3 align-items-center">
+        <!-- Dropdowns for selecting Faculty and Subject -->
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+          <mat-form-field appearance="outline"  class="inline-form-field w-100">
+            <mat-label>{{ "Subject" | translate }}</mat-label>
+            <mat-select
+              formControlName="subjectId"
+              (selectionChange)="onSubjectChange($event)"
+              placeholder="{{ 'Select Subject' | translate }}"
+              required
+            >
+              <mat-option
+                *ngFor="let subject of subjectList"
+                [value]="subject.subjectId"
+              >
+                {{ subject.subjectName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-5 col-lg-5 col-md-5 col-sm-12">
+          <mat-form-field appearance="outline" class="inline-form-field w-100">
+            <mat-label>{{ "Faculty" | translate }}</mat-label>
+            <mat-select
+              formControlName="facultyId"
+              (selectionChange)="onFacultyChange($event)"
+              placeholder="{{ 'Select Faculty' | translate }}"
+              required
+            >
+              <mat-option
+                *ngFor="let faculty of facultyList"
+                [value]="faculty.facultyId"
+              >
+                {{ faculty.facultyName }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12 addButtonMargin">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            (click)="AddFacultySubjects()"
+          >
+            {{ "Add" | translate }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Dynamic Rows for Faculty-Subject Pairs -->
+      <div class="row mt-4 dynamicRowMargin" *ngIf="arrayDefine">
+        <div class="dynamic-rows-container w-100">
+          <div
+            *ngFor="let item of facultySubjectIds.controls; let i = index"
+            class="d-flex justify-content-between align-items-center py-2 dynamic-row"
+          >
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
+              {{ getSubjectName(item.get("subjectId")?.value) }}
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
+              {{ getFacultyName(item.get("facultyId")?.value) }}
+            </div>
+            <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12">
+              <button
+                mat-flat-button
+                color="warn"
+                type="button"
+                (click)="removeFacultySubjectPair(i)"
+              >
+                {{ "Remove" | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Button -->
+      <div class="mt-4">
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          [disabled]="!ClassRoomManagementForm.valid"
+        >
+          {{ inEditMode ? ("Update" | translate) : ("Create" | translate) }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

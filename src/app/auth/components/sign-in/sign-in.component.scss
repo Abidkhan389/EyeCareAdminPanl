@@ -1,0 +1,26 @@
+.container-fluid {
+  height: 100vh;
+  overflow: auto;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/assets/bg.png");
+
+  .layout {
+    flex: 1 0 auto;
+
+    .logo {
+      width: 12.5rem;
+    }
+
+    .version {
+      align-self: end;
+      font-size: 0.875rem;
+    }
+
+    .brand {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+  }
+}

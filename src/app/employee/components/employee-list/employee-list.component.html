@@ -1,0 +1,120 @@
+<mat-card class="cardWithShadow">
+  <div class="row justify-content-between">
+    <div class="col-lg-4">
+      <mat-form-field appearance="outline" class="w-100 hide-hint">
+        <input
+          matInput
+          placeholder="{{ 'Search Employee' | translate }}"
+          (keyup)="filterData($event)"
+        />
+        <mat-icon matSuffix>
+          <i-tabler name="search" class="icon-20"></i-tabler>
+        </mat-icon>
+      </mat-form-field>
+    </div>
+    <div class="col-lg-4 d-flex align-items-center justify-content-end">
+      <button
+        mat-flat-button
+        (click)="createEmployee()"
+        color="primary"
+        class="m-r-10"
+      >
+        {{ "Add" | translate }}
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="selectedRows.selected.length === 0"
+        (click)="deleteSelectedEmployees()"
+      >
+        {{ "Delete Selected Employees" | translate }}
+      </button>
+    </div>
+  </div>
+</mat-card>
+
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<mat-card class="cardWithShadow">
+  <div class="table-responsive">
+    <table mat-table [dataSource]="employees" class="w-100">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-checkbox
+            (change)="$event ? toggleAllRows() : null"
+            [checked]="selectedRows.hasValue() && isAllSelected()"
+            [indeterminate]="selectedRows.hasValue() && !isAllSelected()"
+          >
+          </mat-checkbox>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <mat-checkbox
+            (click)="$event.stopPropagation()"
+            (change)="$event ? selectedRows.toggle(row) : null"
+            [checked]="selectedRows.isSelected(row)"
+          >
+          </mat-checkbox>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "First Name" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.firstName }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Phone Number" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.phoneNumber }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="yearsOfExperience">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Experience Years" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">{{ row.yearsOfExperience }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+          {{ "Actions" | translate }}
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <a
+            class="m-r-10 cursor-pointer"
+            matTooltip="{{ 'View' | translate }}"
+            (click)="viewEmployee(row.id)"
+          >
+            <i-tabler name="eye" class="icon-18"></i-tabler>
+          </a>
+          <a
+            (click)="editEmployee(row.id)"
+            class="m-r-10 cursor-pointer"
+            matTooltip="{{ 'Edit' | translate }}"
+          >
+            <i-tabler name="edit" class="icon-18"></i-tabler>
+          </a>
+          <a
+            (click)="deleteEmployee(row.id)"
+            class="m-r-10 cursor-pointer"
+            matTooltip="{{ 'Delete' | translate }}"
+          >
+            <i-tabler name="trash" class="icon-18"></i-tabler>
+          </a>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+    <mat-paginator
+      [pageSizeOptions]="[5, 10, 20]"
+      showFirstLastButtons
+    ></mat-paginator>
+  </div>
+</mat-card>

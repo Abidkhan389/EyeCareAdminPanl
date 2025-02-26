@@ -1,0 +1,111 @@
+.payRoll-card {
+    position: relative;
+    width: 100%;
+    //max-width: 600px;
+    padding: 24px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+  }
+  .paddingrow{
+    padding-left: 194px !important;
+  }
+  .headeBackground
+  {
+    background: rgb(230, 229, 229) !important;
+    margin-bottom: 15px;
+  }
+  .buttonMargin
+  {
+    margin-right:  15px !important;
+  }
+  .modal-title {
+    flex-grow: 1;                   /* Allow title to take up available space */
+    text-align: center;             /* Center the title */
+  }
+  .info-block {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns for label and value */
+  gap: 10px; /* Space between items */
+  border: 1px solid #ddd; /* Border around the whole block */
+  padding: 20px;
+  border-radius: 8px; /* Optional: rounded corners for the block */
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd; /* Dashed border for each item row */
+}
+
+
+
+
+.info-label {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333;
+}
+
+.info-value {
+  font-size: 16px;
+  color: #555;
+  text-align: right;
+}
+
+  
+  .modal-content {
+    transition: height 0.3s ease-in-out;
+  overflow-y: auto; /* Enables scrolling if content overflows */
+  }
+  /* Modal footer styling */
+  .modal-footer {
+    display: flex;
+    justify-content: space-between; /* Ensures space between the div and button */
+    align-items: center; /* Vertically centers content */
+    padding: 10px; /* Adds some padding for spacing */
+   
+  }
+  
+  .footer-info {
+    text-align: left; /* Ensures the content inside the div is aligned to the left */
+  }
+  
+ 
+  
+
+.table-striped tr:nth-child(even) {
+  background-color: #f9f9f9; /* Light gray for even rows */
+}
+
+.table-striped tr:nth-child(odd) {
+  background-color: #ffffff; /* White for odd rows */
+}
+
+.table-striped th {
+  background-color: #f1f1f1; /* Light gray for header */
+  font-weight: bold;
+}
+
+.table-striped td, .table-striped th {
+  padding: 8px;
+  text-align: left;
+  border: 1px solid  #f1f1f1; 
+}
+
+.table-striped tr:hover {
+  background-color: #f2f2f2; /* Highlight row on hover */
+  border-radius: 8px !important;
+}
+.table-MarginTop {
+  margin-top: 4px; /* Adds a 4px margin at the top */
+  margin-bottom: 4px;
+}
+
+  
+  
+  
+
+  

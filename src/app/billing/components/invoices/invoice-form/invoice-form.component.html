@@ -1,0 +1,224 @@
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <form [formGroup]="invoiceForm" class="invoice-form">
+      <!-- Invoice Section -->
+      <h2>{{ "Create Invoice" | translate }}</h2>
+      <div class="d-flex flex-wrap align-items-center">
+        <!-- Vendor Invoice Number -->
+        <mat-form-field
+          appearance="outline"
+          class="inline-form-field me-3 rormFieldMArginRight"
+        >
+          <mat-label>{{ "Vendor Invoice Number" | translate }}</mat-label>
+          <input
+            matInput
+            formControlName="vendorInvoiceNumber"
+            placeholder="{{ 'Enter Vendor Invoice Number' | translate }}"
+          />
+          <mat-error
+            *ngIf="
+              invoiceForm.get('vendorInvoiceNumber')?.invalid &&
+              invoiceForm.get('vendorInvoiceNumber')?.touched
+            "
+          >
+            {{ "Vendor Invoice Number is required" | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Vendor ID -->
+        <mat-form-field
+          appearance="outline"
+          class="inline-form-field me-3 rormFieldMArginRight"
+          *ngIf="vendors"
+        >
+          <mat-label class="mat-label">{{ "Vendor" | translate }}</mat-label>
+          <mat-select required formControlName="vendorId">
+            <mat-option value="one">{{
+              "Select Vendor" | translate
+            }}</mat-option>
+            <mat-option
+              *ngFor="let vendor of vendors"
+              [value]="vendor.vendorId"
+            >
+              {{ vendor.name }} - {{ vendor.contactPersonName }}
+            </mat-option>
+          </mat-select>
+          <mat-error
+            *ngIf="
+              invoiceForm.get('vendorId')?.invalid &&
+              invoiceForm.get('vendorId')?.touched
+            "
+          >
+            {{ "Vendor is required" | translate }}
+          </mat-error>
+        </mat-form-field>
+
+        <!-- Amount (Disabled) -->
+        <mat-form-field
+          appearance="outline"
+          class="inline-form-field me-3 rormFieldMArginRight"
+        >
+          <mat-label>{{ "Amount" | translate }}</mat-label>
+          <input
+            matInput
+            type="number"
+            formControlName="amount"
+            placeholder="{{ 'Total Amount' | translate }}"
+            [attr.disabled]="true"
+          />
+        </mat-form-field>
+
+        <!-- Due Date -->
+        <mat-form-field appearance="outline" class="inline-form-field me-3">
+          <mat-label>{{ "Due Date" | translate }}</mat-label>
+          <input
+            matInput
+            [matDatepicker]="dueDatePicker"
+            formControlName="dueDate"
+            placeholder="{{ 'Select Due Date' | translate }}"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dueDatePicker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dueDatePicker></mat-datepicker>
+          <mat-error
+            *ngIf="
+              invoiceForm.get('dueDate')?.invalid &&
+              invoiceForm.get('dueDate')?.touched
+            "
+          >
+            {{ "Due Date is required" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <!-- Invoice Items Section -->
+      <h2>{{ "Invoice Items" | translate }}</h2>
+      <div formArrayName="invoiceItems">
+        <div
+          *ngFor="let item of invoiceItems.controls; let i = index"
+          [formGroupName]="i"
+          class="row no-gutters align-items-center mt-3"
+        >
+          <!-- Item Name -->
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ "Item Name" | translate }}</mat-label>
+              <input
+                matInput
+                formControlName="itemName"
+                placeholder="{{ 'Enter Item Name' | translate }}"
+              />
+              <mat-error
+                *ngIf="
+                  item.get('itemName')?.invalid && item.get('itemName')?.touched
+                "
+              >
+                {{ "Item Name is required" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Quantity -->
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ "Quantity" | translate }}</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                formControlName="qty"
+                placeholder="{{ 'Enter Quantity' | translate }}"
+              />
+              <mat-error
+                *ngIf="item.get('qty')?.invalid && item.get('qty')?.touched"
+              >
+                {{ "Quantity is required" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Item Price -->
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ "Item Price" | translate }}</mat-label>
+              <input
+                matInput
+                type="number"
+                min="0"
+                formControlName="itemPrice"
+                placeholder="{{ 'Enter Item Price' | translate }}"
+              />
+              <mat-error
+                *ngIf="
+                  item.get('itemPrice')?.invalid &&
+                  item.get('itemPrice')?.touched
+                "
+              >
+                {{ "Item Price is required" | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Items Total -->
+          <div class="col-xl-2 col-lg-2 col-md-2 col-sm-6">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>{{ "Items Total" | translate }}</mat-label>
+              <input
+                matInput
+                type="number"
+                formControlName="itemsTotal"
+                placeholder="{{ 'Items Total' | translate }}"
+                [attr.disabled]="true"
+              />
+            </mat-form-field>
+          </div>
+
+          <!-- Remove Button -->
+          <div
+            class="col-xl-1 col-lg-1 col-md-1 col-sm-1 text-center mb-2"
+            style="margin-top: -20px"
+          >
+            <button
+              mat-icon-button
+              class="marginTopButtonForCrossWidthHeight buttonStyleOfCross danger-button"
+              (click)="removeQuestion(i)"
+            >
+              <mat-icon class="text-danger">close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="addInvoiceItem()"
+        class="mb-3 mt-3"
+      >
+        {{ "+ Next Add Another Item" | translate }}
+      </button>
+      <!-- Submit Buttons -->
+      <div class="d-flex invoiceButtinTop">
+        <button
+          mat-flat-button
+          color="primary invoiceCreateButton"
+          (click)="onSubmit(false)"
+        >
+          {{ isEdit ? ("Update" | translate) : ("Create" | translate) }}
+        </button>
+        <button mat-flat-button color="primary" (click)="onSubmit(true)">
+          {{
+            isEdit
+              ? ("Update and Pay Now" | translate)
+              : ("Create and Pay Now" | translate)
+          }}
+        </button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

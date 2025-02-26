@@ -1,0 +1,15 @@
+.form-row {
+    display: flex;
+    align-items: center;
+    gap: 16px; /* Adjust spacing between elements */
+  }
+  
+  .mat-form-field {
+    flex: 1; /* Makes all fields take equal space, adjust as needed */
+  }
+  
+  .checkbox-inline {
+    display: flex;
+    align-items: center;
+    margin: 0; /* Remove extra margin from the checkbox */
+  }

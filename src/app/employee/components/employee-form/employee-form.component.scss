@@ -1,0 +1,93 @@
+.loading-spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0.8); /* Translucent background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+  }
+
+  /* Flexbox container to align each form field on a new row */
+.employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Adds space between rows */
+}
+
+mat-form-field {
+  width: 100%; /* Ensures form field takes full width */
+}
+
+button {
+  margin-top: 20px;
+}
+
+
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.list-unstyled {
+  display: flex; /* Makes the list items align horizontally */
+  margin: 0; /* Removes default margin */
+  padding: 0; /* Removes default padding */
+  list-style: none; /* Removes bullet points */
+}
+
+.list-unstyled li {
+  display: flex;
+  align-items: center;
+  margin-right: 20px; /* Adds space between items */
+}
+
+.mat-icon {
+  font-size: 20px; /* Adjust the size of Material icons */
+  color: #555; /* Optional: change icon color */
+}
+
+.d-flex.mb-3 {
+  margin-bottom: 20px; /* Adds bottom margin to the row */
+}
+.homeIconMargin
+{
+margin-left: -17px;
+}
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* Remove any padding or margin inside mat-form-field */
+mat-form-field {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+/* Optional: Remove margin between columns if there's still space */
+.col-xl-4, .col-lg-4, .col-md-4, .col-sm-4, .col-12 {
+  padding-left: 0;
+  padding-right: 2px;
+}
+
+/* Custom class for aligning the button to the right */
+.custom-button-container {
+  display: flex;
+  padding: 16px; /* Optional: Add padding around the container */
+}
+
+/* Custom class for button styling */
+.custom-submit-button {
+  white-space: nowrap; /* Prevent text from wrapping */
+  font-size: 14px; /* Optional: Adjust font size */
+  text-transform: none; /* Optional: Keep original casing instead of all uppercase */
+}
+
+
+

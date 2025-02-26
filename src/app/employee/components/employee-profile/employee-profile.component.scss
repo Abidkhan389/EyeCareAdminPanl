@@ -1,0 +1,21 @@
+.same-height {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .col-xl-6 {
+    display: flex;
+  }
+  
+  .b-1 {
+    flex: 1; /* Ensures both cards stretch equally */
+  }
+  .classMarginTop
+  {
+    margin-top: 4px !important;
+  }
+  .phoneNumberMargin
+  {
+    margin-top: 15px !important;
+  }

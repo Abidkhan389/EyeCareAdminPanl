@@ -1,0 +1,105 @@
+<div *ngIf="loading" class="loader loading-position">
+  <!-- Loader: can be a spinner or any visual representation of loading -->
+  <mat-spinner></mat-spinner>
+  <p>Loading Exam...</p>
+</div>
+<div *ngIf="!loading">
+  <h3>
+    {{ exam.title }} - {{ "Duration" | translate }}:
+    {{ exam.duration === 0 ? timeLimit / 60 : exam.duration! / 60 }}
+    {{ "Minutes" | translate }}
+  </h3>
+  <p class="b-t-1">
+    {{ exam.description }}
+  </p>
+</div>
+
+<mat-card class="cardWithShadow theme-card" *ngIf="!loading">
+  <mat-card-header>
+    <mat-card-title class="m-b-0">Exam Questions</mat-card-title>
+  </mat-card-header>
+  <mat-card-content class="b-t-1">
+    <mat-stepper [linear]="true" #stepper>
+      <mat-step
+        *ngFor="let question of questions; let i = index"
+        [stepControl]="firstFormGroup"
+      >
+        <form [formGroup]="examForm">
+          <ng-template matStepLabel>Question {{ i + 1 }}</ng-template>
+          <p>{{ question.questionText }}</p>
+          <ng-container *ngIf="question.questionType === 'multiple-choice'">
+            <mat-radio-group
+              formControlName="question{{ question.questionId }}"
+            >
+              <mat-radio-button
+                *ngFor="let choice of parseChoice(question.choices || '[]')"
+                [value]="choice"
+              >
+                {{ choice }}
+              </mat-radio-button>
+              <mat-hint
+                *ngIf="examForm.get('question' + question.questionId)?.pristine"
+              >
+                {{ question.hint }}
+              </mat-hint>
+            </mat-radio-group>
+          </ng-container>
+          <ng-container *ngIf="question.questionType !== 'multiple-choice'">
+            <mat-form-field class="mb-3" appearance="outline" color="accent">
+              <input
+                matInput
+                type="text"
+                formControlName="question{{ question.questionId }}"
+                placeholder="Answer here"
+                required
+              />
+              <span matTextPrefix><mat-icon>edit</mat-icon></span>
+              <mat-hint
+                *ngIf="examForm.get('question' + question.questionId)?.pristine"
+              >
+                {{ question.hint }}
+              </mat-hint>
+              <mat-error
+                *ngIf="
+                  examForm.get('question' + question.questionId)?.invalid &&
+                  examForm.get('question' + question.questionId)?.touched
+                "
+              >
+                You didn't answer this question!
+              </mat-error>
+            </mat-form-field>
+          </ng-container>
+          <div class="text-right">
+            <button
+              mat-flat-button
+              matStepperPrevious
+              color="warn"
+              class="ml-2 rormFieldMArginRight"
+            >
+              Previous
+            </button>
+            <!-- Next Button -->
+            <button
+              mat-flat-button
+              matStepperNext
+              color="primary"
+              class="ml-2 rormFieldMArginRight"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+      </mat-step>
+      <mat-step>
+        <ng-template matStepLabel>Review and Submit</ng-template>
+        <p>Review your answers before submitting.</p>
+        <div class="d-flex justify-content-between">
+          <button mat-flat-button color="warn" matStepperPrevious>Back</button>
+          <button mat-flat-button color="primary" (click)="submitExam()">
+            Submit
+          </button>
+        </div>
+      </mat-step>
+    </mat-stepper>
+  </mat-card-content>
+</mat-card>

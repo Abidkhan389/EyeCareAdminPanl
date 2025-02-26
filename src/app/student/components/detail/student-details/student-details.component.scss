@@ -1,0 +1,13 @@
+.student-details {
+    margin: 16px; /* Space around the details */
+  }
+  
+  .student-row {
+    display: flex; /* Use flexbox for layout */
+    margin-bottom: 8px; /* Space between rows */
+  }
+  
+  .student-item {
+    flex: 1; /* Each item takes up equal space */
+    padding: 8px; /* Add some padding */
+  }

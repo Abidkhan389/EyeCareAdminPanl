@@ -1,0 +1,10 @@
+<nz-descriptions nzTitle="AccountData Detail" [nzColumn]="2" nzBordered>
+    <nz-descriptions-item nzTitle="Annual Fee">{{ accountData?.annualFee }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Registration Fee">{{ accountData?.registrationFee }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="Transportation Fee">{{ accountData?.transportationFee }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="payment PlanType">{{ accountData?.paymentPlanTypeText }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="school YearPeriod">{{ accountData?.schoolYearPeriodText }}</nz-descriptions-item>
+    <nz-descriptions-item nzTitle="gradeName">{{ accountData?.gradeName }}</nz-descriptions-item>   
+    <nz-descriptions-item nzTitle="Is Active">{{ accountData?.isActive ? 'Yes' : 'No' }}</nz-descriptions-item>
+    
+  </nz-descriptions>

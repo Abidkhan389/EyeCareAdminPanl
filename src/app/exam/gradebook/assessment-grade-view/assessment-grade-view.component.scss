@@ -1,0 +1,85 @@
+.gradebook-container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  max-height: 65% !important;
+  overflow-y: auto !important;
+  scroll-behavior: smooth !important;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6em;
+  color: #333;
+}
+
+.student-accordion {
+  width: 100%;
+}
+
+/*
+.student-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.student-name,
+.assessment-type,
+.overall-score,
+.feedback {
+  font-size: 1rem;
+  padding: 5px 0;
+  margin-right: 10px;
+}
+*/
+.student-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr; /* Equal width for each column */
+  align-items: center; /* Vertically aligns the content */
+  gap: 10px; /* Adds space between columns */
+  width: 100%; /* Ensures it spans the container */
+}
+
+.student-name,
+.assessment-type,
+.overall-score,
+.feedback {
+  font-size: 1rem;
+  padding: 5px 0;
+  text-overflow: ellipsis; /* Truncates long text */
+  white-space: nowrap; /* Prevents text wrapping */
+  overflow: hidden; /* Hides overflowing text */
+}
+
+
+.questions-table {
+  width: 100%;
+  margin-top: 15px;
+  border-top: 1px solid #ddd;
+  font-size: 0.95em;
+}
+
+th {
+  font-weight: 600;
+  background-color: #f0f0f0;
+}
+
+td,
+th {
+  padding: 10px;
+}
+
+.mat-expansion-panel {
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+  overflow: hidden;
+}

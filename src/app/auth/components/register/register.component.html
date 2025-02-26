@@ -1,0 +1,139 @@
+<div class="container-fluid d-flex flex-column">
+  <div
+    class="d-flex flex-row justify-content-center align-items-center flex-wrap layout"
+  >
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <img
+        class="logo"
+        alt="Bright Board"
+        src="assets/LogoWithBrand/PurpleNoBrand.png"
+      />
+      <div class="d-flex flex-column">
+        <span class="version">{{ (brand$ | async)?.version }}</span>
+        <!-- <span class="brand">{{ (brand$ | async)?.name }}</span> -->
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <form
+        class="d-flex flex-column m-5"
+        [formGroup]="registrationForm"
+        (ngSubmit)="onFormSubmit()"
+      >
+        <mat-form-field class="mb-3" appearance="outline" color="accent">
+          <mat-label>Email</mat-label>
+          <input matInput type="text" formControlName="userName" required />
+          <span matTextPrefix><mat-icon>person</mat-icon>&nbsp;&nbsp;</span>
+          <mat-hint *ngIf="registrationForm.get('email')?.pristine"
+            >Your journey starts with a Username</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              registrationForm.get('email')?.invalid &&
+              registrationForm.get('email')?.touched
+            "
+          >
+            <ng-container *ngFor="let validation of validationMessages.email">
+              <span
+                class="form-control-feedback"
+                *ngIf="registrationForm.get('email')?.hasError(validation.type)"
+              >
+                {{ validation.message }}
+              </span>
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mb-3" appearance="outline" color="accent">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            required
+          />
+          <span matTextPrefix><mat-icon>key</mat-icon>&nbsp;&nbsp;</span>
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            aria-label="Hide password"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              registrationForm.get('password')?.invalid &&
+              registrationForm.get('password')?.touched
+            "
+          >
+            <ng-container
+              *ngFor="let validation of validationMessages.password"
+            >
+              <span
+                class="form-control-feedback"
+                *ngIf="
+                  registrationForm.get('password')?.hasError(validation.type)
+                "
+              >
+                {{ validation.message }}
+              </span>
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mb-3" appearance="outline" color="accent">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            required
+          />
+          <span matTextPrefix><mat-icon>key</mat-icon>&nbsp;&nbsp;</span>
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            aria-label="Hide password"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-error
+            *ngIf="
+              registrationForm.get('confirmPassword')?.invalid &&
+              registrationForm.get('confirmPassword')?.touched
+            "
+          >
+            <ng-container
+              *ngFor="let validation of validationMessages.confirmPassword"
+            >
+              <span
+                class="form-control-feedback"
+                *ngIf="registrationForm.get('confirmPassword')?.hasError(validation.type) && registrationForm.controls['confirmPassword'].errors?.['passwordMismatch']"
+              >
+                {{ validation.message }}
+              </span>
+            </ng-container>
+          </mat-error>
+        </mat-form-field>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="text-uppercase mb-3"
+          [disabled]="!registrationForm.valid"
+        >
+          Sign Up
+        </button>
+        <span class="d-flex justify-content-center">
+          Have an account? <a href="" class="ms-1">Sign In</a>
+        </span>
+      </form>
+    </div>
+  </div>
+</div>

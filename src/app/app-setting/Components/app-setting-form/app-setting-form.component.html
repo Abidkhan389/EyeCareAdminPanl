@@ -1,0 +1,151 @@
+<div *ngIf="isLoading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+<mat-card class="cardWithShadow">
+  <mat-card-content>
+    <mat-card-title>{{
+      isEditMode
+        ? ("Update AppSetting" | translate)
+        : ("Create AppSetting" | translate)
+    }}</mat-card-title>
+
+    <form
+      [formGroup]="appSettingForm"
+      (ngSubmit)="onSubmit()"
+      class="vendor-form"
+    >
+      <!-- App Setting Name -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "AppSetting Name" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="appSettingName"
+          placeholder="{{ 'Enter AppSetting Name' | translate }}"
+        />
+        <mat-error
+          *ngIf="
+            appSettingForm.controls['appSettingName'].touched &&
+            !appSettingForm.controls['appSettingName'].valid
+          "
+        >
+          <ng-container *ngFor="let validation of validationMessages.name">
+            <span
+              class="form-control-feedback"
+              *ngIf="
+                appSettingForm.controls['appSettingName'].hasError(
+                  validation.type
+                )
+              "
+            >
+              {{ validation.message | translate }}
+            </span>
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <!--App Setting Description -->
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>{{ "Description" | translate }}</mat-label>
+        <textarea
+          matInput
+          formControlName="appSettingDescription"
+          placeholder="{{ 'Enter Description' | translate }}"
+        ></textarea>
+        <mat-error
+          *ngIf="
+            appSettingForm.controls['appSettingDescription'].touched &&
+            !appSettingForm.controls['appSettingDescription'].valid
+          "
+        >
+          <ng-container
+            *ngFor="let validation of validationMessages.description"
+          >
+            <span
+              class="form-control-feedback"
+              *ngIf="
+                appSettingForm.controls['appSettingDescription'].hasError(
+                  validation.type
+                )
+              "
+            >
+              {{ validation.message | translate }}
+            </span>
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <!-- App Setting Value -->
+      <mat-form-field *ngIf="appSettingForm.get('appSettingId')?.value != 2 && appSettingForm.get('appSettingId')?.value != 10 && appSettingForm.get('appSettingId')?.value != 11"  appearance="outline" class="w-100">
+        <mat-label>{{ "App Setting Value" | translate }}</mat-label>
+        <input
+          matInput
+          formControlName="appSettingValue"
+          placeholder="{{ 'Enter App Setting Value' | translate }}"
+        />
+        <mat-error
+          *ngIf="
+            appSettingForm.controls['appSettingValue'].touched &&
+            !appSettingForm.controls['appSettingValue'].valid
+          "
+        >
+          <ng-container *ngFor="let validation of validationMessages.name">
+            <span
+              class="form-control-feedback"
+              *ngIf="
+                appSettingForm.controls['appSettingValue'].hasError(
+                  validation.type
+                )
+              "
+            >
+              {{ validation.message | translate }}
+            </span>
+          </ng-container>
+        </mat-error>
+      </mat-form-field>
+
+      <!--start-show country dropdown when country need to edit-->
+      <mat-form-field *ngIf="appSettingForm.get('appSettingId')?.value == 2" appearance="outline" class="w-100">
+        <mat-label>{{ "Country Code" | translate }}</mat-label>
+        <mat-select
+          formControlName="appSettingValue" required
+          placeholder="{{ 'Select Country Code' | translate }}"
+        >
+          <mat-option
+            *ngFor="let country of countryCodes"
+            [value]="country.code"
+          >
+            {{ country.name }} ({{ country.code }})
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--end-show country dropdown when country need to edit-->
+
+
+      <!--start-show currency dropdown when currency need to edit-->
+      <mat-form-field *ngIf="appSettingForm.get('appSettingId')?.value == 10" appearance="outline" class="w-100">
+        <mat-label class="mat-label">{{ "Currency" | translate }}</mat-label>
+        <mat-select formControlName="appSettingValue" required>
+          <mat-option *ngFor="let currency of currencies" [value]="currency.code">
+            {{ currency.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!--end-show currency dropdown when currency need to edit-->
+
+          <!--start-show gradebook frequency dropdown when gradebook need to edit-->
+          <mat-form-field *ngIf="appSettingForm.get('appSettingId')?.value == 11" appearance="outline" class="w-100">
+            <mat-label>{{ "Grade Book Frequency" | translate }}</mat-label>
+            <mat-select formControlName="appSettingValue" required>
+              <mat-option *ngFor="let gradebook of gradeReportFrequency" [value]="gradebook.id">
+                {{ gradebook.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!--end-show gradebook frequency dropdown when gradebook frequency need to edit-->
+
+      <button mat-raised-button color="primary" type="submit">
+        {{ "Submit" | translate }}
+      </button>
+    </form>
+  </mat-card-content>
+</mat-card>

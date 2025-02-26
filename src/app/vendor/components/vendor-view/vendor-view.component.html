@@ -1,0 +1,120 @@
+<mat-card-content>
+
+  <div *ngIf="isLoading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div class="container">
+    <!-- Row 1 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Vendor Name </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.name }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Address </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.address }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 2 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Phone Number </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.phoneNumber }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Country Code </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.countryCode }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 3 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Contact Person Name </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.contactPersonName }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Services Provided </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.servicesProvided }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 4 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Country </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.country }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">City </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.city }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 5 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">State </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.state }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Postal Code </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.postalCode }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 6 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Geo Location </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.geoLocation }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Email </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.email }}
+        </h6>
+      </div>
+    </div>
+
+    <!-- Row 7 -->
+    <div class="row p-y-15">
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Contact Person Number </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.contactPersonNumber }}
+        </h6>
+      </div>
+      <div class="col-6">
+        <span class="f-w-600 f-s-15 mat-body-1 bold-black-text">Description </span>
+        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+          {{ vendorData.description }}
+        </h6>
+      </div>
+    </div>
+  </div>
+</mat-card-content>

@@ -1,0 +1,147 @@
+<div class="modal-header p-3 d-flex justify-content-between align-items-center w-100">
+  <h4 class="modal-title text-bold-500 font-medium-1 hrStyleForMaring">
+    {{ data.isEdit ? "Update Exam" : "Create Exam" }}
+  </h4>
+  <button type="button" mat-icon-button (click)="closeClick()" aria-label="Close">
+    <mat-icon>close</mat-icon>
+  </button>
+</div>
+<form [formGroup]="examForm" (ngSubmit)="onSubmit()" class="exam-form">
+  <fieldset class="exam-details">
+    <legend>{{ "Exam Details" | translate }}</legend>
+    <div class="row">
+      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+        <mat-form-field appearance="outline" class=" me-3">
+          <mat-label>{{ "Title" | translate }}</mat-label>
+          <input matInput formControlName="title" [placeholder]="'Exam Title' | translate" />
+          <mat-error *ngIf="examForm.get('title')?.hasError('required')">
+            {{ "Title is required." | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+        <mat-form-field appearance="outline" class="inline-form-field me-3">
+          <mat-label>{{ "Due Date" | translate }}</mat-label>
+          <input matInput [matDatepicker]="picker" formControlName="dueDate" />
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+        <mat-form-field appearance="outline" class="inline-form-field me-3">
+          <mat-label>{{ "Max Score" | translate }}</mat-label>
+          <input matInput type="number" min="0" formControlName="maxScore"
+            [placeholder]="'Maximum Score' | translate" />
+          <mat-error *ngIf="examForm.get('maxScore')?.hasError('required')">
+            {{ "Max score is required." | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+        <mat-form-field appearance="outline" class="inline-form-field me-3">
+          <mat-label>{{ "Is Paper Exam" | translate }}</mat-label>
+          <mat-select formControlName="isPaperExam">
+            <mat-option [value]="true">{{ "Yes" | translate }}</mat-option>
+            <mat-option [value]="false">{{ "No" | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <mat-form-field appearance="outline" class="inline-form-field me-3">
+      <mat-label>{{ "Description" | translate }}</mat-label>
+      <textarea matInput formControlName="description" [placeholder]="'Description' | translate"></textarea>
+    </mat-form-field>
+  </fieldset>
+
+  <div formArrayName="questions">
+    <div *ngFor="let question of questions.controls; let i = index" [formGroupName]="i" class="question-item">
+      <fieldset class="exam-questions" *ngIf="!examForm.get('isPaperExam')?.value">
+        <legend>{{ "Exam Questions" | translate }}</legend>
+        <div class="row">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <mat-form-field class="inline-form-field me-3" appearance="outline">
+              <mat-label>{{ "Question Text" | translate }}</mat-label>
+              <input matInput formControlName="questionText" [placeholder]="'Question Text' | translate" />
+            </mat-form-field>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <mat-form-field class="inline-form-field me-3" appearance="outline">
+              <mat-label>{{ "Answer" | translate }}</mat-label>
+              <input matInput formControlName="answer"
+                [placeholder]="'Correct Answer' | translate" />
+            </mat-form-field>
+          </div>
+        </div>
+
+
+        <div class="row">
+
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+            <mat-form-field appearance="outline" class="inline-form-field me-3">
+              <mat-label>{{ "Question Type" | translate }}</mat-label>
+              <mat-select formControlName="questionType">
+                <mat-option value="multiple-choice">{{
+                  "Multiple Choice" | translate
+                  }}</mat-option>
+                <mat-option value="short-answer">{{
+                  "Short Answer" | translate
+                  }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+
+          <!-- <div class="col-lg-3">
+        <mat-form-field class="inline-form-field me-3" appearance="outline"
+          *ngIf="question.get('questionType')?.value === 'multiple-choice'">
+          <mat-label>{{ "Choices (JSON format)" | translate }}</mat-label>
+          <input matInput formControlName="choices" placeholder="'E.g.,[  Option A ,  Option B]'" />
+        </mat-form-field>
+      </div> -->
+
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+            <mat-form-field appearance="outline" class="inline-form-field me-3">
+              <mat-label>{{ "Points" | translate }}</mat-label>
+              <input matInput type="number" formControlName="points" [placeholder]="'Points' | translate" />
+              <mat-error *ngIf="examForm.get('maxScore')?.hasError('required')">
+                {{ "Max score is required." | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+            <mat-form-field appearance="outline" class="inline-form-field me-3">
+              <mat-label>{{ "Hint" | translate }}</mat-label>
+              <input matInput formControlName="hint" [placeholder]="'Hint' | translate" />
+              <mat-error *ngIf="examForm.get('hint')?.hasError('required')">
+                {{ "Hint is required." | translate }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+            <div class="form-group">
+              <button mat-icon-button class=" marginTopButtonForCrossWidthHeight buttonStyleOfCross danger-button"
+                (click)="removeQuestion(i)">
+                <mat-icon class="crossButtonStyl">close</mat-icon>
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </fieldset>
+    </div>
+  </div>
+  <div class="form-group">
+    <button mat-raised-button color="primary" (click)="addQuestion()"  [disabled]="totalPointsGreateThanMaxScore">
+      {{ "Add Question" | translate }}
+    </button>
+  </div>
+
+  <div class="form-group">
+    <button mat-raised-button color="primary"  type="submit">
+      {{ (isEditMode ? "Update Exam" : "Create Exam") | translate }}
+    </button>
+  </div>
+</form>

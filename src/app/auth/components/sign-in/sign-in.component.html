@@ -1,0 +1,95 @@
+<div class="container-fluid d-flex flex-column">
+  <div
+    class="d-flex flex-row justify-content-center align-items-center flex-wrap layout"
+  >
+    <div class="d-flex flex-column justify-content-center align-items-center">
+      <img
+        class="logo"
+        alt="Bright Board"
+        src="assets/LogoWithBrand/PurpleNoBrand.png"
+      />
+      <div class="d-flex flex-column">
+        <span class="version">{{ (brand$ | async)?.version }}</span>
+        <!-- <span class="brand">{{ (brand$ | async)?.name }}</span> -->
+      </div>
+    </div>
+    <div class="d-flex flex-column">
+      <form
+        class="d-flex flex-column m-5"
+        [formGroup]="signInForm"
+        (keydown.enter)="onFormSubmit($event)"
+      >
+        <mat-form-field class="mb-3" appearance="outline" color="accent">
+          <mat-label>Username</mat-label>
+          <input matInput type="text" formControlName="email" required />
+          <span matTextPrefix><mat-icon>person</mat-icon>&nbsp;&nbsp;</span>
+          <mat-hint *ngIf="signInForm.get('email')?.pristine"
+            >Your journey starts with a Username</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              signInForm.get('username')?.invalid &&
+              signInForm.get('username')?.touched
+            "
+          >
+            Oops! Don’t forget your username
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="mb-3" appearance="outline" color="accent">
+          <mat-label>Password</mat-label>
+          <input
+            matInput
+            [type]="hidePassword ? 'password' : 'text'"
+            formControlName="password"
+            required
+          />
+          <span matTextPrefix><mat-icon>key</mat-icon>&nbsp;&nbsp;</span>
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hidePassword = !hidePassword"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hidePassword"
+          >
+            <mat-icon>{{
+              hidePassword ? "visibility_off" : "visibility"
+            }}</mat-icon>
+          </button>
+          <mat-hint *ngIf="signInForm.get('password')?.pristine"
+            >Almost there! Just enter your password</mat-hint
+          >
+          <mat-error
+            *ngIf="
+              signInForm.get('password')?.invalid &&
+              signInForm.get('password')?.touched
+            "
+          >
+            Hold up! We need your password to continue
+          </mat-error>
+        </mat-form-field>
+
+        <div class="d-flex align-items-center mb-3">
+          <mat-checkbox class="ms-2 me-4" formControlName="rememberMe"
+            >Remember Me</mat-checkbox
+          >
+          <a href="#" class="me-2">Forgot Password?</a>
+        </div>
+
+        <button
+          mat-flat-button
+          color="primary"
+          type="submit"
+          class="text-uppercase mb-3"
+          (click)="onFormSubmit($event)"
+        >
+          Sign in
+        </button>
+        <!-- <button  mat-flat-button  color="primary"   class="d-flex justify-content-center"  routerLink="signUp" >Sign Up </button> -->
+        <span class="d-flex justify-content-center">
+          <a href="" class="ms-1" routerLink="signUp">Sign Up</a>
+        </span>
+      </form>
+    </div>
+  </div>
+</div>

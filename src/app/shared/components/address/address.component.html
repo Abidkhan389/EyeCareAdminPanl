@@ -1,0 +1,113 @@
+<form [formGroup]="form">
+  <!-- Address -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "Address" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="address"
+      placeholder="{{ 'Enter Address' | translate }}"
+    />
+    <mat-error *ngIf="form.get('address')?.invalid">
+      {{ "Address is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- City -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "City" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="city"
+      placeholder="{{ 'Enter City' | translate }}"
+    />
+    <mat-error *ngIf="form.get('city')?.invalid">
+      {{ "City is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Country -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "Country" | translate }}</mat-label>
+    <mat-select
+      formControlName="country"
+      placeholder="{{ 'Select Country' | translate }}"
+    >
+      <mat-option *ngFor="let country of countries" [value]="country.code">
+        {{ country.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('country')?.invalid">
+      {{ "Country is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- State -->
+  <mat-form-field
+    *ngIf="useStateDropdown"
+    appearance="outline"
+    class="me-3 rormFieldMArginRight"
+  >
+    <mat-label>{{ "State/Province" | translate }}</mat-label>
+    <mat-select
+      formControlName="state"
+      placeholder="{{ 'Select State/Province' | translate }}"
+    >
+      <mat-option *ngFor="let state of states" [value]="state.code">
+        {{ state.name }}
+      </mat-option>
+    </mat-select>
+    <mat-error *ngIf="form.get('state')?.invalid">
+      {{ "State is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- State as input (when not USA/Canada) -->
+  <mat-form-field
+    *ngIf="!useStateDropdown"
+    appearance="outline"
+    class="me-3 rormFieldMArginRight"
+  >
+    <mat-label>{{ "State/Region" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="state"
+      placeholder="{{ 'Enter State/Region' | translate }}"
+    />
+    <mat-error *ngIf="form.get('state')?.invalid">
+      {{ "State/Region is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Postal Code -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "Postal Code" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="postalCode"
+      placeholder="{{ 'Enter Postal Code' | translate }}"
+    />
+    <mat-error *ngIf="form.get('postalCode')?.invalid">
+      {{ "Postal code is required." | translate }}
+    </mat-error>
+  </mat-form-field>
+
+  <!-- Geo Location -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "Geo Location" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="geoLocation"
+      placeholder="{{ 'Enter Geolocation or Location Link' | translate }}"
+    />
+  </mat-form-field>
+
+  <!-- Address Notes -->
+  <mat-form-field appearance="outline" class="me-3 rormFieldMArginRight">
+    <mat-label>{{ "Address Notes" | translate }}</mat-label>
+    <input
+      matInput
+      formControlName="notes"
+      placeholder="{{ 'Enter notes or description' | translate }}"
+    />
+  </mat-form-field>
+</form>

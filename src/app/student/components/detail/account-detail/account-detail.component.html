@@ -1,0 +1,34 @@
+<mat-card>
+  <mat-card-title>Account Data Detail</mat-card-title>
+  <mat-divider></mat-divider>
+
+  <div class="account-details">
+    <div class="account-row">
+      <strong>Annual Fee:</strong> {{ accountData?.annualFee }}
+    </div>
+    <div class="account-row">
+      <strong>Registration Fee:</strong> {{ accountData?.registrationFee }}
+    </div>
+    <div class="account-row">
+      <strong>Transportation Fee:</strong> {{ accountData?.transportationFee }}
+    </div>
+    <div class="account-row">
+      <strong>Payment Plan Type:</strong> {{ accountData?.paymentPlanTypeText }}
+    </div>
+    <div class="account-row">
+      <strong>School Year Period:</strong> {{ accountData?.schoolYearPeriodText }}
+    </div>
+    <div class="account-row">
+      <strong>Account Email:</strong> {{ accountData?.accountEmail }}
+    </div>
+    <div class="account-row">
+      <strong>Recovery Phone:</strong> {{ accountData?.recoveryPhone }}
+    </div>
+    <div class="account-row">
+      <strong>Grade Name:</strong> {{ accountData?.gradeName }}
+    </div>
+    <div class="account-row">
+      <strong>Is Active:</strong> {{ accountData?.isActive ? 'Yes' : 'No' }}
+    </div>
+  </div>
+</mat-card>

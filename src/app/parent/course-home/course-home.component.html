@@ -1,0 +1,112 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content class="p-0">
+    <mat-tab-group [(selectedIndex)]="selectedIndex"
+      mat-stretch-tabs="false"
+      animationDuration="0ms"
+      class="theme-tab label-padding"
+    >
+      <!-- Assignments Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="file-text" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Assignments" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-assignments></app-student-assignments>
+        </mat-card-content>
+      </mat-tab>
+      <!-- Projects Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="briefcase" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Projects" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-projects></app-student-projects>
+        </mat-card-content>
+      </mat-tab>
+
+      <!-- Exams Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="clipboard-check" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Exams" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-exams></app-student-exams>
+        </mat-card-content>
+      </mat-tab>
+
+      <!-- Attendance Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="calendar" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Attendance" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-attendance></app-student-attendance>
+        </mat-card-content>
+      </mat-tab>
+
+      <!-- Behavior Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="message-circle" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Behavior" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-behavior></app-student-behavior>
+        </mat-card-content>
+      </mat-tab>
+
+      <!-- Participation Tab -->
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="activity" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "Participation" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-participation></app-student-participation>
+        </mat-card-content>
+      </mat-tab>
+      <!-- Grade Book Tab -->
+      <mat-tab  label="gradeBook">
+        <ng-template mat-tab-label>
+          <div class="d-flex align-items-center">
+            <mat-icon>
+              <i-tabler name="book" class="icon-20 m-r-8"></i-tabler>
+            </mat-icon>
+            {{ "GradeBook" | translate }}
+          </div>
+        </ng-template>
+        <mat-card-content>
+          <app-student-grades-view></app-student-grades-view>
+        </mat-card-content>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,112 @@
+<mat-card>
+  <mat-card-title>Student Data Detail</mat-card-title>
+  <mat-divider></mat-divider>
+  
+  <div class="student-details">
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Grade Label:</strong> {{ studentData?.gradeLabel }}
+      </div>
+      <div class="student-item">
+        <strong>First Name:</strong> {{ studentData?.firstName }}
+      </div>
+    </div>
+    
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Middle Name:</strong> {{ studentData?.middleName }}
+      </div>
+      <div class="student-item">
+        <strong>Grand Parent Name:</strong> {{ studentData?.grandParentName }}
+      </div>
+    </div>
+    
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Last Name:</strong> {{ studentData?.lastName }}
+      </div>
+      <div class="student-item">
+        <strong>Country Code:</strong> {{ studentData?.countryCode }}
+      </div>
+    </div>
+    
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Phone Number:</strong> {{ studentData?.phoneNumber }}
+      </div>
+      <div class="student-item">
+        <strong>Date of Birth:</strong> {{ studentData?.dateOfBirth | date }}
+      </div>
+    </div>
+    
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Social Security:</strong> {{ studentData?.socialSecurity }}
+      </div>
+      <div class="student-item">
+        <strong>Identification Type:</strong> {{ studentData?.identificationType }}
+      </div>
+    </div>
+    
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Identification Number:</strong> {{ studentData?.identificationNumber }}
+      </div>
+      <div class="student-item">
+        <strong>Created By:</strong> {{ studentData?.createdBy }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Created On:</strong> {{ studentData?.createdOn | date }}
+      </div>
+      <div class="student-item">
+        <strong>Updated By:</strong> {{ studentData?.updatedBy }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Updated On:</strong> {{ studentData?.updatedOn | date }}
+      </div>
+      <div class="student-item">
+        <strong>Is Active:</strong> {{ studentData?.isActive ? 'Yes' : 'No' }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Notes:</strong> {{ studentData?.notes }}
+      </div>
+      <div class="student-item">
+        <strong>Citizenship:</strong> {{ studentData?.citizenShip }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Gender:</strong> {{ studentData?.genderText }}
+      </div>
+      <div class="student-item">
+        <strong>Mother's Name:</strong> {{ studentData?.motherName }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Marital Status:</strong> {{ studentData?.maritalStatusText }}
+      </div>
+      <div class="student-item">
+        <strong>Religion:</strong> {{ studentData?.religionText }}
+      </div>
+    </div>
+
+    <div class="student-row">
+      <div class="student-item">
+        <strong>Place of Birth:</strong> {{ studentData?.placeOfBirth }}
+      </div>
+    </div>
+    
+  </div>
+</mat-card>
