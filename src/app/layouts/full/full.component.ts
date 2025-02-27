@@ -212,6 +212,7 @@ export class FullComponent implements OnInit {
   }
 
   canView(item: NavItem): boolean {
+    debugger;
     return (
       item.allowedRoles?.some((role) => this.userRoles.includes(role)) ?? false
     );

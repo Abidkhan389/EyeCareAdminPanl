@@ -26,7 +26,7 @@ export class AppTopCardsComponentComponent {
   isLoading:boolean=true;
 
   constructor(private welcomeService : WelcomeService,private message: MatSnackBar){
-    this.gettpcardsDashboard();
+    //this.gettpcardsDashboard();
   }
  
 
