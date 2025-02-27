@@ -31,6 +31,7 @@ export class AuthService {
   }
 
   login(model:any) {
+    debugger;
     return this.http
     .post<any>('https://localhost:7254/api/Account/Login', model)
       .pipe(
@@ -83,11 +84,10 @@ export class AuthService {
     router: Router
   ) {
     debugger
-    if (
-      response.roles.includes('Admin') ||
-      response.roles.includes('SUPERADMIN')
-    )
+    if (response.roles.includes('Admin') || response.roles.includes('SUPERADMIN'))
+    {
       router.navigate(['']);
+    }      
     if (response.roles.includes('PARENT') || response.roles.includes('STUDENT'))
       router.navigate(['/parent']);
     if (response.roles.includes('TEACHER')) router.navigate(['/learning']);

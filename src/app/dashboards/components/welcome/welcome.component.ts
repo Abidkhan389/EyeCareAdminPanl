@@ -13,36 +13,5 @@ import { CommonModule } from '@angular/common';
   styleUrl: './welcome.component.scss'
 })
 export class AppWelcomeComponent {
-  loginUserName: string;
-  isLoading:boolean=true;
-  welcomeData:any;
-  constructor(private welcomeService : WelcomeService , private message: MatSnackBar) {
-    this.loginUserName = 
-  (localStorage.getItem('firstName') ?? '') + 
-  ' ' + 
-  (localStorage.getItem('lastName') ?? '');
-    this.getWelcomeDashboard();
-  }
-  getWelcomeDashboard() {
-      this.welcomeService.WelcomeDashboardIncomeData().subscribe({
-        next: (employeeData) => {
-          this.welcomeData=employeeData.data;
-          this.isLoading = false;
-        },
-        error: (err) => {
-          this.isLoading = false;
-          this.showErrorMessage('Failed to load Welcome Dashboard data.');
-        },
-      });
-    
-    }
-    showErrorMessage(failMessage:string) {
-      this.message.open(failMessage, 'Retry', {
-        duration: 5000, // Duration in milliseconds
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom', // or 'top'
-        panelClass: ['error-snackbar'] // Optional: for custom styling
-      });
-    }
-
+  constructor() {}
 }

@@ -34,10 +34,9 @@ export interface customerChart {
 })
 export class AppCustomersComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
-  studentData:any;
-  isLoading:boolean=true;
   public customerChart!: Partial<customerChart> | any;
-  constructor(private studentService : StudentService,private message: MatSnackBar,) {
+
+  constructor() {
     this.customerChart = {
       series: [
         {
@@ -79,27 +78,5 @@ export class AppCustomersComponent {
         },
       },
     };
-    this.loadStudentData();
-  }
-  loadStudentData() {
-    this.studentService.studentDashboardData().subscribe({
-      next: (data) => {
-        this.studentData=data.data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.showErrorMessage('Failed to load Student Dashboard data.');
-      },
-    });
-  
-  }
-  showErrorMessage(failMessage:string) {
-    this.message.open(failMessage, 'Retry', {
-      duration: 5000, // Duration in milliseconds
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom', // or 'top'
-      panelClass: ['error-snackbar'] // Optional: for custom styling
-    });
   }
 }

@@ -13,9 +13,6 @@ import {
   NgApexchartsModule,
   ApexFill,
 } from 'ng-apexcharts';
-import { WelcomeService } from '../../services/welcom/welcome.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { TranslateModule } from '@ngx-translate/core';
 
 export interface revenueForecastChart {
   series: ApexAxisChartSeries;
@@ -29,46 +26,32 @@ export interface revenueForecastChart {
 }
 
 @Component({
-  selector: 'app-app-revenue-forecast',
+  selector: 'app-revenue-forecast',
   standalone: true,
-  imports: [MaterialModule, TablerIconsModule, NgApexchartsModule,TranslateModule],
+  imports: [MaterialModule, TablerIconsModule, NgApexchartsModule],
   templateUrl: './app-revenue-forecast.component.html',
-  styleUrl: './app-revenue-forecast.component.scss'
 })
 export class AppRevenueForecastComponent {
-  isLoading:boolean=true;
-  revenueData:any;
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public revenueForecastChart!: Partial<revenueForecastChart> | any;
 
-  constructor(private welcomeService : WelcomeService,private message: MatSnackBar) {      
-    this.getRevenueForCastDashboard();
-  }
-  getRevenueForCastDashboard() {
-    this.welcomeService.WelcomeRevenueForCast().subscribe({
-      next: (RevenueForCastData) => {
-        this.revenueData=RevenueForCastData.data;
-        this.LoadChart();
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.showErrorMessage('Failed to load Welcome Dashboard data.');
-      },
-    });
-  }
-  showErrorMessage(failMessage:string) {
-    this.message.open(failMessage, 'Retry', {
-      duration: 5000, // Duration in milliseconds
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom', // or 'top'
-      panelClass: ['error-snackbar'] // Optional: for custom styling
-    });
-  }
-  LoadChart()
-  {
+  constructor() {
     this.revenueForecastChart = {
-      series: this.revenueData,
+      series: [
+        {
+          name: '2023',
+          data: [50, 60, 30, 55, 75, 60, 100, 120],
+        },
+
+        {
+          name: '2022',
+          data: [35, 45, 40, 50, 35, 55, 40, 45],
+        },
+        {
+          name: '2024',
+          data: [100, 75, 80, 40, 20, 40, 0, 25],
+        },
+      ],
 
       chart: {
         type: 'area',
@@ -82,7 +65,7 @@ export class AppRevenueForecastComponent {
         stacked: false,
         offsetX: -10,
       },
-      colors: ['rgb(255, 102, 146)', '#16cdc7', 'rgb(99, 91, 255)', '#f4b400'],
+      colors: ['rgb(255, 102, 146)', '#16cdc7', 'rgb(99, 91, 255)'],
       stroke: {
         width: 2,
         curve: 'monotoneCubic',
@@ -128,10 +111,10 @@ export class AppRevenueForecastComponent {
         axisTicks: {
           show: false,
         },
-        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug','Sept','Oct','Nov','Dec'],
+        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'July', 'Aug'],
       },
       markers: {
-        strokeColor: ['rgba(255, 102, 146, 1)', '#16cdc7', 'rgba(99, 91, 255, 1)', '#f4b400',],
+        strokeColor: ['rgba(255, 102, 146, 1)', '#16cdc7', 'rgba(99, 91, 255, 1)'],
         strokeWidth: 2,
       },
       tooltip: {
@@ -140,6 +123,6 @@ export class AppRevenueForecastComponent {
           show: false,
         },
       },
-    }; 
+    };
   }
 }

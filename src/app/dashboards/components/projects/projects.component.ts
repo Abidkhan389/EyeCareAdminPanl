@@ -35,11 +35,9 @@ export interface projectsChart {
 })
 export class AppProjectsComponent {
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
-  employeeData:any;
-  isLoading:boolean=true;
   public projectsChart!: Partial<projectsChart> | any;
 
-  constructor(private employeesService: EmployeesService,private message: MatSnackBar,) {
+  constructor() {
     this.projectsChart = {
       series: [
         {
@@ -79,27 +77,5 @@ export class AppProjectsComponent {
         },
       },
     };
-    this.loadEmployees();
-  }
-  loadEmployees(){
-    this.employeesService.employeesDashboardData().subscribe({
-      next: (data) => {
-        this.employeeData=data.data;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        this.isLoading = false;
-        this.showErrorMessage('Failed to load Employee Dashboard data.');
-      },
-    });
-  
-  }
-  showErrorMessage(failMessage:string) {
-    this.message.open(failMessage, 'Retry', {
-      duration: 5000, // Duration in milliseconds
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom', // or 'top'
-      panelClass: ['error-snackbar'] // Optional: for custom styling
-    });
   }
 }
