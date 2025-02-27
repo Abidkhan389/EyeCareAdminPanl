@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
+    debugger
     const currentUser = this.authService.getCurrentUser();
     const allowedRoles: string[] = route.data['allowedRoles'] || [];
     const userRoles = currentUser.roles;
@@ -26,7 +27,8 @@ export class AuthGuard implements CanActivate {
 
     if (!hasAccess) {
       // Redirect unauthorized users to the authentication page
-      this.router.navigate(['/authentication/login']);
+      this.router.navigate(['/authentication/error']);
+
       return false;
     }
 

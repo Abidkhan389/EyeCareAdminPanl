@@ -17,6 +17,7 @@ import { finalize, first } from 'rxjs';
 import { ALERT_TYPE } from 'src/app/shared/models/alert';
 import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { TokenHelper } from 'src/app/_common/tokenHelper';
 
 @Component({
   selector: 'app-side-login',
@@ -78,6 +79,7 @@ export class AppSideLoginComponent {
           next: (response:any) => {
             debugger
             if (response.data) {
+                TokenHelper.setToken(response.data.token);
               AuthService.SaveUserInfo(response.data);
               AuthService.RedirectUserHome(response.data, this.router);
             } else {
