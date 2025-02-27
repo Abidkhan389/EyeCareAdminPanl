@@ -24,6 +24,7 @@ import { TablerIconsModule } from 'angular-tabler-icons';
 import { MatStepperModule } from '@angular/material/stepper';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -52,7 +53,8 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
     TablerIconsModule,
     MatStepperModule,
     TranslateModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgbModule 
   ],
   exports: [
     LoadingComponent,
@@ -78,7 +80,8 @@ import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginato
     TablerIconsModule,
     MatStepperModule,
     TranslateModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    NgbModule 
   ],
 })
 export class SharedModule {}

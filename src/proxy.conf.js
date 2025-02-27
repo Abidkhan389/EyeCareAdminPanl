@@ -2,12 +2,14 @@ const PROXY_CONFIG = [
     {
       context: [
         "/weatherforecast",
+        //<------------------- EyeCare Admin Panel Control ----------------->
+
+        //<---------- Identity Controls-------->
         "/api/Account",
-        "/api/student", //<--- define controller name
-        "/api/employee",
-        "/api/ClassRoom", //<--- define controller name
-        "/api/AppResource",
-        "/api/Vendor",
+        //<---------- Medicine Type Controls-------->
+
+        "/api/Medicinetype",
+        
         "/api/FinancialOperations",
         "/api/BusRoute",
         "/api/appsettings",
@@ -25,7 +27,6 @@ const PROXY_CONFIG = [
         "/api/StudentDashboard",
         "/api/EmployeeDashboard",
         "/api/RevenueForCast",
-        "/api/StudentBehaviour"
       ],
       target: "https://localhost:7254/",
       secure: false,
