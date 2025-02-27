@@ -98,6 +98,21 @@ export const routes: Routes = [
         data: {
           title: 'User',
           urls: [{ title: 'User', url: '/user' }, { title: 'User' }],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+         
+        },
+        canActivate: [AuthGuard,RoleGuard],
+      },
+      {
+        path: 'medicineType',
+        loadChildren: () =>
+            import('./medicine-type-management/medicine-type-management.module').then(
+                (_) => _.MedicineTypeManagementModule
+              ),
+        data: {
+          title: 'MedicineType',
+          urls: [{ title: 'MedicineType', url: '/medicineType' }, { title: 'MedicineType' }],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
          
         },
         canActivate: [AuthGuard,RoleGuard],

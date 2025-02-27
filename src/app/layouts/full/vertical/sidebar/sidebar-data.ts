@@ -14,7 +14,7 @@ export const navItems: NavItem[] = [
   },
   
   {
-    displayName: 'Classroom',
+    displayName: 'Classroom Testing',
     iconName: 'mdi:school-outline', // School icon for Classroom
     route: '/classroom',
     allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
@@ -31,6 +31,12 @@ export const navItems: NavItem[] = [
     displayName: 'User Management',
     iconName: 'mdi:cog-outline', // Store icon for Vendors
     route: '/user',
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+  },
+  {
+    displayName: 'Medicine Type Management',
+    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    route: '/medicineType',
     allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
   },
 ];
