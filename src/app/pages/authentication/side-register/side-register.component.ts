@@ -56,13 +56,11 @@ export class AppSideRegisterComponent {
   submit() {
     // console.log(this.form.value);
     if (this.form.valid) {
-      const { uname, cpassword, password } = this.form.value;
+      //const { uname, cpassword, password } = this.form.value;
+      let model = { ...this.form.getRawValue() } as any;
+
       this.authService
-        .registerUser({
-          userName: uname,
-          password: password,
-          confirmPassword: cpassword,
-        })
+        .registerUser(model)
         .subscribe((x) => {
           console.log(x);
           if (x.success) {
