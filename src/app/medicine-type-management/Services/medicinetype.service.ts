@@ -25,8 +25,23 @@ export class MedicinetypeService {
               })
             );
           }
-
-
+          getMedicineTypeById(modal: any): Observable<any> {
+            const endpoint = `${this.apiUrl}/GetMedicineTypeById`;
+            return this.http.post<any>(endpoint, modal).pipe( 
+              finalize(() => {
+                console.log("API call completed");
+              })
+            );
+          }
+          addEditMedicineType(modal: any): Observable<any> {
+            const endpoint = `${this.apiUrl}/addEditmedicineType`;
+            return this.http.post<any>(endpoint, modal).pipe( 
+              finalize(() => {
+                console.log("API call completed");
+              })
+            );
+          }
+          
           deleteUsers(ids: any): Observable<boolean> {
             return this.http.post<boolean>(this.apiUrl+'/Delete', Array.isArray(ids) ? ids : [ids]);
          }
