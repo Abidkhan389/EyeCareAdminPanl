@@ -42,15 +42,7 @@ export class AuthService {
   registerUser(model: any): Observable<any> {
     //return this.http.post<any>(this.apiUrl, model);
     return this.http
-      .post<{
-        userName?: string;
-        password?: string;
-        confirmPassword?: string;
-      }>(this.RegisterUrl, {
-        userName: model.userName,
-        password: model.password,
-        confirmPassword: model.confirmPassword,
-      })
+      .post<any>('https://localhost:7254/api/Administrator/UserRegister',model)
       .pipe(
         catchError((error: HttpErrorResponse) =>
           this.alertService.catchError(error)
