@@ -39,7 +39,7 @@ export class MedicineTypeListComponent implements OnInit{
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','type','MG','actions'];
+  displayedColumns: string[] = ['sn.', 'status','typeName','MG','actions'];
 
   pageSize = 5;
   currentPage = 1;
@@ -90,6 +90,7 @@ export class MedicineTypeListComponent implements OnInit{
           }
         },
         error => {
+          medicine.status = event ? 0 : 1;
           showErrorMessage(ResultMessages.serverError);
         }
       );
@@ -167,7 +168,9 @@ export class MedicineTypeListComponent implements OnInit{
       },
     });
    }
-  ViewMedicineType(id:any){
+
+  ViewMedicineType(id: any): void {
+    this.router.navigate(['view', id], { relativeTo: this.route });
   }
 
 }

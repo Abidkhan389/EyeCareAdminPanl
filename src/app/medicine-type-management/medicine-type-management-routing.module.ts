@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { medicineTypeManagementComponent } from './medicineTypeManagement.component';
 import { MedicineTypeListComponent } from './Components/medicine-type-list/medicine-type-list.component';
+import { ViewMedicineTypeComponent } from './Components/view-medicine-type/view-medicine-type.component';
 
 const MedicineTypeManagementRoutes: Routes = [
   {
@@ -12,40 +13,17 @@ const MedicineTypeManagementRoutes: Routes = [
         path: '',
         component: MedicineTypeListComponent,
       },
-      // {
-      //   path: 'create',
-      //   component: UsermanagementFormComponent,
-      //   data: {
-      //     title: 'User',
-      //     urls: [
-      //       { title: 'Dashboard', url: '/user' },
-      //       { title: 'User' },
-      //     ],
-      //   },
-      // },
-      
-      // {
-      //   path: 'view/:id',
-      //   component: UserManagementViewComponent,
-      //   data: {
-      //     title: 'User',
-      //     urls: [
-      //       { title: 'Dashboard', url: '/user' },
-      //       { title: 'User' },
-      //     ],
-      //   },
-      // },
-      // {
-      //   path: 'edit/:id',
-      //   component: UsermanagementFormComponent,
-      //   data: {
-      //     title: 'User',
-      //     urls: [
-      //       { title: 'Dashboard', url: '/user' },
-      //       { title: 'User' },
-      //     ],
-      //   },
-      // },
+      {
+        path: 'view/:id',
+        component: ViewMedicineTypeComponent,
+        data: {
+          title: 'MedicineType',
+          urls: [
+            { title: 'Dashboard', url: '/medicineType' },
+            { title: 'MedicineType' },
+          ],
+        },
+      },
     ],
   },
 ];

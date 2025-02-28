@@ -18,7 +18,7 @@ export class MedicinetypeService {
           }
 
           updateMedicineTypeStatus(modal: any): Observable<any> {
-            const endpoint = `${this.apiUrl}/GetAllByProc`;
+            const endpoint = `${this.apiUrl}/ActiveInActive`;
             return this.http.post<any>(endpoint, modal).pipe(
               finalize(() => {
                 console.log("API call completed");

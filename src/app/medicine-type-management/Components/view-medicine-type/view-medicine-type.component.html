@@ -1,0 +1,26 @@
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-card-content>
+      <div class="container">
+        <div class="row p-y-15">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Type Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ medicineType?.typeName  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">Medicine Potency: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ medicineType?.medicinePotency  || 'N/A'}}
+            </h6>
+          </div>
+        </div>
+                 
+      </div>
+    </mat-card-content>
+  
+  
+  
