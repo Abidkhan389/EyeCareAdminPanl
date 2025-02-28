@@ -21,9 +21,10 @@ import { CoreService } from 'src/app/services/core.service';
     font-size: 7pt;
     font-weight: bold;
     position: relative;
-    top: -12px;
+    top: -7px;
     left: 42%;
     color: darkorange;
+    margin-left: 43px;
   }
   `,
   template: `
@@ -36,23 +37,23 @@ import { CoreService } from 'src/app/services/core.service';
         />
       </a>
       @if(!this.options.sidenavCollapsed){
-      <p class="brand-p">Brightboard</p>
+      <p class="brand-p">Eye Care</p>
       }
     </div>
     @if(!this.options.sidenavCollapsed){
-    <span class="brand-sp">Empowering Education</span>
+    <span class="brand-sp">EyeCare System</span>
     }
   `,
 })
 export class BrandingComponent {
   options = this.settings.getOptions();
-  logoSrc = './assets/LogoWithBrand/PurpleNoBrand.png';
+  logoSrc = './assets/LogoWithBrand/eye-care-logo.jpg';
   constructor(private settings: CoreService) {
     this.settings.notify.subscribe((x) => {
       if (x['theme'] === 'dark') {
         this.logoSrc = './assets/LogoWithBrand/logo_dark.png';
       } else {
-        this.logoSrc = './assets/LogoWithBrand/PurpleNoBrand.png';
+        this.logoSrc = './assets/LogoWithBrand/eye-care-logo.jpg';
       }
     });
   }
