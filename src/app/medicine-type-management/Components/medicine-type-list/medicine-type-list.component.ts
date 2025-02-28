@@ -20,6 +20,7 @@ import { NgbModal, NgbModalOptions } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
 import { showSuccessMessage, showErrorMessage } from 'src/app/_common/messages';
+import { AddeditmecinetypeComponent } from '../addeditmecinetype/addeditmecinetype.component';
 
 @Component({
   selector: 'app-medicine-type-list',
@@ -148,7 +149,24 @@ export class MedicineTypeListComponent implements OnInit{
     });
   }
 
-  AddEdit(Id?: any, isReadOnly?: any) {}
+  AddEdit(Id?: any)
+   {
+    const dialogref = this.dilog.open(AddeditmecinetypeComponent, {
+      disableClose: true,
+      autoFocus: false,
+      width: '60%',
+      data: {
+        MedicineTypeId: Id,
+      },
+    })
+    dialogref.afterClosed().subscribe({
+      next: (value) => {
+        if (value) {
+          this.fetchAllMedicineType();
+        }
+      },
+    });
+   }
   ViewMedicineType(id:any){
   }
 
