@@ -39,4 +39,10 @@ export const navItems: NavItem[] = [
     route: '/medicineType',
     allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
   },
+  {
+    displayName: 'Medicine  Management',
+    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    route: '/medicine',
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+  },
 ];

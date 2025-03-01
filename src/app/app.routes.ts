@@ -117,6 +117,20 @@ export const routes: Routes = [
         },
         canActivate: [AuthGuard,RoleGuard],
       },
+      {
+        path: 'medicine',
+        loadChildren: () =>
+            import('./medicine-management/medicine-management.module').then(
+                (_) => _.MedicineManagementModule
+              ),
+        data: {
+          title: 'Medicine',
+          urls: [{ title: 'Medicine', url: '/medicine' }, { title: 'Medicine' }],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+         
+        },
+        canActivate: [AuthGuard,RoleGuard],
+      },
     ],
   },
   {
