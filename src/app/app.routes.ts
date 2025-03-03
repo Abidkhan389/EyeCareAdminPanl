@@ -131,6 +131,20 @@ export const routes: Routes = [
         },
         canActivate: [AuthGuard,RoleGuard],
       },
+      {
+        path: 'patientAppointment',
+        loadChildren: () =>
+            import('./patient-appointment/patient-appointment.module').then(
+                (_) => _.PatientAppointmentModule
+              ),
+        data: {
+          title: 'PatientAppointment',
+          urls: [{ title: 'PatientAppointment', url: '/patientAppointment' }, { title: 'PatientAppointment' }],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+         
+        },
+        canActivate: [AuthGuard,RoleGuard],
+      },
     ],
   },
   {
