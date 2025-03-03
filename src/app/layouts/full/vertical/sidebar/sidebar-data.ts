@@ -45,4 +45,10 @@ export const navItems: NavItem[] = [
     route: '/medicine',
     allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
   },
+  {
+    displayName: 'Patient Appointment',
+    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    route: '/patientAppointment',
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+  },
 ];
