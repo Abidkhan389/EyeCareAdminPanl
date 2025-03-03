@@ -17,7 +17,7 @@ import { AdminOnlyDirective } from './directives/app-admin-only.directive';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 //import { MatTimepickerModule } from 'mat-timepicker';
-import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { MatOptionModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { TablerIconsModule } from 'angular-tabler-icons';
@@ -47,7 +47,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSlideToggleModule,
     FormsModule,
     MatSelectModule,
+    NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
     MatOptionModule, // For mat-option
     MatButtonModule,
     TablerIconsModule,
@@ -74,7 +76,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatSlideToggleModule,
     FormsModule,
     MatSelectModule,
+    NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
     MatOptionModule, // For mat-option
     MatButtonModule,
     TablerIconsModule,

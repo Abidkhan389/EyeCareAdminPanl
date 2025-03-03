@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, finalize } from 'rxjs';
+import { Observable, catchError, finalize, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,13 +9,26 @@ import { environment } from 'src/environments/environment';
 export class PatientAppointmentService {
 
    private apiUrl = environment.baseUrl + 'Patient';
+   private identityUrl = environment.baseUrl+ 'Account';
         constructor(private http: HttpClient) {}
             
             getAllpatientAppointment(modal: any): Observable<any> {
               const endpoint = `${this.apiUrl}/GetAllByProc`;
               return this.http.post<any>(endpoint, modal);
             }
-  
+            
+            getAllDoctors(): Observable<any> {
+              const endpoint = `${this.identityUrl}/GetAllDoctors`;
+              return this.http.get<any>(endpoint).pipe(
+                tap(() => console.log("API call started")),
+                catchError(error => {
+                  console.error("Error fetching doctors:", error);
+                  return throwError(() => error);
+                })
+              );
+            }
+            
+
             patientAppointmentStatus(modal: any): Observable<any> {
               const endpoint = `${this.apiUrl}/ActiveInActive`;
               return this.http.post<any>(endpoint, modal).pipe(
@@ -25,7 +38,7 @@ export class PatientAppointmentService {
               );
             }
             getpatientAppointmentById(modal: any): Observable<any> {
-              const endpoint = `${this.apiUrl}/GetMedicineTypeById`;
+              const endpoint = `${this.apiUrl}/GetPatientById`;
               return this.http.post<any>(endpoint, modal).pipe( 
                 finalize(() => {
                   console.log("API call completed");

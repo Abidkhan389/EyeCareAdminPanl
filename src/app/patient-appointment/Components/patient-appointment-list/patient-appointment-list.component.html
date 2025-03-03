@@ -100,7 +100,7 @@
     </div>
 </div>
 
-<div class="material striped">
+<div class="material striped table-container">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
     <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)" 
@@ -159,15 +159,25 @@
             <th mat-header-cell *matHeaderCellDef> cnic </th>
             <td mat-cell *matCellDef="let patient"> {{ patient?.cnic }} </td>
         </ng-container>
+        <!-- patientPhoneNumber Column -->
+       <ng-container matColumnDef="patientPhoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
+        </ng-container>
           <!-- doctoerName Column -->
           <ng-container matColumnDef="doctoerName">
             <th mat-header-cell *matHeaderCellDef> Doctoer Name </th>
             <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
         </ng-container>
-       <!-- patientPhoneNumber Column -->
-       <ng-container matColumnDef="patientPhoneNumber">
-        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
+         <!-- CheckUpStatus Column -->
+       <ng-container matColumnDef="CheckUpStatus">
+        <th mat-header-cell *matHeaderCellDef> CheckUp Status </th>
+        <td mat-cell *matCellDef="let patient"> {{ patient?.checkUpStatus }} </td>
+        </ng-container>
+       <!-- AppointmentTime Column -->
+       <ng-container matColumnDef="AppointmentTime">
+        <th mat-header-cell *matHeaderCellDef> Appointment Time </th>
+        <td mat-cell *matCellDef="let patient"> {{ patient?.appointmentTime }} </td>
         </ng-container>
 
         <!-- Header Row -->
