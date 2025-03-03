@@ -25,7 +25,7 @@ import { AddEditPatientAppointmentComponent } from './add-edit-patient-appointme
 @Component({
   selector: 'app-patient-appointment-list',
   standalone: true,
-    imports: [MaterialModule,CommonModule,SharedModule],
+  imports: [MaterialModule,CommonModule,SharedModule],
   templateUrl: './patient-appointment-list.component.html',
   styleUrl: './patient-appointment-list.component.scss'
 })
@@ -39,7 +39,7 @@ export class PatientAppointmentListComponent {
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','patientPhoneNumber','doctoerName','actions'];
+  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','patientPhoneNumber','AppointmentTime','CheckUpStatus','doctoerName','actions'];
 
   pageSize = 5;
   currentPage = 1;
@@ -161,7 +161,7 @@ export class PatientAppointmentListComponent {
       autoFocus: false,
       width: '60%',
       data: {
-        id: Id,
+        patientId: Id,
       },
     })
     dialogref.afterClosed().subscribe({
