@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,signal } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import {
   FormGroup,
@@ -24,7 +24,7 @@ import { ALERT_TYPE } from 'src/app/shared/models/alert';
 })
 export class AppSideRegisterComponent {
   options = this.settings.getOptions();
-
+  hide = signal(true);
   constructor(
     private settings: CoreService,
     private router: Router,
@@ -73,5 +73,9 @@ export class AppSideRegisterComponent {
           }
         });
     }
+  }
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 }

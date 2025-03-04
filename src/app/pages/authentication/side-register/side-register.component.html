@@ -87,7 +87,16 @@
                 class="w-100"
                 color="primary"
               >
-                <input matInput type="password" formControlName="password" />
+                <input matInput [type]="hide() ? 'password' : 'text'" formControlName="password"  />
+                <button
+                mat-icon-button
+                matSuffix
+                (click)="clickEvent($event)"
+                [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide()"
+              >
+                <mat-icon>{{hide() ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
                 @if(f['password'].touched && f['password'].invalid) {
                 <mat-hint class="m-b-16 error-msg">
                   @if( f['password'].errors && f['password'].errors['required'])

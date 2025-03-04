@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { CoreService } from 'src/app/services/core.service';
 import {
   FormGroup,
@@ -34,7 +34,7 @@ import { TokenHelper } from 'src/app/_common/tokenHelper';
 })
 export class AppSideLoginComponent {
   options = this.settings.getOptions();
-
+hide = signal(true);
   constructor(
     private settings: CoreService,
     private router: Router,
@@ -97,5 +97,9 @@ export class AppSideLoginComponent {
           },
         });
     }
+  }
+  clickEvent(event: MouseEvent) {
+    this.hide.set(!this.hide());
+    event.stopPropagation();
   }
 }
