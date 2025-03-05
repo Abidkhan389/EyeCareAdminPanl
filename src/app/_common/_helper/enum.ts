@@ -42,3 +42,18 @@ export enum QuestionLevel {
     Near=0,
     Distance=1
   }
+  export enum DayOfWeek {
+    Sunday = 0,
+    Monday = 1,
+    Tuesday = 2,
+    Wednesday = 3,
+    Thursday = 4,
+    Friday = 5,
+    Saturday = 6
+}
+export enum DoctorAvailabalTime {
+  "10 Mints" = 10,
+  "15 Mints" = 15,
+  "20 Mints" = 20,
+  "25 Mints" = 25,
+}

@@ -35,20 +35,26 @@ export const navItems: NavItem[] = [
   },
   {
     displayName: 'Medicine Type Management',
-    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    iconName: 'mdi:pill-multiple', // Store icon for medicine type
     route: '/medicineType',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
   },
   {
     displayName: 'Medicine  Management',
-    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    iconName: 'mdi:pill', // Store icon for medicine type
     route: '/medicine',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
   },
   {
     displayName: 'Patient Appointment',
-    iconName: 'mdi:cog-outline', // Store icon for medicine type
+    iconName: 'mdi:calendar-check', // Store icon for medicine type
     route: '/patientAppointment',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Rerecptionist],
+  },
+  {
+    displayName: 'Doctor Availability',
+    iconName: 'mdi:calendar-clock', // Represents scheduling and availability
+    route: '/doctorAvailability',
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
   },
 ];

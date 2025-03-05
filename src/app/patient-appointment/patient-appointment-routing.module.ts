@@ -19,10 +19,10 @@ const patientAppointmentRoutes: Routes = [
         path: 'view/:id',
         component: ViewPatientAppointmentComponent,
         data: {
-          title: 'MedicineType',
+          title: 'PatientAppointment',
           urls: [
-            { title: 'Dashboard', url: '/medicineType' },
-            { title: 'MedicineType' },
+            { title: 'Dashboard', url: '/patientAppointment' },
+            { title: 'PatientAppointment' },
           ],
         },
       },

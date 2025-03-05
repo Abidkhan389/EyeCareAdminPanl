@@ -1,0 +1,53 @@
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-card-content>
+      <div class="container">
+        <div class="row p-y-15">
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Doctor ID: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ doctorAvailability?.doctorId  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+            <span class="f-w-600 f-s-15 mat-body-1">Doctor Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ doctorAvailability?.doctorName  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">Time Duration: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ doctorAvailability?.appointmentDurationMinutes  || 'N/A'}} Mints
+            </h6>
+          </div>
+        </div>
+        <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Day ID: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ doctorAvailability?.dayId  || 'N/A'}}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">Day Name: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ doctorAvailability?.dayName  || 'N/A'}}
+              </h6>
+            </div>
+          </div>  
+          <div class="d-flex flex-wrap">
+            <div class="d-flex me-3" *ngFor="let slot of doctorAvailability?.doctorTimeSlots">
+              <p class="mb-0 me-1"><strong>Start Time:</strong> {{ slot.startTime }}</p>
+              <p class="mb-0"><strong>End Time:</strong> {{ slot.endTime }}</p>
+            </div>
+          </div>
+          
+      </div>
+    </mat-card-content>
+  
+  
+  
+  

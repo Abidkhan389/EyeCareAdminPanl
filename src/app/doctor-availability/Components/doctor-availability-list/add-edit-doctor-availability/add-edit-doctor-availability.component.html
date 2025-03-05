@@ -1,0 +1,128 @@
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="col-lg-12 modal-content">
+    <!-- Close Button Row -->
+    <div class="modal-header row d-flex justify-content-end ">
+
+        <button mat-icon-button class="close-btn buttonMargin" (click)="closeClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form [formGroup]="doctorAvailabilityForm" (ngSubmit)="AddEdit()">
+
+            <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Appointment Duration</mat-label>
+                        <mat-select formControlName="appointmentDurationMinutes">
+                            <mat-option *ngFor="let time of doctorappointmentDurationMinutes" [value]="time.id">
+                                {{ time.name }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="doctorAvailabilityForm.controls['appointmentDurationMinutes'].touched && !doctorAvailabilityForm.controls['appointmentDurationMinutes'].valid">
+                            <ng-container *ngFor="let validation of validationMessages.value">
+                                <span
+                                    *ngIf="doctorAvailabilityForm.controls['appointmentDurationMinutes'].hasError(validation.type)">
+                                    {{ validation.message }}
+                                </span>
+                            </ng-container>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 mb-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Doctor</mat-label>
+                        <mat-select formControlName="doctorId">
+                            <mat-option *ngFor="let doctor of doctorList" [value]="doctor.id">
+                                {{ doctor.userName }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error
+                            *ngIf="doctorAvailabilityForm.controls['doctorId'].touched && !doctorAvailabilityForm.controls['doctorId'].valid">
+                            <ng-container *ngFor="let validation of validationMessages.value">
+                                <span *ngIf="doctorAvailabilityForm.controls['doctorId'].hasError(validation.type)">
+                                    {{ validation.message }}
+                                </span>
+                            </ng-container>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row checkbox-container">
+                <div class="col-auto" *ngFor="let day of weekDays; let i = index">
+                  <label>
+                    <input type="checkbox" class="form-check-input"
+                      [value]="day.id"
+                      [checked]="isDaySelected(day.id)" 
+                      (change)="onDaySelect(day.id, $event)"
+                      [disabled]="editMode "
+                      >
+                    {{ day.name }}
+                  </label>
+                </div>
+              
+              </div>
+              
+            <div class="row mt-2 mb-2">
+                <div class="col-6 text-bold-400"></div>
+                <div class="col-6 float-right">
+                    <button [disabled]="data.IsReadOnly" class="btn btn-primary float-end mb-1" title="Add New"
+                        type="button" (click)="adddoctorTimeSlots(null,false)"><i class="fa fa-plus"></i> <span>Add Time
+                            Slots</span></button>
+                </div>
+            </div>
+            <!-- Time Slot Table -->
+            <div class="row mt-2">
+                <div formArrayName="doctorTimeSlots" class="col-12">
+                    <div class="d-flex flex-wrap align-items-center gap-2 mb-2" 
+                    *ngFor="let slot of getStartEndTimeOptionArray().controls; let i = index" 
+                    [formGroupName]="i">
+               
+                   <!-- Start Time Input -->
+                   <mat-form-field appearance="outline" class="flex-grow-1 me-2">
+                       <mat-label>Start Time</mat-label>
+                       <input matInput type="time" formControlName="startTime">
+                   </mat-form-field>
+               
+                   <!-- End Time Input -->
+                   <mat-form-field appearance="outline" class="flex-grow-1 me-2">
+                       <mat-label>End Time</mat-label>
+                       <input matInput type="time" formControlName="endTime">
+                   </mat-form-field>
+               
+                   <!-- Remove Button -->
+                   <button class="buttonMarginofTimeSlot" mat-icon-button color="warn" type="button" (click)="removeStartEndTimeOption(i)">
+                       <mat-icon>delete</mat-icon>
+                   </button>
+               
+               </div>
+               
+                </div>
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="modal-footer d-flex justify-content-end">
+                <button mat-raised-button color="secondary" class="closeButtonMargin" type="button"
+                    (click)="closeClick()">
+                    <i class="fa fa-close"></i> Cancel
+                </button>
+
+                <button mat-raised-button color="primary" type="submit" class="saveButton"
+                    [disabled]="doctorAvailabilityForm.invalid">
+                    {{ data.id ? "Update" : "Create" }}
+                </button>
+            </div>
+        </form>
+    </div>
+
+
+
+
+</div>

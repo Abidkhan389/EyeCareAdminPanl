@@ -112,7 +112,7 @@ export const routes: Routes = [
         data: {
           title: 'MedicineType',
           urls: [{ title: 'MedicineType', url: '/medicineType' }, { title: 'MedicineType' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -126,7 +126,7 @@ export const routes: Routes = [
         data: {
           title: 'Medicine',
           urls: [{ title: 'Medicine', url: '/medicine' }, { title: 'Medicine' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -140,7 +140,21 @@ export const routes: Routes = [
         data: {
           title: 'PatientAppointment',
           urls: [{ title: 'PatientAppointment', url: '/patientAppointment' }, { title: 'PatientAppointment' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Rerecptionist],
+         
+        },
+        canActivate: [AuthGuard,RoleGuard],
+      },
+      {
+        path: 'doctorAvailability',
+        loadChildren: () =>
+            import('./doctor-availability/doctor-availability.module').then(
+                (_) => _.DoctorAvailabilityModule
+              ),
+        data: {
+          title: 'DoctorAvailability',
+          urls: [{ title: 'DoctorAvailability', url: '/doctorAvailability' }, { title: 'DoctorAvailability' }],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          
         },
         canActivate: [AuthGuard,RoleGuard],
