@@ -19,7 +19,8 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>First Name</mat-label>
                         <input matInput formControlName="firstName" placeholder="XYZ">
-                        <mat-error *ngIf="PatientForm.controls['firstName'].touched && !PatientForm.controls['firstName'].valid">
+                        <mat-error
+                            *ngIf="PatientForm.controls['firstName'].touched && !PatientForm.controls['firstName'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['firstName'].hasError(validation.type)">
                                     {{ validation.message }}
@@ -28,12 +29,13 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Last Name</mat-label>
                         <input matInput formControlName="lastName" placeholder="XYZ">
-                        <mat-error *ngIf="PatientForm.controls['lastName'].touched && !PatientForm.controls['lastName'].valid">
+                        <mat-error
+                            *ngIf="PatientForm.controls['lastName'].touched && !PatientForm.controls['lastName'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['lastName'].hasError(validation.type)">
                                     {{ validation.message }}
@@ -43,7 +45,7 @@
                     </mat-form-field>
                 </div>
             </div>
-    
+
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
@@ -53,7 +55,8 @@
                                 {{ gender.name }}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="PatientForm.controls['gender'].touched && !PatientForm.controls['gender'].valid">
+                        <mat-error
+                            *ngIf="PatientForm.controls['gender'].touched && !PatientForm.controls['gender'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['gender'].hasError(validation.type)">
                                     {{ validation.message }}
@@ -62,7 +65,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Doctor</mat-label>
@@ -71,7 +74,8 @@
                                 {{ doctor.userName }}
                             </mat-option>
                         </mat-select>
-                        <mat-error *ngIf="PatientForm.controls['doctorId'].touched && !PatientForm.controls['doctorId'].valid">
+                        <mat-error
+                            *ngIf="PatientForm.controls['doctorId'].touched && !PatientForm.controls['doctorId'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['doctorId'].hasError(validation.type)">
                                     {{ validation.message }}
@@ -81,7 +85,7 @@
                     </mat-form-field>
                 </div>
             </div>
-    
+
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
@@ -96,23 +100,24 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Date</mat-label>
-  <input matInput [matDatepicker]="picker" placeholder="Select Date" formControlName="appoitmentTime"
-         [min]="minDate" [max]="maxDate">
-  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-  <mat-datepicker #picker></mat-datepicker>
-                        <mat-error *ngIf="PatientForm.controls['appoitmentTime'].touched && !PatientForm.controls['appoitmentTime'].valid">
+                        <input matInput [matDatepicker]="picker" placeholder="Select Date"
+                            formControlName="appoitmentTime" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="PatientForm.controls['appoitmentTime'].touched && !PatientForm.controls['appoitmentTime'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['appoitmentTime'].hasError(validation.type)">
                                     {{ validation.message }}
                                 </span>
                             </ng-container>
-                        </mat-error>    
+                        </mat-error>
                     </mat-form-field>
-    
+
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Appointment Time</mat-label>
                         <input matInput type="time" formControlName="appoitmentTime">
@@ -120,13 +125,14 @@
                     </mat-form-field>
                 </div>
             </div>
-    
+
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Phone Number</mat-label>
                         <input matInput formControlName="phoneNumber" placeholder="03">
-                        <mat-error *ngIf="PatientForm.controls['phoneNumber'].touched && !PatientForm.controls['phoneNumber'].valid">
+                        <mat-error
+                            *ngIf="PatientForm.controls['phoneNumber'].touched && !PatientForm.controls['phoneNumber'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['phoneNumber'].hasError(validation.type)">
                                     {{ validation.message }}
@@ -135,7 +141,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>CNIC</mat-label>
@@ -150,7 +156,7 @@
                     </mat-form-field>
                 </div>
             </div>
-    
+
             <div class="row">
                 <div class="col-12 col-md-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
@@ -165,7 +171,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Blood Type</mat-label>
@@ -176,7 +182,7 @@
                         </mat-select>
                     </mat-form-field>
                 </div>
-    
+
                 <div class="col-12 col-md-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Marital Status</mat-label>
@@ -188,7 +194,7 @@
                     </mat-form-field>
                 </div>
             </div>
-    
+
             <!-- Modal Footer -->
             <div class="modal-footer d-flex justify-content-end">
                 <button mat-raised-button color="secondary" class="closeButtonMargin" type="button"
@@ -203,7 +209,7 @@
             </div>
         </form>
     </div>
-    
+
 
 
 
