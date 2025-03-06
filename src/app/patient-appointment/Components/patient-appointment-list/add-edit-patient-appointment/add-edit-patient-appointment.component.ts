@@ -94,7 +94,7 @@ export class AddEditPatientAppointmentComponent {
       // Disable appointmentTime while fetching slots
       this.PatientForm.get('timeSlot')?.disable();
       
-      this.fetchAvailableSlots(matchingDay?.id);
+      this.fetchAvailableSlots(matchingDay?.id,selectedDate);
     } else {
       this.PatientForm.get('timeSlot')?.disable();
     }
@@ -202,11 +202,12 @@ export class AddEditPatientAppointmentComponent {
   closeClick() {
     this.dialogref.close();
   }
-  fetchAvailableSlots(dayId:any){
+  fetchAvailableSlots(dayId:any, date:any){
     // this.loading = true;
     let model = Object.assign({});
     model.dayId = dayId;
     model.doctorId = this.selectedDoctorId;
+    model.AppointmentDate = date;
     this.patientAppointmentService.getDoctorAppointmentsSlotsOfDay(model).pipe(
       finalize(() => {
         this.loading = false;
