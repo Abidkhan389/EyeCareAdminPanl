@@ -170,14 +170,38 @@
             <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
         </ng-container>
          <!-- CheckUpStatus Column -->
-       <ng-container matColumnDef="CheckUpStatus">
-        <th mat-header-cell *matHeaderCellDef> CheckUp Status </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.checkUpStatus }} </td>
+      
+
+        <ng-container matColumnDef="CheckUpStatus">
+            <mat-header-cell *matHeaderCellDef >CheckUp Status</mat-header-cell>
+            <mat-cell *matCellDef="let patient">
+                <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
+                    <!-- Display waiting icon when checkUpStatus is 0 -->
+                    <button mat-icon-button >
+                        <mat-icon>schedule</mat-icon>
+                    </button>
+                </ng-container>
+                <ng-template #checkedIcon>
+                    <!-- Display checked icon when checkUpStatus is 1 -->
+                    <button mat-icon-button>
+                        <span class="material-icons">
+                            done
+                        </span>
+                    </button>
+                </ng-template>
+            </mat-cell>
+        </ng-container>
+
+
+          <!-- TimeSlot Column -->
+       <ng-container matColumnDef="timeSlot">
+        <th mat-header-cell *matHeaderCellDef> Time Slot</th>
+        <td mat-cell *matCellDef="let patient"> {{ patient?.timeSlot }} </td>
         </ng-container>
        <!-- AppointmentTime Column -->
        <ng-container matColumnDef="AppointmentTime">
         <th mat-header-cell *matHeaderCellDef> Appointment Time </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.appointmentTime }} </td>
+        <td mat-cell *matCellDef="let patient">   {{ patient?.appointmentTime | date: 'yyyy-MM-dd' }} </td>
         </ng-container>
 
         <!-- Header Row -->

@@ -39,7 +39,7 @@ export class PatientAppointmentListComponent {
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','patientPhoneNumber','AppointmentTime','CheckUpStatus','doctoerName','actions'];
+  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','patientPhoneNumber','AppointmentTime','timeSlot','CheckUpStatus','doctoerName','actions'];
 
   pageSize = 5;
   currentPage = 1;

@@ -46,7 +46,7 @@ export class PatientAppointmentService {
               );
             }
             addEditpatientAppointment(modal: any): Observable<any> {
-              const endpoint = `${this.apiUrl}/addEditmedicineType`;
+              const endpoint = `${this.apiUrl}/AddEditPatient`;
               return this.http.post<any>(endpoint, modal).pipe( 
                 finalize(() => {
                   console.log("API call completed");
@@ -57,6 +57,14 @@ export class PatientAppointmentService {
             deleteUsers(ids: any): Observable<boolean> {
               return this.http.post<boolean>(this.apiUrl+'/Delete', Array.isArray(ids) ? ids : [ids]);
            }
+           getDoctorAppointmentsSlotsOfDay(modal: any): Observable<any> {
+            const endpoint = `${this.apiUrl}/GetDoctorAppointmentsSlotsOfDay`;
+            return this.http.post<any>(endpoint, modal).pipe( 
+              finalize(() => {
+                console.log("API call completed");
+              })
+            );
+          }
          
            
 }

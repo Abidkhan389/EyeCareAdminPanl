@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject,ElementRef,ViewChild  } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Messages } from 'src/app/shared/Validators/validation-messages';
@@ -8,7 +8,7 @@ import * as moment from 'moment';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Helpers } from 'src/app/_common/_helper/app_helper';
-import { Gendertype, MaterialType } from 'src/app/_common/_helper/enum';
+import { DayOfWeek, Gendertype, MaterialType } from 'src/app/_common/_helper/enum';
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
 import { Patterns } from 'src/app/shared/Validators/patterns';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
@@ -23,6 +23,7 @@ import { finalize } from 'rxjs';
   styleUrl: './add-edit-patient-appointment.component.scss'
 })
 export class AddEditPatientAppointmentComponent {
+  @ViewChild('scrollContainer', { static: false }) scrollContainer!: ElementRef;
   isreadOnly: boolean = false;
   PatientForm: FormGroup;
   loading: any;
@@ -33,6 +34,8 @@ export class AddEditPatientAppointmentComponent {
   bloodTypes: string[] = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-','Others'];
   genderType: { id: string; name: string }[] = [];
   materialType: { id: string; name: string }[] = [];
+  weekDays: { id: number; name: string }[] = [];
+  doctorAvailibalTimeSlotsDoctorAndDayId:any;
    // Configuration options
    showSpinners = true; // Show spinners for hours, minutes, and seconds
    showSeconds = true; // Show seconds
@@ -44,15 +47,20 @@ export class AddEditPatientAppointmentComponent {
    enableMeridian = true; // Enable AM/PM selection
    minDate: Date = new Date(); // Today's date
    maxDate: Date = new Date(new Date().setMonth(new Date().getMonth() + 1)); // Next 1 month limit
+   selectedDoctorId:any;
 
-   
+   doctorAvailibalTimeSlots: string[] = []; // API se fetched data aayega
+   selectedSlot: string = '';
+   paginatedSlots: string[] = []; // Jo slots currently show honge
+   currentPage: number = 0; // Kis page par hain
+   slotsPerPage: number = 8; // Kitne slots aik dafa dikhane hain
    selectedDate: string = ''; // To store selected date
    selectedTime: string = ''; // To store selected time
   
   constructor(public patientAppointmentService: PatientAppointmentService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
      
-
+    this.weekDays = Helpers.enumToArray(DayOfWeek) as { id: number; name: string }[];
     this.genderType =Helpers.enumStringToArray(Gendertype) as { id: string; name: string }[];
     this.materialType = Helpers.enumStringToArray(MaterialType) as { id: string; name: string }[];
   }
@@ -63,6 +71,35 @@ export class AddEditPatientAppointmentComponent {
    
     this.validateform();
     this.GetAllDoctors();
+    // Listen to Doctor Selection Change
+    this.PatientForm.get('doctorId')?.valueChanges.subscribe((doctorId) => {
+      if (doctorId) {
+        this.selectedDoctorId=doctorId;
+        // Reset state & Enable `dayId`
+        this.PatientForm.get('appoitmentDate')?.disable(); // Ensure it resets first
+        this.PatientForm.get('appoitmentDate')?.enable();
+      } else {
+        this.PatientForm.get('appoitmentDate')?.disable();
+      }
+    });
+    
+  this.PatientForm.get('appoitmentDate')?.valueChanges.subscribe((dayId) => {
+    if (dayId) {
+       // Convert date to JavaScript Date object
+    const selectedDate = new Date(dayId);
+    
+    // Get the day name
+    const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
+    const matchingDay = this.weekDays.find(day=> day.name.toLocaleLowerCase() === dayName.toLocaleLowerCase());
+      // Disable appointmentTime while fetching slots
+      this.PatientForm.get('timeSlot')?.disable();
+      
+      this.fetchAvailableSlots(matchingDay?.id);
+    } else {
+      this.PatientForm.get('timeSlot')?.disable();
+    }
+  });
+
   }
   validateform() {
     const now = new Date();
@@ -75,9 +112,10 @@ export class AddEditPatientAppointmentComponent {
       gender: [null, Validators.required],
       doctorId : [null, Validators.required],
       age: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(11), Validators.maxLength(11)])],
-      appoitmentTime: [currentTime, Validators.required], 
+      appoitmentDate: [{ value: null, disabled: true }, Validators.required],
+      timeSlot: new FormControl({ value: null, disabled: true }, Validators.required),
       phoneNumber: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(11), Validators.maxLength(11)])],
-      cnic: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.CnicPattern), Validators.minLength(13), Validators.maxLength(13)])],
+      cnic: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.CnicPattern), Validators.minLength(15), Validators.maxLength(15)])],
       city: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50),Validators.minLength(3)])],
       bloodType: [null],
       maritalStatus: [null],
@@ -85,7 +123,9 @@ export class AddEditPatientAppointmentComponent {
   }
   GetPatient(){
     this.loading = true;
-    this.patientAppointmentService.getpatientAppointmentById(this.data.patientId).pipe(
+    let model = Object.assign({});
+    model.id = this.data.patientId;
+    this.patientAppointmentService.getpatientAppointmentById(model).pipe(
       finalize(() => {
         this.loading = false;
       }))
@@ -120,7 +160,7 @@ export class AddEditPatientAppointmentComponent {
   AddEdit(){
     this.loading = true;
     // this.addEdituser = this.userForm.value;
-    this.handleDateTimeSelection();
+    //this.handleDateTimeSelection();
     let model = Object.assign({}, this.PatientForm.getRawValue());
     // let phn=Helpers.appendPhoneNumber(this.UserForm.get("mobileNumber").value)
     // if(phn){
@@ -133,34 +173,92 @@ export class AddEditPatientAppointmentComponent {
     });
 
   }
-  handleDateTimeSelection() {
-    if (!this.PatientForm) {
-        console.error("PatientForm is not initialized.");
-        return;
-    }
+//   handleDateTimeSelection() {
+//     if (!this.PatientForm) {
+//         console.error("PatientForm is not initialized.");
+//         return;
+//     }
 
-    const appointmentTimeControl = this.PatientForm.get("appoitmentTime");
+//     const appointmentTimeControl = this.PatientForm.get("appoitmentTime");
 
-    if (!appointmentTimeControl || !appointmentTimeControl.value) {
-        console.error("Appointment time is null or undefined.");
-        return;
-    }
+//     if (!appointmentTimeControl || !appointmentTimeControl.value) {
+//         console.error("Appointment time is null or undefined.");
+//         return;
+//     }
 
-    const userSelectedDate = new Date(appointmentTimeControl.value);
+//     const userSelectedDate = new Date(appointmentTimeControl.value);
 
-    // Convert the user-selected date to local DateTime
-    userSelectedDate.setMinutes(userSelectedDate.getMinutes() - userSelectedDate.getTimezoneOffset());
+//     // Convert the user-selected date to local DateTime
+//     userSelectedDate.setMinutes(userSelectedDate.getMinutes() - userSelectedDate.getTimezoneOffset());
 
-    // Format the date as an ISO string
-    const isoDateTimeString = userSelectedDate.toISOString();
+//     // Format the date as an ISO string
+//     const isoDateTimeString = userSelectedDate.toISOString();
 
-    // Now, assign the formatted date to the FormGroup
-    this.PatientForm.patchValue({ appoitmentTime: isoDateTimeString });
-}
+//     // Now, assign the formatted date to the FormGroup
+//     this.PatientForm.patchValue({ appoitmentTime: isoDateTimeString });
+// }
 
   //Its Close The DialogRef Modal
   closeClick() {
     this.dialogref.close();
   }
+  fetchAvailableSlots(dayId:any){
+    // this.loading = true;
+    let model = Object.assign({});
+    model.dayId = dayId;
+    model.doctorId = this.selectedDoctorId;
+    this.patientAppointmentService.getDoctorAppointmentsSlotsOfDay(model).pipe(
+      finalize(() => {
+        this.loading = false;
+      }))
+      .subscribe(result => {
+        if (result) {
+          this.doctorAvailibalTimeSlots = result.data.doctorSlots.map((slot: { doctorTime: any; }) => slot.doctorTime);
+          this.doctorAvailibalTimeSlotsDoctorAndDayId = result.dafa;
+          this.PatientForm.get('appoitmentDate')?.enable();  // Enable input
+          this.PatientForm.get('timeSlot')?.enable();  // Enable input
+          this.updatePaginatedSlots(); 
+        } else {
+          this.PatientForm.get('appoitmentDate')?.disable(); // Disable if no slots
+          this.PatientForm.get('timeSlot')?.disable();  // Enable input
+
+        }
+      },
+        error => {
+          showErrorMessage(ResultMessages.serverError);
+        });
+  }
+  selectSlot(time: string) {
+    this.selectedSlot = time;
+    this.PatientForm.controls['timeSlot'].setValue(time);
+}
+
+updatePaginatedSlots() {
+  debugger
+  if (this.doctorAvailibalTimeSlots.length === 0) return; // Agar empty hai to return kar dein
+  const startIndex = this.currentPage * this.slotsPerPage;
+  this.paginatedSlots = this.doctorAvailibalTimeSlots.slice(startIndex, startIndex + this.slotsPerPage);
+}
+
+scrollLeft() {
+    if (this.currentPage > 0) {
+        this.currentPage--;
+        this.updatePaginatedSlots();
+    }
+}
+
+scrollRight() {
+    if ((this.currentPage + 1) * this.slotsPerPage < this.doctorAvailibalTimeSlots.length) {
+        this.currentPage++;
+        this.updatePaginatedSlots();
+    }
+}
+formatCNIC(event: any) {
+  let value = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
+  if (value.length > 5) value = value.slice(0, 5) + '-' + value.slice(5);
+  if (value.length > 13) value = value.slice(0, 13) + '-' + value.slice(13);
+  this.PatientForm.controls['cnic'].setValue(value, { emitEvent: false });
+}
+
 
 }

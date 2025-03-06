@@ -90,7 +90,7 @@
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Age</mat-label>
-                        <input matInput formControlName="age" placeholder="Enter Age">
+                        <input matInput formControlName="age" type="number" min="0" placeholder="Enter Age">
                         <mat-error *ngIf="PatientForm.controls['age'].touched && !PatientForm.controls['age'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['age'].hasError(validation.type)">
@@ -105,26 +105,76 @@
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Date</mat-label>
                         <input matInput [matDatepicker]="picker" placeholder="Select Date"
-                            formControlName="appoitmentTime" [min]="minDate" [max]="maxDate">
+                            formControlName="appoitmentDate" [min]="minDate" [max]="maxDate">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
                         <mat-error
-                            *ngIf="PatientForm.controls['appoitmentTime'].touched && !PatientForm.controls['appoitmentTime'].valid">
+                            *ngIf="PatientForm.controls['appoitmentDate'].touched && !PatientForm.controls['appoitmentDate'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
-                                <span *ngIf="PatientForm.controls['appoitmentTime'].hasError(validation.type)">
+                                <span *ngIf="PatientForm.controls['appoitmentDate'].hasError(validation.type)">
                                     {{ validation.message }}
                                 </span>
                             </ng-container>
                         </mat-error>
-                    </mat-form-field>
-
-                    <mat-form-field appearance="outline" class="w-100">
+                    </mat-form-field>  
+                   
+                    <!--<mat-form-field appearance="outline" class="w-100">
                         <mat-label>Appointment Time</mat-label>
                         <input matInput type="time" formControlName="appoitmentTime">
 
-                    </mat-form-field>
+                    </mat-form-field>-->
+                    <!-- <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Day</mat-label>
+                        <mat-select formControlName="dayId">
+                            <mat-option *ngFor="let day of weekDays" [value]="day.id">
+                                {{ day.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
                 </div>
             </div>
+            <div class="row">
+                <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Select Slot</mat-label>
+                    <input matInput formControlName="timeSlot" placeholder="Select a time" readonly>
+                    <mat-error *ngIf="PatientForm.controls['timeSlot'].touched && !PatientForm.controls['timeSlot'].valid">
+                        <ng-container *ngFor="let validation of validationMessages.value">
+                            <span *ngIf="PatientForm.controls['timeSlot'].hasError(validation.type)">
+                                {{ validation.message }}
+                            </span>
+                        </ng-container>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            
+            <!-- Time Slots Pagination -->
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12  col-12 d-flex justify-content-center">
+                    <div class="time-slot-container">
+                        <!-- Left Button -->
+                        <button mat-icon-button type="button" (click)="scrollLeft()" [disabled]="currentPage === 0">
+                            <mat-icon class="mat-icon-color">chevron_left</mat-icon>
+                        </button>
+
+                        <!-- Time Slots -->
+                        <div class="time-slot-wrapper">
+                            <button type="button" *ngFor="let slot of paginatedSlots" class="time-slot-btn"
+                                [ngClass]="{ 'selected': selectedSlot === slot }" (click)="selectSlot(slot)">
+                                {{ slot }}
+                            </button>
+                        </div>
+
+                        <!-- Right Button -->
+                        <button mat-icon-button type="button" (click)="scrollRight()"
+                            [disabled]="(currentPage + 1) * slotsPerPage >= doctorAvailibalTimeSlots.length">
+                            <mat-icon class="mat-icon-color">chevron_right</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            
+            
 
             <div class="row">
                 <div class="col-12 col-md-6 mb-3">
@@ -145,15 +195,15 @@
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>CNIC</mat-label>
-                        <input matInput formControlName="cnic" placeholder="XXX">
+                        <input matInput formControlName="cnic" placeholder="XXXXX-XXXXXXX-X" (input)="formatCNIC($event)">
                         <mat-error *ngIf="PatientForm.controls['cnic'].touched && !PatientForm.controls['cnic'].valid">
-                            <ng-container *ngFor="let validation of validationMessages.value">
-                                <span *ngIf="PatientForm.controls['cnic'].hasError(validation.type)">
-                                    {{ validation.message }}
-                                </span>
-                            </ng-container>
+                          <ng-container *ngFor="let validation of validationMessages.cnic">
+                            <span *ngIf="PatientForm.controls['cnic'].hasError(validation.type)">
+                              {{ validation.message }}
+                            </span>
+                          </ng-container>
                         </mat-error>
-                    </mat-form-field>
+                      </mat-form-field>
                 </div>
             </div>
 
