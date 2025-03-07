@@ -18,8 +18,9 @@
 }
 
 /* Ensure columns take width according to content */
-.mat-column-cnic,
-.mat-column-AppointmentTime {
+.mat-column-cnic,.mat-column-city,.mat-column-firstName,.mat-column-lastName,.mat-column-timeSlot,
+.mat-column-AppointmentTime
+ {
     width: auto;
     min-width: fit-content; /* Adjusts based on content */
     white-space: nowrap; /* Prevents wrapping */
