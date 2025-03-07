@@ -44,7 +44,7 @@ export class Messages {
             { type: 'pattern', message: 'Enter a valid Mobile number' },
             { type: 'whitespace', message: 'Only whitespace is not allowed ' },
             { type: 'minlength', message: 'Mobile Number must be at least 11 number ' },
-            { type: 'maxlength', message: 'Mobile Number should not be more than 12 number' }
+            { type: 'maxlength', message: 'Mobile Number should not be more than 11 number' }
         ],
 
         'mobileLength': [

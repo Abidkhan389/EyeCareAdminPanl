@@ -7,7 +7,7 @@ import { finalize } from 'rxjs';
 import { Helpers } from 'src/app/_common/_helper/app_helper';
 import { DayOfWeek, DoctorAvailabalTime } from 'src/app/_common/_helper/enum';
 import { ResultMessages } from 'src/app/_common/constant';
-import { showErrorMessage } from 'src/app/_common/messages';
+import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { DoctorAvailabilityService } from 'src/app/doctor-availability/Services/doctor-availability.service';
 import { MaterialModule } from 'src/app/material.module';
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
@@ -162,8 +162,15 @@ export class AddEditDoctorAvailabilityComponent implements OnInit {
     if (this.data.id)
       model.Id = this.data.id
     this.doctorAvailabilityService.addEditDoctorAvaibality(model).subscribe((data: any) => {
-      
-      this.dialogref.close(true);
+      if(data.success)
+            {
+              showSuccessMessage(data.message);
+              this.dialogref.close(true);
+            }
+            else{
+              showErrorMessage(data.message);
+              this.loading = true;
+            }
     });
 
   }

@@ -6,7 +6,7 @@ export class Patterns {
   
     public static codeRegex: RegExp = /^[0-9]{6}$/;
   
-    public static CnicPattern: RegExp = /\d{5}\d{7}\d/;
+    public static CnicPattern: RegExp = /^\d{5}-\d{7}-\d$/;
   
     public static nameRegex: RegExp = /^[A-Za-z ]+$/;
   

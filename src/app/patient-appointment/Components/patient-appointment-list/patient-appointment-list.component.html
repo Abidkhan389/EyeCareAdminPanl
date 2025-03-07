@@ -103,99 +103,112 @@
 <div class="material striped table-container">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
-    <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)" 
-        style="max-width: 100%; width: 100%;">
+    <!-- Scrollable Table Wrapper -->
+    <div class="table-wrapper">
+        <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)">
+            <!-- Table Columns -->
+            <ng-container matColumnDef="sn.">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let patient">{{ patient.serialNo }}</td>
+            </ng-container>
 
-        <!-- Hashing Column -->
-        <ng-container matColumnDef="sn.">
-            <th mat-header-cell *matHeaderCellDef> # </th>
-            <td mat-cell *matCellDef="let patient">{{ patient.serialNo }}</td>
-        </ng-container>
-        <!-- Status Column -->
-        <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef> Status </th>
-            <td mat-cell *matCellDef="let patient">
-                <mat-slide-toggle [disabled]="loading" [checked]="patient.status == 1"
-                    (change)="updateStatus($event.checked, patient)">
-                    <i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
-                </mat-slide-toggle>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let patient">
+                    <mat-slide-toggle [disabled]="loading" [checked]="patient.status == 1"
+                        (change)="updateStatus($event.checked, patient)">
+                        <i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
 
-        <!-- Actions Column -->
-        <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef> Actions </th>
-            <td mat-cell *matCellDef="let patient">
-                <button mat-icon-button class="action-button" color="primary"
-                    (click)="viewPatientAppointment(patient.patientId)">
-                    <i class="fa fa-eye me-2"></i>
-                </button>
-                <button mat-icon-button color="primary" *ngIf="patient.status == 1"
-                    (click)="AddEdit(patient.patientId)">
-                    <i class="fa fa-edit me-1"></i>
-                </button>
-            </td>
-        </ng-container>
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="wide-column"> Actions </th>
+                <td mat-cell *matCellDef="let patient">
+                    <button mat-icon-button class="action-button" color="primary"
+                        (click)="viewPatientAppointment(patient.patientId)">
+                        <i class="fa fa-eye me-2"></i>
+                    </button>
+                    <button mat-icon-button color="primary" *ngIf="patient.status == 1"
+                        (click)="AddEdit(patient.patientId)">
+                        <i class="fa fa-edit me-1"></i>
+                    </button>
+                </td>
+            </ng-container>
 
-         <!-- First Name Column -->
-         <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef> First Name </th>
-            <td mat-cell *matCellDef="let patient"> {{ patient?.firstName }} </td>
-        </ng-container>
+            <ng-container matColumnDef="firstName">
+                <th mat-header-cell *matHeaderCellDef> First Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.firstName }} </td>
+            </ng-container>
 
-        <!-- Last Name Column -->
-        <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-            <td mat-cell *matCellDef="let patient"> {{ patient.lastName }} </td>
-        </ng-container>
+            <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient.lastName }} </td>
+            </ng-container>
 
-        <!-- gender Column -->
-        <ng-container matColumnDef="gender">
-            <th mat-header-cell *matHeaderCellDef> Gender </th>
-            <td mat-cell *matCellDef="let patient"> {{ patient?.gender }} </td>
-        </ng-container>
-        <!-- cnic Column -->
-        <ng-container matColumnDef="cnic">
-            <th mat-header-cell *matHeaderCellDef> cnic </th>
-            <td mat-cell *matCellDef="let patient"> {{ patient?.cnic }} </td>
-        </ng-container>
-        <!-- patientPhoneNumber Column -->
-       <ng-container matColumnDef="patientPhoneNumber">
-        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
-        </ng-container>
-          <!-- doctoerName Column -->
-          <ng-container matColumnDef="doctoerName">
-            <th mat-header-cell *matHeaderCellDef> Doctoer Name </th>
-            <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
-        </ng-container>
-         <!-- CheckUpStatus Column -->
-       <ng-container matColumnDef="CheckUpStatus">
-        <th mat-header-cell *matHeaderCellDef> CheckUp Status </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.checkUpStatus }} </td>
-        </ng-container>
-       <!-- AppointmentTime Column -->
-       <ng-container matColumnDef="AppointmentTime">
-        <th mat-header-cell *matHeaderCellDef> Appointment Time </th>
-        <td mat-cell *matCellDef="let patient"> {{ patient?.appointmentTime }} </td>
-        </ng-container>
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.gender }} </td>
+            </ng-container>
 
-        <!-- Header Row -->
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <ng-container matColumnDef="cnic">
+                <th mat-header-cell *matHeaderCellDef> CNIC </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.cnic }} </td>
+            </ng-container>
 
-        <!-- Data Rows -->
-        <tr mat-row *matRowDef="let patient; columns: displayedColumns;"></tr>
+            <ng-container matColumnDef="patientPhoneNumber">
+                <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
+            </ng-container>
 
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-row" *matNoDataRow>
-            <td style="text-align: center;" class="mat-cell" [attr.colspan]="displayedColumns.length">
-                No data found.
-            </td>
-        </tr>
-    </table>
+            <ng-container matColumnDef="doctoerName">
+                <th mat-header-cell *matHeaderCellDef> Doctor Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CheckUpStatus">
+                <mat-header-cell *matHeaderCellDef class="status-icon">CheckUp Status</mat-header-cell>
+                <mat-cell *matCellDef="let patient">
+                    <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
+                        <button mat-icon-button class="status-icon">
+                            <mat-icon>schedule</mat-icon>
+                        </button>
+                    </ng-container>
+                    <ng-template #checkedIcon>
+                        <button mat-icon-button class="status-icon">
+                            <span class="material-icons">done</span>
+                        </button>
+                    </ng-template>
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="timeSlot">
+                <th mat-header-cell *matHeaderCellDef> Time Slot</th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.timeSlot }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="AppointmentTime">
+                <th mat-header-cell *matHeaderCellDef> Appointment Time </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.appointmentTime | date: 'yyyy-MM-dd' }} </td>
+            </ng-container>
+
+            <!-- Header Row -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <!-- Data Rows -->
+            <tr mat-row *matRowDef="let patient; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td style="text-align: center;" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                    No data found.
+                </td>
+            </tr>
+        </table>
+    </div>
 
     <!-- Paginator -->
-    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit" 
+    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit"
         showFirstLastButtons [pageSizeOptions]="[5, 10, 25, 50, 100]">
     </mat-paginator>
 </div>
