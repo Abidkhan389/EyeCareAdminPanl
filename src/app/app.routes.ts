@@ -22,11 +22,7 @@ export const routes: Routes = [
         data: {
           title: 'Starter',
           urls: [{ title: 'Starter', url: '/starter' }, { title: 'Starter' }],
-           allowedRoles: [
-             ROLES.SuperAdmin,
-             ROLES.Admin,
-             ROLES.Rerecptionist
-          ],
+           allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor],
         },
         canActivate: [AuthGuard],
       },
@@ -55,7 +51,7 @@ export const routes: Routes = [
             { title: 'Settings', url: '/Settings' },
             { title: 'Settings' },
           ],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor,ROLES.Rerecptionist],
         },
         canActivate: [AuthGuard],
       },
@@ -140,7 +136,7 @@ export const routes: Routes = [
         data: {
           title: 'PatientAppointment',
           urls: [{ title: 'PatientAppointment', url: '/patientAppointment' }, { title: 'PatientAppointment' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Rerecptionist],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Doctor,ROLES.Rerecptionist],
          
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -154,7 +150,7 @@ export const routes: Routes = [
         data: {
           title: 'DoctorAvailability',
           urls: [{ title: 'DoctorAvailability'}, { title: 'DoctorAvailability' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
+          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
          
         },
         canActivate: [AuthGuard,RoleGuard],
