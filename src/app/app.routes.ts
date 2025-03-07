@@ -138,7 +138,7 @@ export const routes: Routes = [
                 (_) => _.PatientAppointmentModule
               ),
         data: {
-          
+          title: 'PatientAppointment',
           urls: [{ title: 'PatientAppointment', url: '/patientAppointment' }, { title: 'PatientAppointment' }],
           allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Rerecptionist],
          
@@ -152,8 +152,8 @@ export const routes: Routes = [
                 (_) => _.DoctorAvailabilityModule
               ),
         data: {
-          
-          urls: [{ title: 'DoctorAvailability', url: '/doctorAvailability' }, { title: 'DoctorAvailability' }],
+          title: 'DoctorAvailability',
+          urls: [{ title: 'DoctorAvailability'}, { title: 'DoctorAvailability' }],
           allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          
         },

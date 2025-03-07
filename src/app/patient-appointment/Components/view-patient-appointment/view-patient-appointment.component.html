@@ -1,1 +1,82 @@
-<p>view-patient-appointment works!</p>
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-card-content>
+      <div class="container">
+        <div class="row p-y-15">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">First Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ patientAppointment?.firstName  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">Last Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ patientAppointment?.lastName  || 'N/A'}}
+            </h6>
+          </div>
+        </div>
+        <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Gender: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.gender  || 'N/A'}}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">CNIC: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.cnic  || 'N/A'}}
+              </h6>
+            </div>
+          </div>
+          <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">City: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.city  || 'N/A'}}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">Phone Number: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.phoneNumber  || 'N/A'}}
+              </h6>
+            </div>
+          </div>
+          <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Doctor Name: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.doctorName  || 'N/A'}}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">Time Slot: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.timeSlot  || 'N/A'}}
+              </h6>
+            </div>
+          </div>
+          <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Appintment Date: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.appoitmentDate|date:'dd/MM/yyyy'  || 'N/A' }}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">Age: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ patientAppointment?.age  || 'N/A'}}
+              </h6>
+            </div>
+          </div>
+                 
+      </div>
+    </mat-card-content>
+  
+  
+  
