@@ -157,7 +157,7 @@ export class MedicineListComponent {
       autoFocus: false,
       width: '60%',
       data: {
-        MedicineTypeId: Id,
+        MedicineId: Id,
       },
     })
     dialogref.afterClosed().subscribe({

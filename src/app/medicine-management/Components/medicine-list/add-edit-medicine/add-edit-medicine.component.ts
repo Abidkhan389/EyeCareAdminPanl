@@ -43,7 +43,7 @@ export class AddEditMedicineComponent implements OnInit{
   ngOnInit(): void {
     this.validateform();
     if (this.data.MedicineId) {
-      this.GetMedicineType()
+      this.GetMedicineById()
     }
     this.GetAllDoctors();
     this.GetAllMedicineTypeList();
@@ -88,7 +88,7 @@ export class AddEditMedicineComponent implements OnInit{
       this.medicinePotency.at(index).setValue(value);
     }
   }
-  GetMedicineType() {
+  GetMedicineById() {
     this.loading = true;
     let model = Object.assign({});
     model.id = this.data.MedicineId;
@@ -101,14 +101,14 @@ export class AddEditMedicineComponent implements OnInit{
     .subscribe(
       (result: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
         if (result) {
+          debugger;
           this.MedicinesForm.patchValue({
-            typeName: result.data.typeName, 
-          });
-          
-          // Populate `medicinePotency` FormArray
-          this.medicinePotency.clear(); // Clear existing form array values
-          result.data.medicinePotency.forEach((potency: string) => {
-            this.medicinePotency.push(new FormControl(potency, Validators.required));
+            medicineTypeId: result.data.medicineTypeId, 
+            medicineName : result.data.medicineName,
+            medicineTypePotencyId : result.data.medicineTypePotencyId,
+            doctorId: result.data.doctorId,
+            expiryDate:result.data.expiryDate
+
           });
           
           if (this.data.IsReadOnly) {
@@ -129,8 +129,9 @@ export class AddEditMedicineComponent implements OnInit{
     // if(phn){
     //   model.mobileNumber = phn;
     // }
+    debugger;
     if (this.data.MedicineId)
-      model.MedicineId = this.data.MedicineId
+      model.id = this.data.MedicineId
       this.medicineService.addEditMedicines(model).subscribe((data: any) => {
       this.loading = false;
       this.dialogref.close(true);
