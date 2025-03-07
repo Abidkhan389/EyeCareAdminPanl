@@ -39,7 +39,7 @@ export class PatientAppointmentListComponent {
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','patientPhoneNumber','AppointmentTime','timeSlot','CheckUpStatus','doctoerName','actions'];
+  displayedColumns: string[] = ['sn.', 'status','firstName','lastName','gender','cnic','city','patientPhoneNumber','AppointmentTime','timeSlot','CheckUpStatus','doctoerName','actions'];
 
   pageSize = 5;
   currentPage = 1;
@@ -65,7 +65,7 @@ export class PatientAppointmentListComponent {
       firstName: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
       lastName: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
       city: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
-      cnic: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
+      cnic: ['', [NoWhitespaceValidator,  Validators.maxLength(50)]],
       mobileNumber: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.Num), Validators.maxLength(50)]]
     });
   }

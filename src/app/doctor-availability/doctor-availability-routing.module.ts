@@ -17,10 +17,10 @@ const doctorAvailabilityRoutes: Routes = [
         path: 'view/:id',
         component: ViewDoctorAvailabilityComponent,
         data: {
-          title: 'PatientAppointment',
+          title: 'DoctorAvailability',
           urls: [
             { title: 'Dashboard', url: '/doctorAvailability' },
-            { title: 'PatientAppointment' },
+            { title: 'DoctorAvailability' },
           ],
         },
       },
