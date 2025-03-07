@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserManagementListComponent } from './Components/user-management-list/user-management-list.component';
-import { UsermanagementFormComponent } from './Components/usermanagement-form/usermanagement-form.component';
-import { UserManagementViewComponent } from './Components/user-management-view/user-management-view.component';
 import { userManagementComponent } from './userManagement.component';
+import { UserListComponent } from './Components/user-list/user-list.component';
+import { ViewUserComponent } from './Components/view-user/view-user.component';
 const UserManagementRoutes: Routes = [
   {
     path: '',
@@ -11,11 +10,12 @@ const UserManagementRoutes: Routes = [
     children: [
       {
         path: '',
-        component: UserManagementListComponent,
+        component: UserListComponent,
       },
+      
       {
-        path: 'create',
-        component: UsermanagementFormComponent,
+        path: 'view/:id',
+        component: ViewUserComponent,
         data: {
           title: 'User',
           urls: [
@@ -25,28 +25,6 @@ const UserManagementRoutes: Routes = [
         },
       },
       
-      {
-        path: 'view/:id',
-        component: UserManagementViewComponent,
-        data: {
-          title: 'User',
-          urls: [
-            { title: 'Dashboard', url: '/user' },
-            { title: 'User' },
-          ],
-        },
-      },
-      {
-        path: 'edit/:id',
-        component: UsermanagementFormComponent,
-        data: {
-          title: 'User',
-          urls: [
-            { title: 'Dashboard', url: '/user' },
-            { title: 'User' },
-          ],
-        },
-      },
     ],
   },
 ];
