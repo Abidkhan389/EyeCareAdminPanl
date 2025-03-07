@@ -27,7 +27,7 @@ export class AuthGuard implements CanActivate {
 
     if (!hasAccess) {
       // Redirect unauthorized users to the authentication page
-      this.router.navigate(['/authentication/login']);
+      this.router.navigate(['/authentication/error']);
 
 
       return false;

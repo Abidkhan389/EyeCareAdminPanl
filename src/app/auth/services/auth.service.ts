@@ -74,7 +74,7 @@ export class AuthService {
     },
     router: Router
   ) {
-    if (response.roles.includes('ADMIN') || response.roles.includes('SUPERADMIN'))
+    if (response.roles.includes('Admin') || response.roles.includes('SuperAdmin') || response.roles.includes('Doctor') || response.roles.includes('Receptionist') )
     {
       router.navigate(['']);
     }      

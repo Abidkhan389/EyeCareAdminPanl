@@ -10,7 +10,7 @@ export const navItems: NavItem[] = [
     displayName: 'Dashboard',
     iconName: 'mdi:view-dashboard-outline', // Home icon from Material Design Icons
     route: '/starter',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
+    allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor],
   },
   
   {
@@ -49,12 +49,12 @@ export const navItems: NavItem[] = [
     displayName: 'Patient Appointment',
     iconName: 'mdi:calendar-check', // Store icon for medicine type
     route: '/patientAppointment',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Rerecptionist],
+    allowedRoles: [ROLES.SuperAdmin, ROLES.Doctor,ROLES.Rerecptionist],
   },
   {
     displayName: 'Doctor Availability',
     iconName: 'mdi:calendar-clock', // Represents scheduling and availability
     route: '/doctorAvailability',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
+    allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
   },
 ];
