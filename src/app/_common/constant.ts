@@ -9,6 +9,7 @@ export const MessageTypes = {
 
 export const ResultMessages = {
     serverError: "Internal Server Error",
+    noSlotsFound: "No Slots Found",
     loginError: "Please log in first",
     notExist: "Data not Exist",
     requiredAllField: "Please fill all feilds",

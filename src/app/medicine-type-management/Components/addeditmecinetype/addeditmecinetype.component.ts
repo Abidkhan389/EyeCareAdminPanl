@@ -8,7 +8,7 @@ import { Patterns } from 'src/app/shared/Validators/patterns';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { finalize } from 'rxjs';
-import { showErrorMessage } from 'src/app/_common/messages';
+import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { ResultMessages } from 'src/app/_common/constant';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/material.module';
@@ -116,8 +116,15 @@ export class AddeditmecinetypeComponent {
     if (this.data.MedicineTypeId)
       model.medicineTypeId = this.data.MedicineTypeId
       this.medicineTypeService.addEditMedicineType(model).subscribe((data: any) => {
-      this.loading = false;
-      this.dialogref.close(true);
+      if(data.success)
+                 {
+                   showSuccessMessage(data.message);
+                   this.dialogref.close(true);
+                 }
+                 else{
+                   showErrorMessage(data.message);
+                   this.loading = true;
+                 }
     });
   }
    //Its Close The DialogRef Modal

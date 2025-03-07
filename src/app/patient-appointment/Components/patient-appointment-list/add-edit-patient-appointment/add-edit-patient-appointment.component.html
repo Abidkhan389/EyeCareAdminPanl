@@ -69,7 +69,7 @@
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Doctor</mat-label>
-                        <mat-select formControlName="doctorId">
+                        <mat-select formControlName="doctorId" (selectionChange)="onDoctorChange($event.value)">
                             <mat-option *ngFor="let doctor of DoctorList" [value]="doctor.id">
                                 {{ doctor.userName }}
                             </mat-option>
@@ -90,7 +90,7 @@
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Age</mat-label>
-                        <input matInput formControlName="age" type="number" min="0" placeholder="Enter Age">
+                        <input matInput formControlName="age" type="number" min="0" max="130" placeholder="Enter Age">
                         <mat-error *ngIf="PatientForm.controls['age'].touched && !PatientForm.controls['age'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
                                 <span *ngIf="PatientForm.controls['age'].hasError(validation.type)">
@@ -104,19 +104,28 @@
                 <div class="col-12 col-md-6 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Date</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="Select Date"
-                            formControlName="appoitmentDate" [min]="minDate" [max]="maxDate">
+                        <input  
+                          matInput 
+                          [matDatepicker]="picker" 
+                          placeholder="Select Date"
+                          formControlName="appoitmentDate" 
+                          [min]="minDate" 
+                          [max]="maxDate" 
+                           
+                          (dateChange)="onDateChange($event.value)">
+                          
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker></mat-datepicker>
-                        <mat-error
-                            *ngIf="PatientForm.controls['appoitmentDate'].touched && !PatientForm.controls['appoitmentDate'].valid">
-                            <ng-container *ngFor="let validation of validationMessages.value">
-                                <span *ngIf="PatientForm.controls['appoitmentDate'].hasError(validation.type)">
-                                    {{ validation.message }}
-                                </span>
-                            </ng-container>
+                        
+                        <mat-error *ngIf="PatientForm.controls['appoitmentDate'].touched && !PatientForm.controls['appoitmentDate'].valid">
+                          <ng-container *ngFor="let validation of validationMessages.value">
+                            <span *ngIf="PatientForm.controls['appoitmentDate'].hasError(validation.type)">
+                              {{ validation.message }}
+                            </span>
+                          </ng-container>
                         </mat-error>
-                    </mat-form-field>  
+                      </mat-form-field>
+                      
                    
                     <!--<mat-form-field appearance="outline" class="w-100">
                         <mat-label>Appointment Time</mat-label>
@@ -183,7 +192,7 @@
                         <input matInput formControlName="phoneNumber" placeholder="03">
                         <mat-error
                             *ngIf="PatientForm.controls['phoneNumber'].touched && !PatientForm.controls['phoneNumber'].valid">
-                            <ng-container *ngFor="let validation of validationMessages.value">
+                            <ng-container *ngFor="let validation of validationMessages.mobile">
                                 <span *ngIf="PatientForm.controls['phoneNumber'].hasError(validation.type)">
                                     {{ validation.message }}
                                 </span>

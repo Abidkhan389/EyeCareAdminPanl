@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, finalize, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -37,14 +37,17 @@ export class PatientAppointmentService {
                 })
               );
             }
-            getpatientAppointmentById(modal: any): Observable<any> {
+            getPatientAppointmentById(modal: any): Observable<any> {
+              const params = new HttpParams().set('PatientId', modal.id);
+            
               const endpoint = `${this.apiUrl}/GetPatientById`;
-              return this.http.post<any>(endpoint, modal).pipe( 
+              return this.http.get<any>(endpoint, { params }).pipe(
                 finalize(() => {
                   console.log("API call completed");
                 })
               );
             }
+            
             addEditpatientAppointment(modal: any): Observable<any> {
               const endpoint = `${this.apiUrl}/AddEditPatient`;
               return this.http.post<any>(endpoint, modal).pipe( 
