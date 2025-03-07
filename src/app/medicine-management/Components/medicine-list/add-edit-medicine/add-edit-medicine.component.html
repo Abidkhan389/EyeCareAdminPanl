@@ -1,1 +1,114 @@
-<p>add-edit-medicine works!</p>
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+</div>
+<div class="col-lg-12 modal-content">
+    <!-- Close Button Row -->
+    <div class="modal-header row d-flex justify-content-end ">
+
+        <button mat-icon-button class="close-btn buttonMargin" (click)="closeClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+        <form [formGroup]="MedicinesForm" (ngSubmit)="AddEdit()">
+            <div class="row">
+                <!-- witnesses -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Doctor</mat-label>
+                        <mat-select formControlName="doctorId">
+                            <mat-option *ngFor="let type of DoctorList" [value]="type.id">
+                              {{ type.userName }}
+                            </mat-option>
+                          </mat-select>
+                        <mat-error *ngIf="MedicinesForm.get('id')?.hasError('required')">
+                            Medicine type is required.
+                          </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Date of Incident -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>{{ "Type Name" | translate }}</mat-label>
+                        <input matInput type="text" formControlName="medicineName" placeholder="Medicine Name" />
+                        <mat-error *ngIf="MedicinesForm.get('medicineName')?.hasError('required')">
+                            Medicine Name is required
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- witnesses -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Medicine Type</mat-label>
+                        <mat-select formControlName="medicineTypeId">
+                            <mat-option *ngFor="let type of medicineTypesList" [value]="type.medicineTypeId">
+                              {{ type.medicineTypeName }}
+                            </mat-option>
+                          </mat-select>
+                        <mat-error *ngIf="MedicinesForm.get('medicineTypeId')?.hasError('required')">
+                            Medicine type is required.
+                          </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <!-- witnesses -->
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Medicine Type</mat-label>
+                        <mat-select formControlName="medicineTypePotencyId">
+                            <mat-option *ngFor="let type of medicinePotencyList" [value]="type.medicineTypePotencyId">
+                              {{ type.potency }}
+                            </mat-option>
+                          </mat-select>
+                        <mat-error *ngIf="MedicinesForm.get('medicineTypePotencyId')?.hasError('required')">
+                            Medicine potency is required.
+                          </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Select Expiry Date</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="Select Expiry Date"
+                            formControlName="expiryDate" [min]="minDate" [max]="maxDate">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                        <mat-error
+                            *ngIf="MedicinesForm.controls['expiryDate'].touched && !MedicinesForm.controls['expiryDate'].valid">
+                            <ng-container *ngFor="let validation of validationMessages.value">
+                                <span *ngIf="MedicinesForm.controls['expiryDate'].hasError(validation.type)">
+                                    {{ validation.message }}
+                                </span>
+                            </ng-container>
+                        </mat-error>
+                    </mat-form-field> 
+                </div>
+            </div>
+           
+              
+             <!-- Modal Footer -->
+                <div class="modal-footer d-flex justify-content-end">
+                    <button mat-raised-button color="secondary" class="closeButtonMargin" type="button" (click)="closeClick()">
+                        <i class="fa fa-close"></i> Cancel
+                    </button>
+                    
+                    <button mat-raised-button color="primary" type="submit" class="saveButton" [disabled]="MedicinesForm.invalid">
+                        {{ data.MedicineId ? "Update Medicine" : "Create Medicine" }}
+                    </button>
+                </div>
+        </form>
+    </div>
+
+
+   
+</div>
+

@@ -1,1 +1,50 @@
-<p>view-medicine works!</p>
+
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+  </div>
+    <mat-card-content>
+      <div class="container">
+        <div class="row p-y-15">
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Medicine Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ medicineDetail?.medicineName  || 'N/A'}}
+            </h6>
+          </div>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+            <span class="f-w-600 f-s-15 mat-body-1">Doctor Name: </span>
+            <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+              {{ medicineDetail?.doctorId  || 'N/A'}}
+            </h6>
+          </div>
+        </div>
+
+        <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Medicine Type: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ medicineDetail?.medicineTypeName  || 'N/A'}}
+              </h6>
+            </div>
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+              <span class="f-w-600 f-s-15 mat-body-1">Medicine Potency: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ medicineDetail?.medicineTypePotencyName  || 'N/A'}}
+              </h6>
+            </div>
+          </div>
+
+          <div class="row p-y-15">
+            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+              <span class="f-w-600 f-s-15 mat-body-1">Expiry Date: </span>
+              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                {{ medicineDetail?.startingDate  || 'N/A'}}
+              </h6>
+            </div>           
+          </div>
+                 
+      </div>
+    </mat-card-content>
+  
+  
+  
