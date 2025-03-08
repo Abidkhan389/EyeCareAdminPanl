@@ -12,10 +12,10 @@ export class medicineTypeManagementComponent {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.route.data.subscribe((data) => {
-      if (data['title']) {
-        this.title.next(data['title']); // Dynamically update title from route data
-      }
-    });
+    // this.route.data.subscribe((data) => {
+    //   if (data['title']) {
+    //     this.title.next(data['title']); // Dynamically update title from route data
+    //   }
+    // });
   }
 }
