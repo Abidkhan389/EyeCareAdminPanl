@@ -106,7 +106,7 @@ export const routes: Routes = [
                 (_) => _.MedicineTypeManagementModule
               ),
         data: {
-          //title: 'MedicineType',
+          title: 'MedicineType',
           urls: [{ title: 'MedicineType', url: '/medicineType' }, { title: 'MedicineType' }],
           allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          
@@ -120,7 +120,7 @@ export const routes: Routes = [
                 (_) => _.MedicineManagementModule
               ),
         data: {
-          //title: 'Medicine',
+          title: 'Medicine',
           urls: [{ title: 'Medicine', url: '/medicine' }, { title: 'Medicine' }],
           allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor],
          

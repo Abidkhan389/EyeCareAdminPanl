@@ -17,7 +17,7 @@ const MedicineTypeManagementRoutes: Routes = [
         path: 'view/:id',
         component: ViewMedicineComponent,
         data: {
-          //title: 'Medicine',
+          title: 'Medicine',
           urls: [
             { title: 'Dashboard', url: '/medicine' },
             { title: 'Medicine' },
