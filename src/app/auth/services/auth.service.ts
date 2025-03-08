@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router, Routes } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+import { TokenHelper } from 'src/app/_common/tokenHelper';
 
 @Injectable({
   providedIn: 'root',
@@ -57,6 +58,7 @@ export class AuthService {
     localStorage.removeItem('lastName');
     localStorage.removeItem('profilePicture');
     localStorage.removeItem('email');
+    TokenHelper.removeAccessToken();
 
     this.router.navigate(['authentication/login']);
   }
