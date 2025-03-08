@@ -190,7 +190,7 @@ export class AddEditPatientAppointmentComponent {
       }
       else{
         showErrorMessage(data.message);
-        this.loading = true;
+        this.loading = false;
       }
       
     });

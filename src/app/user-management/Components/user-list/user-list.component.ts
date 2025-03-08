@@ -161,7 +161,7 @@ form: FormGroup;
           autoFocus: false,
           width: '60%',
           data: {
-            MedicineTypeId: Id,
+            userId: Id,
           },
         })
         dialogref.afterClosed().subscribe({
@@ -174,6 +174,7 @@ form: FormGroup;
        }
     
       ViewUser(id: any): void {
+        debugger
         this.router.navigate(['view', id], { relativeTo: this.route });
       }
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, finalize, Observable } from 'rxjs';
+import { catchError, finalize, Observable, throwError } from 'rxjs';
 import { RepoResponse } from 'src/app/apiTypes/RepoResponse';
 import { environment } from 'src/environments/environment';
 @Injectable({
@@ -18,26 +18,36 @@ export class UserManagementService {
   }
 
   userActiveInActiveStatus(modal: any): Observable<any> {
-    const endpoint = `${this.apiUrl}/ActiveInActive`;
+    const endpoint = `${this.apiUrl}/ActiveInactive`;
     return this.http.post<any>(endpoint, modal).pipe(
       finalize(() => {
         console.log("API call completed");
       })
     );
   }
-  getPatientAppointmentById(modal: any): Observable<any> {
-    const params = new HttpParams().set('PatientId', modal.id);
+  getUserById(modal: any): Observable<any> {
+    const params = new HttpParams().set('userId', modal.id);
 
-    const endpoint = `${this.apiUrl}/GetPatientById`;
+    const endpoint = `${this.apiUrl}/GetUserById`;
     return this.http.get<any>(endpoint, { params }).pipe(
       finalize(() => {
         console.log("API call completed");
       })
     );
   }
+  getAllRoles(): Observable<any> {
+    const endpoint = `${this.apiUrl}/GetAllRoles`;
+    return this.http.get<any>(endpoint).pipe(
+      catchError(error => {
+        console.error("Error fetching roles:", error);
+        return throwError(() => error);
+      }),
+      finalize(() => console.log("API call completed"))
+    );
+  }
 
-  addEditpatientAppointment(modal: any): Observable<any> {
-    const endpoint = `${this.apiUrl}/AddEditPatient`;
+  addEditUser(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/AddEditUser`;
     return this.http.post<any>(endpoint, modal).pipe(
       finalize(() => {
         console.log("API call completed");
@@ -45,15 +55,5 @@ export class UserManagementService {
     );
   }
 
-  deleteUsers(ids: any): Observable<boolean> {
-    return this.http.post<boolean>(this.apiUrl + '/Delete', Array.isArray(ids) ? ids : [ids]);
-  }
-  getDoctorAppointmentsSlotsOfDay(modal: any): Observable<any> {
-    const endpoint = `${this.apiUrl}/GetDoctorAppointmentsSlotsOfDay`;
-    return this.http.post<any>(endpoint, modal).pipe(
-      finalize(() => {
-        console.log("API call completed");
-      })
-    );
-  }
+  
 }

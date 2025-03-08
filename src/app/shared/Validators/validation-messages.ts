@@ -96,7 +96,7 @@ export class Messages {
             { type: 'minlength', message: 'Password must be at least 4 characters ' },
             { type: 'maxlength', message: 'Password must be at most 20 characters ' },
             { type: 'pattern', message: 'Password must contain at least one uppercase, lowercase, number, special character and no space' },
-            { type: 'tooltip', message: 'Password must be at least 8 and at most 20 characters ,must contain at least one uppercase, lowercase, number, special character and no space' }
+            { type: 'tooltip', message: 'Password must be at least 4 and at most 20 characters ,must contain at least one uppercase, lowercase, number, special character and no space' }
         ],
         'confirmPassword': [
             { type: 'required', message: 'Confirm Password is required' },
@@ -120,14 +120,14 @@ export class Messages {
         'firstName': [
             { type: 'required', message: 'First Name is required' },
             { type: 'pattern', message: 'Enter a valid First Name ' },
-            { type: 'maxlength', message: 'First Name must not be greater than 50 characters' },
+            { type: 'maxlength', message: 'First Name must not be greater than 20 characters' },
             { type: 'whitespace', message: 'Only whitespace is not allowed ' }
             // { type: 'validUrl', message: 'Fashduxak' }
         ],
         'lastName': [
             { type: 'required', message: 'Last Name is required' },
             { type: 'pattern', message: 'Enter a valid Last Name ' },
-            { type: 'maxlength', message: 'Last Name must not be greater than 50 characters ' },
+            { type: 'maxlength', message: 'Last Name must not be greater than 20 characters ' },
             { type: 'whitespace', message: 'Only whitespace is not allowed' }
         ],
         'dateOfBirth': [
