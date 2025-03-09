@@ -64,7 +64,7 @@ export class MedicineListComponent {
   }
   validateForm(){
     this.form= this.fb.group({
-      typeName: ['', Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)])],
+      medicineName: ['', Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)])],
     })
   }
   updateStatus(event: any, medicine: any) {
@@ -213,7 +213,7 @@ export class MedicineListComponent {
       width: '60%',
       data: {
         MedicineId: medicineId,
-        MedicineName : medicineName
+        MedicineName : medicineName,
       },
     })
     dialogref.afterClosed().subscribe({

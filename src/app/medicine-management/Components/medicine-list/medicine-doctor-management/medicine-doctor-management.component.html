@@ -3,12 +3,18 @@
 </div>
 <div class="col-lg-12 modal-content">
     <!-- Close Button Row -->
-    <div class="modal-header row d-flex justify-content-end ">
-
+    <div class="modal-header d-flex justify-content-between align-items-center">
+        <mat-card-title>
+          {{
+            inEditMode
+              ? "Update Doctor Medicine Mapping"
+              : "Create Doctor Medicine Mapping"
+          }}
+        </mat-card-title>
         <button mat-icon-button class="close-btn buttonMargin" (click)="closeClick()">
-            <mat-icon>close</mat-icon>
+          <mat-icon>close</mat-icon>
         </button>
-    </div>
+      </div>
 
     <!-- Modal Body -->
     <div class="modal-body">
@@ -55,19 +61,18 @@
                     class="row py-2 dynamic-row"
                   >
                   <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
-                    {{ getDoctorName(item.get("id")?.value) }}
+                    {{ getDoctorName(item.get('doctorId')?.value) || 'No Doctor Found' }}
                   </div>
                     <div class="col-xl-5 col-lg-5 col-md-5 col-sm-5 col-12">
-                      {{ data.MedicineName }}
+                        {{ data?.MedicineName || 'No Medicine' }}
                     </div>
                     <div class="col-xl-2 col-lg-2 col-md-2 col-sm-2 col-12 text-end">
                       <button
                         mat-flat-button
                         color="warn"
                         type="button"
-                        (click)="removeFacultySubjectPair(i)"
-                      >
-                        {{ "Remove" | translate }}
+                        (click)="removeDoctorMedicinePair(i)"
+                      >Remove
                       </button>
                     </div>
                   </div>
@@ -80,8 +85,8 @@
                         <i class="fa fa-close"></i> Cancel
                     </button>
                     
-                    <button mat-raised-button color="primary" type="submit" class="saveButton" [disabled]="MedicinesDoctorForm.invalid">
-                        {{ data.MedicineId ? "Update Medicine" : "Create Medicine" }}
+                    <button mat-raised-button color="primary" type="submit" class="saveButton" [disabled]="MedicinesDoctorForm.invalid">                       
+                        {{ inEditMode ? "Update Doc-Med Map" : "Create Doc-Med Map" }}
                     </button>
                 </div>
         </form>

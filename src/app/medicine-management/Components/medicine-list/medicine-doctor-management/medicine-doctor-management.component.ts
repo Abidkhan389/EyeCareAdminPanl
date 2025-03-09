@@ -8,7 +8,7 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
-import { showErrorMessage } from 'src/app/_common/messages';
+import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { MaterialModule } from 'src/app/material.module';
 import { MedicinesService } from 'src/app/medicine-management/Services/medicines.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -26,6 +26,7 @@ import { doctorList } from 'src/app/interfaces/IDoctorList';
   styleUrl: './medicine-doctor-management.component.scss'
 })
 export class MedicineDoctorManagementComponent implements OnInit{
+  inEditMode: boolean = false;
   doctorIdsList: number[] = []; // Holds selected doctor IDs
   MedicinesDoctorForm: FormGroup;
   doctorControl = new FormControl([]);
@@ -42,6 +43,7 @@ export class MedicineDoctorManagementComponent implements OnInit{
   medicinePotencyList: any;
   arrayDefine: boolean = false;
   MedicineDoctorManagementList: any;
+  doctormedicineId:any;
   constructor(private medicineService: MedicinesService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<MedicineDoctorManagementComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -49,10 +51,41 @@ export class MedicineDoctorManagementComponent implements OnInit{
   ngOnInit(): void {
     this.validateform();
     if (this.data.MedicineId) {
-      //this.GetMedicineById()
+      this.GetDoctorMedicineById()
     }
     this.GetAllDoctors();
 
+  }
+  GetDoctorMedicineById(){
+      this.medicineService
+        .GetDoctorMedicineMapping(this.data.MedicineId).pipe(
+          finalize(() => {
+            this.loading = false;
+          }))
+          .subscribe(result => {       
+            if (result.success) {
+              debugger;
+              this.MedicineDoctorManagementList = result.data;
+              if (this.MedicineDoctorManagementList.doctorIds != null) {
+                this.MedicineDoctorManagementList.doctorIds.forEach(
+                  (pair: doctorList) => {
+                    this.doctorIds.push(
+                      this.fb.group({
+                        doctorId: new FormControl(pair.doctorId),
+                      })
+                    );
+                  }
+                );
+                this.MedicinesDoctorForm.patchValue(result.data);
+                this.inEditMode = true;
+              }
+              this.arrayDefine = true;
+            //this.isLoading = false;      
+            }
+          },
+            error => {
+              showErrorMessage(ResultMessages.serverError);
+            });      
   }
   validateform() {
     this.MedicinesDoctorForm= this.fb.group({
@@ -68,12 +101,12 @@ export class MedicineDoctorManagementComponent implements OnInit{
     this.doctorIds.push(studentGroup);
   }
 
-  createDoctorMedicineGroup(doctorId?: any): FormGroup {
+  createDoctorMedicineGroup(doctorId?: number): FormGroup {
     return this.fb.group({
       doctorId: [doctorId, Validators.required], // Changed to 'id' for consistency
     });
   }
-  removeFacultySubjectPair(index: number) {
+  removeDoctorMedicinePair(index: number) {
     this.doctorIds.removeAt(index);
   }
 
@@ -99,11 +132,21 @@ export class MedicineDoctorManagementComponent implements OnInit{
     // }
     debugger;
     if (this.data.MedicineId)
-      model.id = this.data.MedicineId
-      this.medicineService.addEditMedicines(model).subscribe((data: any) => {
-      this.loading = false;
-      this.dialogref.close(true);
+      model.medicineId = this.data.MedicineId
+      model.id = this.doctormedicineId
+
+      this.medicineService.addEditDoctorMedicines(model).subscribe((data: any) => {
+        if(data.success)
+          {
+            showSuccessMessage(data.message);
+            this.dialogref.close(true);
+          }
+          else{
+            showErrorMessage(data.message);
+            this.loading = false;
+          }
     });
+    
   }
    //Its Close The DialogRef Modal
    closeClick() {
@@ -118,18 +161,6 @@ export class MedicineDoctorManagementComponent implements OnInit{
       .subscribe(result => {
         if (result) {
           this.DoctorList = result.data;
-          // if (this.MedicineDoctorManagementList.doctorIds != null) {
-          //     this.MedicineDoctorManagementList.doctorIds.forEach(
-          //       (pair: doctorList) => {
-          //         this.doctorIds.push(
-          //           this.fb.group({
-          //             doctorId: new FormControl(pair.doctorId),
-          //           })
-          //         );
-          //       }
-          //     );
-          //     this.MedicinesDoctorForm.patchValue(result.data);
-          //   }  
         }
       },
         error => {
@@ -139,7 +170,7 @@ export class MedicineDoctorManagementComponent implements OnInit{
   AddDoctos() {
     this.doctorIdsList.forEach((doctorId) => {
       const exists = this.doctorIds.controls.some(
-        (control) => control.value.id === doctorId
+        (control) => control.value.doctorId === doctorId
       );
   
       if (!exists) {
@@ -152,6 +183,7 @@ export class MedicineDoctorManagementComponent implements OnInit{
   }
   
   getDoctorName(doctorId: any): string | undefined {
+    debugger;
     return this.DoctorList.find((f: any) => f.id === doctorId)?.userName;
   }
 }
