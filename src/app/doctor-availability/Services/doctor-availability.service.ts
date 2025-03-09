@@ -13,8 +13,13 @@ export class DoctorAvailabilityService {
 
   getAllByProc(modal: any): Observable<any> {
     const endpoint = `${this.apiUrl}/GetAllByProc`;
-    return this.http.post<any>(endpoint, modal);
+    return this.http.post<any>(endpoint, modal).pipe(
+      finalize(() => {
+        console.log("API call completed");
+      })
+    );
   }
+  
 
   activeInActive(modal: any): Observable<any> {
     const endpoint = `${this.apiUrl}/ActiveInActive`;

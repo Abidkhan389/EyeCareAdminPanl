@@ -118,29 +118,38 @@ form: FormGroup;
     this.tableParams.start = pageEvent.pageIndex * pageEvent.pageSize
     this.fetchAlldoctorAvailability()
   }
-  fetchAlldoctorAvailability(){
+  fetchAlldoctorAvailability() {
     this.loading = true;
     Object.assign(this.tableParams, this.form.value);
-    this.doctorAvailabilityService.getAllByProc(this.tableParams).subscribe({
-      next: (response) => {
-        debugger
-        this.count = response.data.totalCount;
-        this.dataSource = response.data.dataList;
-        if (this.count == 0) {
-          this.noData = true;
-        }
-        else{
-          this.noData = false
-        }
-        this.dataSource.sort = this.sort;
-        this.loading = false;
-      },
-      error: (err) => {
-        this.loading = false;
-        this.showErrorMessage('Failed to load doctorAvailability List data.');
-      },
-    });
+    
+    this.doctorAvailabilityService.getAllByProc(this.tableParams)
+      .pipe(
+        finalize(() => {
+          this.loading = false; // This will run in both success & error cases
+        })
+      )
+      .subscribe({
+        next: (response) => {
+          debugger;
+          this.count = response.data.totalCount;
+          this.dataSource = response.data.dataList;
+          this.noData = this.count === 0;
+          this.dataSource.sort = this.sort;
+        },
+        error: (err) => {
+          this.showErrorMessage('Failed to load doctorAvailability List data.');
+        },
+      });
   }
+
+  
+
+
+
+
+
+
+  
   showErrorMessage(failMessage:string) {
     this.message.open(failMessage, 'Retry', {
       duration: 5000, // Duration in milliseconds
