@@ -126,11 +126,11 @@
                 <th mat-header-cell *matHeaderCellDef class="wide-column"> Actions </th>
                 <td mat-cell *matCellDef="let patient">
                     <button mat-icon-button class="action-button" color="primary"
-                        (click)="viewPatientAppointment(patient.patientId)">
+                        (click)="viewPatientAppointment(patient.patientId)" matTooltip="View">
                         <i class="fa fa-eye me-2"></i>
                     </button>
                     <button mat-icon-button color="primary" *ngIf="patient.status == 1"
-                        (click)="AddEdit(patient.patientId)">
+                        (click)="AddEdit(patient.patientId)" matTooltip="Edit">
                         <i class="fa fa-edit me-1"></i>
                     </button>
                 </td>
@@ -174,14 +174,14 @@
 
             <ng-container matColumnDef="CheckUpStatus">
                 <mat-header-cell *matHeaderCellDef class="status-icon">CheckUp Status</mat-header-cell>
-                <mat-cell *matCellDef="let patient">
+                <mat-cell *matCellDef="let patient" >
                     <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
-                        <button mat-icon-button class="status-icon">
+                        <button mat-icon-button class="status-icon" matTooltip="Patient In Queue">
                             <mat-icon>schedule</mat-icon>
                         </button>
                     </ng-container>
                     <ng-template #checkedIcon>
-                        <button mat-icon-button class="status-icon">
+                        <button mat-icon-button class="status-icon" matTooltip="Patient Checked">
                             <span class="material-icons">done</span>
                         </button>
                     </ng-template>
