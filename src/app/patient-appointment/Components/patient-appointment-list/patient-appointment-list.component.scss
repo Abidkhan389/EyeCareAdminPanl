@@ -26,3 +26,26 @@
     white-space: nowrap; /* Prevents wrapping */
     padding: 8px 16px; /* Adds some spacing */
 }
+
+
+.custom-datepicker-field {
+    height: 40px; /* or whatever you prefer */
+  }
+  
+  .custom-datepicker-field .mat-form-field-wrapper {
+    padding-bottom: 0px; /* Reduce internal space */
+    padding-top: 0px;
+  }
+  
+  .custom-datepicker-field .mat-form-field-infix {
+    padding: 0px 8px; /* Adjust left-right padding */
+    min-height: 35px; /* Controls inner height */
+  }
+  
+  .custom-datepicker-field .mat-input-element {
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    font-size: 14px; /* Optional: adjust font */
+  }
+  

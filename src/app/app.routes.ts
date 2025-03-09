@@ -14,6 +14,7 @@ export const routes: Routes = [
         path: '',
         redirectTo: '/starter',
         pathMatch: 'full',
+        
       },
       {
         path: 'starter',

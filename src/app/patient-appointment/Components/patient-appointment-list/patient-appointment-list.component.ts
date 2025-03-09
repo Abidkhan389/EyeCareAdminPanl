@@ -51,12 +51,14 @@ export class PatientAppointmentListComponent {
   isCollapsed: boolean = true;
   count: number = 0;
   validationMessages = Messages.validation_messages;
-
+  maxDate: string;
   constructor(private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
       protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
     this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
   }
   ngOnInit(): void {
+    const nextMonthDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
+    this.maxDate = nextMonthDate.toISOString().split('T')[0]; 
     this.validateForm();
     this.fetchAllPatientAppointment();
   }
@@ -66,7 +68,8 @@ export class PatientAppointmentListComponent {
       lastName: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
       city: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
       cnic: ['', [NoWhitespaceValidator,  Validators.maxLength(50)]],
-      mobileNumber: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.Num), Validators.maxLength(50)]]
+      mobileNumber: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.Num), Validators.maxLength(50)]],
+      appoitmentDate: ['', [NoWhitespaceValidator]]
     });
   }
   updateStatus(event: any, patientAppointment: any) {
@@ -124,6 +127,7 @@ export class PatientAppointmentListComponent {
   }
   fetchAllPatientAppointment(){
     this.loading = true;
+    this.handleDateTimeSelection();
     Object.assign(this.tableParams, this.form.value);
     this.patientAppointmentService.getAllpatientAppointment(this.tableParams).subscribe({
       next: (response) => {
@@ -176,4 +180,31 @@ export class PatientAppointmentListComponent {
   viewPatientAppointment(id: any): void {
     this.router.navigate(['view', id], { relativeTo: this.route });
   }
+  handleDateTimeSelection() {
+    if (!this.form) return;
+  
+    const appointmentTimeControl = this.form.get("appoitmentDate");
+  
+    // If control doesn't exist or value is falsy (null, empty, undefined) — exit safely
+    if (!appointmentTimeControl || !appointmentTimeControl.value) return;
+  
+    try {
+      const userSelectedDate = new Date(appointmentTimeControl.value);
+  
+      // Skip if date is invalid
+      if (isNaN(userSelectedDate.getTime())) return;
+  
+      // Adjust for timezone offset
+      userSelectedDate.setMinutes(userSelectedDate.getMinutes() - userSelectedDate.getTimezoneOffset());
+  
+      const isoDateTimeString = userSelectedDate.toISOString();
+  
+      // Patch ISO string value back to form
+      this.form.patchValue({ appoitmentDate: isoDateTimeString });
+  
+    } catch (err) {
+      console.error("Date conversion failed:", err);
+    }
+  }
+  
 }

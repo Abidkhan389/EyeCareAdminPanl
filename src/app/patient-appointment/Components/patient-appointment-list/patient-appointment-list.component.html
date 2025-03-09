@@ -1,95 +1,114 @@
 <div class="row">
 
-<form [formGroup]="form" (ngSubmit)="onSubmit()" role="form">
-    <div (click)="isCollapsed = !isCollapsed" class="filter-header p-2">
-        <span class="filter-title"><i class="fa fa-search me-2"></i>Advanced Search Filters</span>
-        <a [attr.aria-expanded]="!isCollapsed" aria-controls="collapseFilter" style="float:right">
-            <i class="fa fa-search" [ngClass]="{'fa-chevron-down': !isCollapsed, 'fa-chevron-up': isCollapsed}"></i>
-        </a>
-    </div>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" role="form">
+        <div (click)="isCollapsed = !isCollapsed" class="filter-header p-2">
+            <span class="filter-title"><i class="fa fa-search me-2"></i>Advanced Search Filters</span>
+            <a [attr.aria-expanded]="!isCollapsed" aria-controls="collapseFilter" style="float:right">
+                <i class="fa fa-search" [ngClass]="{'fa-chevron-down': !isCollapsed, 'fa-chevron-up': isCollapsed}"></i>
+            </a>
+        </div>
 
-    <div id="collapseFilter" [ngbCollapse]="!isCollapsed">
-        <div class="filter-content">
-            <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                    <div class="form-group">
-                        <label>First Name:</label>
-                        <input type="text" class="form-control" formControlName="firstName" placeholder="Enter First Name">
-                        <div *ngIf="form.controls['firstName'].touched && !form.controls['firstName'].valid">
-                            <span class="text-danger" *ngIf="form.controls['firstName'].hasError('required')">
-                                First Name is required.
-                            </span>
+        <div id="collapseFilter" [ngbCollapse]="!isCollapsed">
+            <div class="filter-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input type="text" class="form-control" formControlName="firstName"
+                                placeholder="Enter First Name">
+                            <div *ngIf="form.controls['firstName'].touched && !form.controls['firstName'].valid">
+                                <span class="text-danger" *ngIf="form.controls['firstName'].hasError('required')">
+                                    First Name is required.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                    <div class="form-group">
-                        <label>Last Name:</label>
-                        <input type="text" class="form-control" formControlName="lastName" placeholder="Enter Last Name">
-                        <div *ngIf="form.controls['lastName'].touched && !form.controls['lastName'].valid">
-                            <span class="text-danger" *ngIf="form.controls['lastName'].hasError('required')">
-                                Last Name is required.
-                            </span>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input type="text" class="form-control" formControlName="lastName"
+                                placeholder="Enter Last Name">
+                            <div *ngIf="form.controls['lastName'].touched && !form.controls['lastName'].valid">
+                                <span class="text-danger" *ngIf="form.controls['lastName'].hasError('required')">
+                                    Last Name is required.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                    <div class="form-group">
-                        <label>City:</label>
-                        <input type="text" class="form-control" formControlName="city" placeholder="Enter City">
-                        <div *ngIf="form.controls['city'].touched && !form.controls['city'].valid">
-                            <span class="text-danger" *ngIf="form.controls['city'].hasError('required')">
-                                City is required.
-                            </span>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" class="form-control" formControlName="city" placeholder="Enter City">
+                            <div *ngIf="form.controls['city'].touched && !form.controls['city'].valid">
+                                <span class="text-danger" *ngIf="form.controls['city'].hasError('required')">
+                                    City is required.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                    <div class="form-group">
-                        <label>CNIC:</label>
-                        <input type="text" class="form-control" formControlName="cnic" placeholder="Enter City">
-                        <div *ngIf="form.controls['cnic'].touched && !form.controls['cnic'].valid">
-                            <span class="text-danger" *ngIf="form.controls['cnic'].hasError('required')">
-                                City is required.
-                            </span>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>CNIC:</label>
+                            <input type="text" class="form-control" formControlName="cnic" placeholder="Enter City">
+                            <div *ngIf="form.controls['cnic'].touched && !form.controls['cnic'].valid">
+                                <span class="text-danger" *ngIf="form.controls['cnic'].hasError('required')">
+                                    City is required.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
-                    <div class="form-group">
-                        <label>Mobile Number:</label>
-                        <input type="text" class="form-control" formControlName="mobileNumber" placeholder="Enter Mobile Number">
-                        <div *ngIf="form.controls['mobileNumber'].touched && !form.controls['mobileNumber'].valid">
-                            <span class="text-danger" *ngIf="form.controls['mobileNumber'].hasError('required')">
-                                Mobile Number is required.
-                            </span>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>Mobile Number:</label>
+                            <input type="text" class="form-control" formControlName="mobileNumber"
+                                placeholder="Enter Mobile Number">
+                            <div *ngIf="form.controls['mobileNumber'].touched && !form.controls['mobileNumber'].valid">
+                                <span class="text-danger" *ngIf="form.controls['mobileNumber'].hasError('required')">
+                                    Mobile Number is required.
+                                </span>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
 
-            <div class="row mt-2">
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="form-group mb-0 d-flex align-items-center">
-                        <button class="mb-2 me-2 btn-icon btn-shadow btn btn-primary"
-                            [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" type="submit"
-                            [disabled]="!form.valid">
-                            <i class="fa fa-search"></i> Search
-                        </button>
-                        <button class="mb-2 mr-2 btn-icon btn-shadow btn btn-outline-danger" type="reset"
-                            (click)="resetTable()">
-                            <i class="fa fa-close"></i> Reset
-                        </button>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>Select Date:</label>
+                            <input type="datetime-local" class="form-control" formControlName="appoitmentDate"
+                                [attr.max]="maxDate" placeholder="Select Date">
+
+                            <div
+                                *ngIf="form.controls['appoitmentDate'].touched && !form.controls['appoitmentDate'].valid">
+                                <span class="text-danger" *ngIf="form.controls['appoitmentDate'].hasError('required')">
+                                    Appointment Date is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group mb-0 d-flex align-items-center">
+                            <button class="mb-2 me-2 btn-icon btn-shadow btn btn-primary"
+                                [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" type="submit"
+                                [disabled]="!form.valid">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                            <button class="mb-2 mr-2 btn-icon btn-shadow btn btn-outline-danger" type="reset"
+                                (click)="resetTable()">
+                                <i class="fa fa-close"></i> Reset
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
 </div>
 <div class="row mb-2">
     <div class="col-sm-12 " style="margin-top: 10px;">
@@ -174,7 +193,7 @@
 
             <ng-container matColumnDef="CheckUpStatus">
                 <mat-header-cell *matHeaderCellDef class="status-icon">CheckUp Status</mat-header-cell>
-                <mat-cell *matCellDef="let patient" >
+                <mat-cell *matCellDef="let patient">
                     <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
                         <button mat-icon-button class="status-icon" matTooltip="Patient In Queue">
                             <mat-icon>schedule</mat-icon>
@@ -214,8 +233,7 @@
     </div>
 
     <!-- Paginator -->
-    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit"
-        showFirstLastButtons [pageSizeOptions]="[5, 10, 25, 50, 100]">
+    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit" showFirstLastButtons
+        [pageSizeOptions]="[5, 10, 25, 50, 100]">
     </mat-paginator>
 </div>
-
