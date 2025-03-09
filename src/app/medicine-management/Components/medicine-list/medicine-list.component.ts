@@ -21,6 +21,7 @@ import { Messages } from 'src/app/shared/Validators/validation-messages';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { MedicinesService } from '../../Services/medicines.service';
 import { AddEditMedicineComponent } from './add-edit-medicine/add-edit-medicine.component';
+import { MedicineDoctorManagementComponent } from './medicine-doctor-management/medicine-doctor-management.component';
 
 @Component({
   selector: 'app-medicine-list',
@@ -40,7 +41,7 @@ export class MedicineListComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   displayedColumns: string[] = ['sn.', 'status','doctorName','medicineName','medicineTypeName','medicineTypePotencyName','expiryDate','actions'];
-
+  medicineName:any;
   pageSize = 5;
   currentPage = 1;
   noData: boolean = false;
@@ -50,6 +51,7 @@ export class MedicineListComponent {
   @ViewChild('myTable') table: any;
   isCollapsed: boolean = true;
   count: number = 0;
+  MedicineList:any;
   validationMessages = Messages.validation_messages;
 
   constructor(private medicinesService:MedicinesService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
@@ -126,6 +128,7 @@ export class MedicineListComponent {
         debugger
         this.count = response.data.totalCount;
         this.dataSource = response.data.dataList;
+        this.MedicineList = response.data.dataList;
         if (this.count == 0) {
           this.noData = true;
         }
@@ -194,5 +197,32 @@ export class MedicineListComponent {
     // Mark red if expiry is today, in the past, or within 5 days
     return differenceInDays <= 1;
   }
+  ManageMedicineDoctor(medicineId: number)
+  {
+    if (!this.MedicineList || this.MedicineList.length === 0) {
+      console.error('MedicineList is empty or not loaded');
+      return;
+    }
   
+    const medicine = this.MedicineList.find((x: any) => x.id === medicineId);
+    const medicineName = medicine ? medicine.medicineName : 'Not Found';
+
+    const dialogref = this.dilog.open(MedicineDoctorManagementComponent, {
+      disableClose: true,
+      autoFocus: false,
+      width: '60%',
+      data: {
+        MedicineId: medicineId,
+        MedicineName : medicineName
+      },
+    })
+    dialogref.afterClosed().subscribe({
+      next: (value: any) => {
+        if (value) {
+          this.fetchAllMedicines();
+        }
+      },
+    });
+   }
+ 
 }
