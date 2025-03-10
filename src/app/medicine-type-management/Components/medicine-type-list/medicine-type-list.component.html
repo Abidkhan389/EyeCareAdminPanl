@@ -11,7 +11,7 @@
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                         <div class="form-group">
-                            <label>Medicine Name:</label>
+                            <label>Medicine Type:</label>
                             <input type="text" class="form-control " formControlName="typeName" placeholder="Search">
                             <div *ngIf="form.controls['typeName'].touched && !form.controls['typeName'].valid">
                                 <div *ngFor="let validation of validationMessages.value" class="has-danger">

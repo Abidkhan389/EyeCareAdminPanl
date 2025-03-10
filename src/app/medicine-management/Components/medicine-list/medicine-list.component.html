@@ -12,11 +12,11 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                         <div class="form-group">
                             <label>Medicine Name:</label>
-                            <input type="text" class="form-control " formControlName="typeName" placeholder="Search">
-                            <div *ngIf="form.controls['typeName'].touched && !form.controls['typeName'].valid">
+                            <input type="text" class="form-control " formControlName="medicineName" placeholder="Search">
+                            <div *ngIf="form.controls['medicineName'].touched && !form.controls['medicineName'].valid">
                                 <div *ngFor="let validation of validationMessages.value" class="has-danger">
                                     <span class="form-control-feedback"
-                                        *ngIf="form.controls['typeName'].hasError(validation.type) ">
+                                        *ngIf="form.controls['medicineName'].hasError(validation.type) ">
                                         {{validation.message}}
                                     </span>
                                 </div>
@@ -54,7 +54,7 @@
 
 <div class=" material striped">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <table  class="striped-table"  mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)" style=" max-width: 100%;
+    <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)" style=" max-width: 100%;
             width: 100%;">
         <div class="row">
             <!-- Hashing -->
@@ -77,19 +77,28 @@
             <ng-container matColumnDef="actions">
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let medicines">
-                    <button mat-icon-button class="action-button" color="primary"
-                        (click)="ViewMedicines(medicines.id)">
-                        <i class="fa fa-eye me-2"></i>
+                    <!-- View Icon -->
+                    <button mat-icon-button class="action-button" color="primary" (click)="ViewMedicines(medicines.id)" matTooltip="View">
+                        <mat-icon>visibility</mat-icon> <!-- Eye icon -->
                     </button>
+
+                    <!-- Manage Doctors (User) Icon -->
+                    <button mat-icon-button color="primary" (click)="ManageMedicineDoctor(medicines.id)"
+                        matTooltip="Manage Doctors">
+                        <mat-icon>person</mat-icon> <!-- User icon -->
+                    </button>
+
+                    <!-- Edit Icon (Only visible if medicines.status == 1) -->
                     <button mat-icon-button color="primary" *ngIf="medicines.status == 1"
-                        (click)="AddEdit(medicines.id)">
-                        <i class="fa fa-edit me-1"></i>
+                        (click)="AddEdit(medicines.id)" matTooltip="Edit">
+                        <mat-icon>edit</mat-icon> <!-- Edit icon -->
                     </button>
+
                 </td>
             </ng-container>
             <!-- type Column -->
             <ng-container matColumnDef="doctorName">
-                <th mat-header-cell *matHeaderCellDef >Doctor</th>
+                <th mat-header-cell *matHeaderCellDef>Doctor</th>
                 <td mat-cell *matCellDef="let medicines">{{ medicines.doctorName}}</td>
             </ng-container>
             <ng-container matColumnDef="medicineName">
@@ -102,20 +111,20 @@
             </ng-container>
             <!-- MG Column -->
             <ng-container matColumnDef="medicineTypePotencyName">
-                <th mat-header-cell *matHeaderCellDef > Potency</th>
+                <th mat-header-cell *matHeaderCellDef> Potency</th>
                 <td mat-cell *matCellDef="let medicines">
                     {{ medicines.medicineTypePotencyName}}
                 </td>
-            </ng-container>            
+            </ng-container>
             <ng-container matColumnDef="expiryDate">
-                <th mat-header-cell *matHeaderCellDef >Exp-Date(YY-MM-DD)</th>
+                <th mat-header-cell *matHeaderCellDef>Exp-Date(YY-MM-DD)</th>
                 <td mat-cell *matCellDef="let medicines">
                     <span [ngStyle]="{ color: isExpiringSoon(medicines.expiryDate) ? 'red' : 'black' }">
                         {{ medicines.expiryDate | date: 'yyyy-MM-dd' }}
-                      </span>
+                    </span>
                 </td>
             </ng-container>
-                        
+
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let medicineType; columns: displayedColumns;"></tr>
             <!-- Row shown when there is no matching data. -->

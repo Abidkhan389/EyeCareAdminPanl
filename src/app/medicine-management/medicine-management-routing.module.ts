@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MedicineListComponent } from './Components/medicine-list/medicine-list.component';
 import { medicineManagementComponent } from './medicineManagement.component';
 import { ViewMedicineComponent } from './Components/view-medicine/view-medicine.component';
+import { MedicineDoctorManagementComponent } from './Components/medicine-list/medicine-doctor-management/medicine-doctor-management.component';
 
 const MedicineTypeManagementRoutes: Routes = [
   {
@@ -24,6 +25,17 @@ const MedicineTypeManagementRoutes: Routes = [
           ],
         },
       },
+      // {
+      //   path: 'manageDoctor/:id',
+      //   component: MedicineDoctorManagementComponent,
+      //   data: {
+      //     title: 'Doctor-Medicine Assignment',
+      //     urls: [
+      //       { title: 'Dashboard', url: '/medicine' },
+      //       { title: 'medicine' },
+      //     ],
+      //   },
+      // },
     ],
   },
 ];
