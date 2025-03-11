@@ -181,30 +181,29 @@ export class PatientAppointmentListComponent {
     this.router.navigate(['view', id], { relativeTo: this.route });
   }
   handleDateTimeSelection() {
-    if (!this.form) return;
+    const control = this.form.get("appoitmentDate");
+    if (!control) return;
   
-    const appointmentTimeControl = this.form.get("appoitmentDate");
+    const value = control.value;
   
-    // If control doesn't exist or value is falsy (null, empty, undefined) — exit safely
-    if (!appointmentTimeControl || !appointmentTimeControl.value) return;
-  
-    try {
-      const userSelectedDate = new Date(appointmentTimeControl.value);
-  
-      // Skip if date is invalid
-      if (isNaN(userSelectedDate.getTime())) return;
-  
-      // Adjust for timezone offset
-      userSelectedDate.setMinutes(userSelectedDate.getMinutes() - userSelectedDate.getTimezoneOffset());
-  
-      const isoDateTimeString = userSelectedDate.toISOString();
-  
-      // Patch ISO string value back to form
-      this.form.patchValue({ appoitmentDate: isoDateTimeString });
-  
-    } catch (err) {
-      console.error("Date conversion failed:", err);
+    if (!value) {
+      // Patch null if no date selected
+      this.form.patchValue({ appoitmentDate: null });
+      return;
     }
+  
+    const selectedDate = new Date(value);
+    if (isNaN(selectedDate.getTime())) {
+      this.form.patchValue({ appoitmentDate: null });
+      return;
+    }
+  
+    selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
+    const iso = selectedDate.toISOString();
+    this.form.patchValue({ appoitmentDate: iso });
   }
+  
+
+  
   
 }
