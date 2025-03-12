@@ -1,0 +1,370 @@
+<div *ngIf="loading" class="loading-spinner-overlay">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="col-lg-12 modal-content">
+    <!-- Close Button Row -->
+    <div class="modal-header row d-flex justify-content-end ">
+
+        <button mat-icon-button class="close-btn buttonMargin" (click)="closeClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <!-- Modal Body -->
+      <!-- Scrollable Wrapper -->
+      <div  class="form-scroll-wrapper">
+            <div class="modal-body">
+                <form [formGroup]="PatientDescriptionForm" (ngSubmit)="AddEdit()">
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyevisoin" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyevisoin')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>VISION</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="righttEyevisoin" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('righttEyevisoin')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyemg" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyemg')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>MG</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyemg" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyemg')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyeEom" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyeEom')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>EOM</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyeEom" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyeEom')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyeOrtho" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyeOrtho')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>ORTHO</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyeOrtho" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyeOrtho')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyeTension" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyeTension')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>TENSION</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyeTension" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyeTension')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyeEntSegment" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyeEntSegment')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>ANT SEGMENT</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyeEntSegment" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyeEntSegment')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Left Eye</mat-label>
+                                <input matInput type="text" formControlName="leftEyeDisc" placeholder="Left Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('leftEyeDisc')?.hasError('required')">
+                                    Left Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2  col-12 text-center">
+                            
+                            <span>DISC</span>
+                        </div>
+                        <div class="col-lg-5 col-md-5 col-sm-5  col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Right Eye</mat-label>
+                                <input matInput type="text" formControlName="rightEyeDisc" placeholder="Right Eye" />
+                                <mat-error *ngIf="PatientDescriptionForm.get('rightEyeDisc')?.hasError('required')">
+                                    Right Eye is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                   
+                    <div class="form-section">
+                        <div class="row" style="padding-top: 10px;">
+                            <div class="col-12 text-bold-400">
+                                <h5>Description</h5>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Complaint Of</mat-label>
+                                <textarea matInput type="text" formControlName="complaintOf"
+                                    placeholder="ComplaintOf"></textarea>
+                                <mat-error *ngIf="PatientDescriptionForm.get('complaintOf')?.hasError('required')">
+                                    complaintOf is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>diagnosis</mat-label>
+                                <textarea matInput type="text" formControlName="diagnosis" placeholder="ComplaintOf"></textarea>
+                                <mat-error *ngIf="PatientDescriptionForm.get('diagnosis')?.hasError('required')">
+                                    diagnosis is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Plan</mat-label>
+                                <textarea matInput type="text" formControlName="plan" placeholder="Plan"></textarea>
+                                <mat-error *ngIf="PatientDescriptionForm.get('plan')?.hasError('required')">
+                                    Plan is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 text-center">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Description</mat-label>
+                                <textarea matInput type="text" formControlName="description"
+                                    placeholder="Description"></textarea>
+                                <mat-error *ngIf="PatientDescriptionForm.get('description')?.hasError('required')">
+                                    Description is required
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-section">
+
+                                <div class="row">
+                                    <div class="col-6 text-bold-400">Medicine Option</div>
+                                    <div class="col-6 float-right">
+                                        <button [disabled]="data.IsReadOnly" class="btn btn-primary float-end mb-1"
+                                            title="Add New" type="button" (click)="addMedicine(null,false)"><span><i
+                                                    class="fa fa-plus"></i></span></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Medicine Table -->
+                    <ng-container>
+                        <div class="row">
+                            <div class="col-12">
+                                    <!-- Scrollable Wrapper -->
+                                    <div class="table-scroll-wrapper" >
+                                        <table class="table table-bordered mb-1" formArrayName="medicine">
+                                            <thead
+                                                class="table-secondary font-size-12 text-center align-middle sticky-top bg-light"
+                                                style="z-index: 1;">
+                                                <tr>
+                                                    <th width="15%">Medicine</th>
+                                                    <th width="10%">Days</th>
+                                                    <th width="8%">Morning</th>
+                                                    <th width="8%">Afternoon</th>
+                                                    <th width="8%">Evening</th>
+                                                    <th width="8%">Night</th>
+                                                    <th width="10%">Every Hours</th>
+                                                    <th width="10%">Every Two Hours</th>
+                                                    <th width="7%">Actions</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let key of MedicineOption.controls; let i = index"
+                                                    [formGroupName]="i" class="align-middle">
+                                                    <!-- Medicine -->
+                                                    <td>
+                                                        <mat-form-field appearance="outline" class="w-100">
+                                                            <mat-select formControlName="medicineId">
+                                                                <mat-option *ngFor="let day of monthDays" [value]="day">{{ day
+                                                                    }}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <div
+                                                            *ngIf="MedicineOption.controls[i].controls.medicineId.touched && !MedicineOption.controls[i].controls.medicineId.valid">
+                                                            <div *ngFor="let validation of validationMessages.value"
+                                                                class="text-danger">
+                                                                <span
+                                                                    *ngIf="MedicineOption.controls[i].controls.medicineId.hasError(validation.type)">
+                                                                    {{ validation.message }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <!-- Days -->
+                                                    <td>
+                                                        <mat-form-field appearance="outline" class="w-100">
+                                                            <mat-select formControlName="durationInDays">
+                                                                <mat-option *ngFor="let day of monthDays" [value]="day">{{ day
+                                                                    }}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                        <div
+                                                            *ngIf="MedicineOption.controls[i].controls.durationInDays.touched && !MedicineOption.controls[i].controls.durationInDays.valid">
+                                                            <div *ngFor="let validation of validationMessages.value"
+                                                                class="text-danger">
+                                                                <span
+                                                                    *ngIf="MedicineOption.controls[i].controls.durationInDays.hasError(validation.type)">
+                                                                    {{ validation.message }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <!-- Checkboxes -->
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="morning"></mat-checkbox></td>
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="afternoon"></mat-checkbox></td>
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="evening"></mat-checkbox></td>
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="night"></mat-checkbox></td>
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="repeatEveryHours"></mat-checkbox></td>
+                                                    <td class="text-center"><mat-checkbox
+                                                            formControlName="repeatEveryTwoHours"></mat-checkbox></td>
+
+                                                    <!-- Delete Button -->
+                                                    <td class="text-center">
+                                                        <button mat-icon-button color="warn" type="button"
+                                                            (click)="removeMedicine(i)">
+                                                            <mat-icon>delete</mat-icon>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <!-- Modal Footer -->
+                    <div class="modal-footer d-flex justify-content-end">
+                        <button mat-raised-button color="secondary" class="closeButtonMargin" type="button"
+                            (click)="closeClick()">
+                            <i class="fa fa-close"></i> Cancel
+                        </button>
+
+                        <button mat-raised-button color="primary" type="submit" class="saveButton"
+                            [disabled]="PatientDescriptionForm.invalid">
+                            {{ data.patientId ? "Update Appointment" : "Create Appointment" }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+      </div>
+</div>

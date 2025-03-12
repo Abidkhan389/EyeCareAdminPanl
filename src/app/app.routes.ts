@@ -156,6 +156,20 @@ export const routes: Routes = [
         },
         canActivate: [AuthGuard,RoleGuard],
       },
+      {
+        path: 'patientCheckupDescription',
+        loadChildren: () =>
+            import('./patient-checkup-description/patient-checkup-description.module').then(
+                (_) => _.PatientCheckupDescriptionModule
+              ),
+        data: {
+          title: 'PatientCheckupDescription',
+          urls: [{ title: 'PatientCheckupDescription'}, { title: 'PatientCheckupDescription' }],
+          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
+         
+        },
+        canActivate: [AuthGuard,RoleGuard],
+      },
     ],
   },
   {

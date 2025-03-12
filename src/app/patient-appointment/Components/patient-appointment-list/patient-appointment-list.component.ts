@@ -21,6 +21,7 @@ import { Messages } from 'src/app/shared/Validators/validation-messages';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { PatientAppointmentService } from '../../Services/patient-appointment.service';
 import { AddEditPatientAppointmentComponent } from './add-edit-patient-appointment/add-edit-patient-appointment.component';
+import { AddEditPatientCheckupDescriptionComponent } from 'src/app/patient-checkup-description/Components/patientcheckup-description/add-edit-patient-checkup-description/add-edit-patient-checkup-description.component';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -203,7 +204,23 @@ export class PatientAppointmentListComponent {
     this.form.patchValue({ appoitmentDate: iso });
   }
   
-
+  patientAppointmentForDescription(patient:any){
+    const dialogref = this.dilog.open(AddEditPatientCheckupDescriptionComponent, {
+      disableClose: true,
+      autoFocus: false,
+      width: '90%',
+      data: {
+        patient: patient,
+      },  
+    })
+    dialogref.afterClosed().subscribe({
+      next: (value) => {
+        if (value) {
+          this.fetchAllPatientAppointment();
+        }
+      },
+    });
+  }
   
   
 }
