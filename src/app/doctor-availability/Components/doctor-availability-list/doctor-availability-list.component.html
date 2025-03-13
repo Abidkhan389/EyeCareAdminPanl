@@ -73,12 +73,12 @@
                 <th mat-header-cell *matHeaderCellDef> Actions </th>
                 <td mat-cell *matCellDef="let doctoravailability">
                     <button mat-icon-button class="action-button" color="primary"
-                        (click)="ViewDoctorAvailability(doctoravailability.availabilityId)">
-                        <i class="fa fa-eye me-2"></i>
+                        (click)="ViewDoctorAvailability(doctoravailability.availabilityId)" matTooltip="View">
+                        <mat-icon>visibility</mat-icon> <!-- Eye icon -->
                     </button>
                     <button mat-icon-button color="primary" *ngIf="doctoravailability.status == 1"
-                        (click)="AddEdit(doctoravailability.availabilityId)">
-                        <i class="fa fa-edit me-1"></i>
+                        (click)="AddEdit(doctoravailability.availabilityId)" matTooltip="Edit">
+                        <mat-icon>edit</mat-icon> <!-- Eye icon -->
                     </button>
                 </td>
             </ng-container>
