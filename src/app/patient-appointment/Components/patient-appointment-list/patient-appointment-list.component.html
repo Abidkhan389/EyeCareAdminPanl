@@ -146,11 +146,11 @@
                 <td mat-cell *matCellDef="let patient">
                     <button mat-icon-button class="action-button" color="primary"
                         (click)="viewPatientAppointment(patient.patientId)" matTooltip="View">
-                        <i class="fa fa-eye me-2"></i>
+                        <mat-icon>visibility</mat-icon>
                     </button>
                     <button mat-icon-button color="primary" *ngIf="patient.status == 1"
                         (click)="AddEdit(patient.patientId)" matTooltip="Edit">
-                        <i class="fa fa-edit me-1"></i>
+                        <mat-icon>edit</mat-icon>
                     </button>
                 </td>
             </ng-container>
