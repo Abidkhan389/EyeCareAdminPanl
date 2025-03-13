@@ -57,3 +57,5 @@ export enum DoctorAvailabalTime {
   "20 Mints" = 20,
   "25 Mints" = 25,
 }
+
+

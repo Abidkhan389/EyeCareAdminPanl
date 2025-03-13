@@ -21,6 +21,8 @@ import { Messages } from 'src/app/shared/Validators/validation-messages';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { PatientAppointmentService } from '../../Services/patient-appointment.service';
 import { AddEditPatientAppointmentComponent } from './add-edit-patient-appointment/add-edit-patient-appointment.component';
+import { AddEditPatientCheckupDescriptionComponent } from 'src/app/patient-checkup-description/Components/patientcheckup-description/add-edit-patient-checkup-description/add-edit-patient-checkup-description.component';
+import { PatientCheckUpDescriptionService } from 'src/app/patient-checkup-description/Services/patient-check-up-description.service';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -52,7 +54,7 @@ export class PatientAppointmentListComponent {
   count: number = 0;
   validationMessages = Messages.validation_messages;
   maxDate: string;
-  constructor(private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
+  constructor(private patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
       protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
     this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
   }
@@ -203,7 +205,24 @@ export class PatientAppointmentListComponent {
     this.form.patchValue({ appoitmentDate: iso });
   }
   
-
+  patientAppointmentForDescription(patient:any){
+    const dialogref = this.dilog.open(AddEditPatientCheckupDescriptionComponent, {
+      disableClose: true,
+      autoFocus: false,
+      width: '90%',
+      data: {
+        patient: patient,
+      },  
+    })
+    dialogref.afterClosed().subscribe({
+      next: (value) => {
+        if (value) {
+            // Navigate to patientCheckupDescription route
+        this.router.navigate(['/patientCheckupDescription']);
+        }
+      },
+    });
+  }
   
   
 }
