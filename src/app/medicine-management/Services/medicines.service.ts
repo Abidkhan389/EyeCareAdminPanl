@@ -73,6 +73,14 @@ export class MedicinesService {
             })
           );
         }
+        getAllDoctorMedicine(modal: any): Observable<any> {
+          const endpoint = `${this.apiUrl}/GetMedicineList`;
+          return this.http.post<any>(endpoint, modal).pipe( 
+            finalize(() => {
+              console.log("API call completed");
+            })
+          );
+        }
         getPotencyListByType(medicineTypeId: any): Observable<any> {
           const params = new HttpParams().set('id', medicineTypeId.toString());
           return this.http.get<any>(`${this.apiUrl}/GetMedicinePotencyByMedicineTypeId`, { params });

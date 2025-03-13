@@ -3,10 +3,13 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { finalize } from 'rxjs';
 import { Helpers } from 'src/app/_common/_helper/app_helper';
 import { Eyes, EyeDistance } from 'src/app/_common/_helper/enum';
+import { ResultMessages } from 'src/app/_common/constant';
 import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { MaterialModule } from 'src/app/material.module';
+import { MedicinesService } from 'src/app/medicine-management/Services/medicines.service';
 import { PatientCheckUpDescriptionService } from 'src/app/patient-checkup-description/Services/patient-check-up-description.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Patterns } from 'src/app/shared/Validators/patterns';
@@ -26,8 +29,9 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   validationMessages = Messages.validation_messages;
     hide = true;
     MedicineOption: any = [];
+    medicineList:any;
     monthDays: number[] = Array.from({ length: 30 }, (_, i) => i + 1);
-    constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
+    constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private medicineService:MedicinesService,  private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
       private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
        
     }
@@ -35,35 +39,51 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       this.validateform();
       if (this.data.patient) {
         this.GetPatiencheckupDescription()
-        this.getDoctorMedicine(this.data.doctorId)
+        this.getDoctorMedicine(this.data.patient.doctorId)
       }
     }
     getDoctorMedicine(doctorId:any){
-
+      debugger
+this.loading = true;
+let model = Object.assign({});
+model.doctorId=doctorId
+    this.medicineService.getAllDoctorMedicine(model).pipe(
+      finalize(() => {
+        this.loading = false;
+      }))
+      .subscribe(result => {
+        if (result) {
+          this.medicineList = result.data;
+        }
+      },
+        error => {
+          showErrorMessage(ResultMessages.serverError);
+        });
     }
     validateform() {
         this.PatientDescriptionForm= this.fb.group({
-          description: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
-          complaintOf: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
-          diagnosis: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
-          plan: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
+          complaintOf: ['', Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
+          diagnosis: ['', Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
+          plan: ['', Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex), Validators.maxLength(1000), Validators.minLength(5)])],
           medicine: this.fb.array([]),
-          leftEyevisoin: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          righttEyevisoin: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyemg: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyemg: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeEom: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeEom: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeOrtho: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeOrtho: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeTension: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeTension: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeEntSegment: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeEntSegment: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeDisc: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeDisc: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          leftEyeMacula: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
-          rightEyeMacula: [null, Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex),])],
+          leftVision: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightVision: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          leftMG: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          rightMG: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          leftEOM: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          rightEom: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          leftOrtho: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightOrtho: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          leftTension: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightTension: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          leftAntSegment: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightAntSegment: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          leftDisc: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightDisc: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          leftMacula: [null, Validators.compose([NoWhitespaceValidator,  Validators.pattern(Patterns.titleRegex),])],
+          rightMacula: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          leftPeriphery: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
+          rightPeriphery: [null, Validators.compose([NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex),])],
         });
       }
       //Add medicine with  Option
@@ -98,8 +118,10 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
        
        this.loading = true;
        let model = Object.assign({}, this.PatientDescriptionForm.getRawValue());
+       model.patientId=this.data.patient.patientId
+       model.doctorId = this.data.patient.doctorId
       if (this.data.id)
-           model.Id = this.data.id
+           model.id = this.data.id
          this.patientCheckUpDescriptionService.addPatientDescription(model).subscribe((data: any) => {
            if(data.success)
                  {
@@ -115,6 +137,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
      }
      //Its Close The DialogRef Modal
   closeClick() {
+
     this.dialogref.close();
   }
 }
