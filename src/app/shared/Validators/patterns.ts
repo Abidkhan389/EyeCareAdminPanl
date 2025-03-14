@@ -25,6 +25,7 @@ export class Patterns {
     public static usernameRegex: RegExp = /^[0-9A-Za-z.]+$/;
   
     public static titleRegex: RegExp = /[a-zA-Z][a-zA-Z0-9.\-_,\/ ]*$/;//DON'T REMOVE THE SPACE FORM REGEX
+    public static PatientEyeRegex: RegExp = /^[a-zA-Z0-9][a-zA-Z0-9.\-_,\/ ]*$/;//DON'T REMOVE THE SPACE FORM REGEX
   
     public static alphaOrNumericWithDash: RegExp = /^[\w-_.]*$/
   
