@@ -47,6 +47,15 @@ export class PatientAppointmentService {
                 })
               );
             }
+            getDoctorFeeByDocotorId(doctorId: any): Observable<any> {
+              const params = new HttpParams().set('DoctorId', doctorId);
+              const endpoint = `${this.identityUrl}/GetDoctorFeeByDocotorId`;
+              return this.http.get<any>(endpoint, { params }).pipe(
+                finalize(() => {
+                  console.log("API call completed");
+                })
+              );
+            }
             
             addEditpatientAppointment(modal: any): Observable<any> {
               const endpoint = `${this.apiUrl}/AddEditPatient`;
