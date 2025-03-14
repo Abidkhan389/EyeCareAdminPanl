@@ -162,7 +162,6 @@ export class FullComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private authService: AuthService
   ) {
-    debugger;
     this.htmlElement = document.querySelector('html')!;
     this.layoutChangesSubscription = this.breakpointObserver
       .observe([MOBILE_VIEW, TABLET_VIEW, MONITOR_VIEW, BELOWMONITOR])

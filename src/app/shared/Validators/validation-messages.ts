@@ -258,6 +258,9 @@ export class Messages {
             { type: 'maxlength', message: 'marks must not be greater than total marks' },
             { type: 'whitespace', message: 'whitespace is not allowed' }
         ],
+        'city': [
+            { type: 'required', message: 'City is required' }
+        ],
       
         
 

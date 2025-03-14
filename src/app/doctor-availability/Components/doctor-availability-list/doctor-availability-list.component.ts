@@ -130,7 +130,6 @@ form: FormGroup;
       )
       .subscribe({
         next: (response) => {
-          debugger;
           this.count = response.data.totalCount;
           this.dataSource = response.data.dataList;
           this.noData = this.count === 0;

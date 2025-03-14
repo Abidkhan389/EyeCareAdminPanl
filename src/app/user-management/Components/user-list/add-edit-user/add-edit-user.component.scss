@@ -57,3 +57,22 @@
   align-items: center;
   z-index: 1000; /* Ensure it's above other content */
 }
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col-12, .col-6, .col-4 {
+  box-sizing: border-box;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .col-4 {
+    width: 100%;
+  }
+
+  .col-6 {
+    width: 100%;
+  }
+}

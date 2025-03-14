@@ -7,6 +7,7 @@ import { UserManagementService } from '../../Services/user-management.service';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
 import { showErrorMessage } from 'src/app/_common/messages';
+import { ROLES } from 'src/app/shared/models/ROLES';
 
 @Component({
   selector: 'app-view-user',
@@ -16,6 +17,7 @@ import { showErrorMessage } from 'src/app/_common/messages';
   styleUrl: './view-user.component.scss'
 })
 export class ViewUserComponent {
+  isDoctor=false;
 loading:boolean= true;
   userForView:any
   
@@ -41,7 +43,10 @@ constructor(
            next: (result: any) => { // ✅ Explicitly define type (Consider using an interface)
              if (result.success) {
                debugger; // ✅ Moved inside `if` block
-     
+               if(result.data.roleName == ROLES.Doctor)
+               {
+                this.isDoctor=true;
+               }
                this.userForView=result.data;
      
              } else {
