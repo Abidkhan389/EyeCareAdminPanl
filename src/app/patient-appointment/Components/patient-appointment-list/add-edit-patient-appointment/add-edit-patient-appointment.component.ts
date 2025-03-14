@@ -57,6 +57,8 @@ export class AddEditPatientAppointmentComponent {
    selectedDate: string = ''; // To store selected date
    selectedTime: string = ''; // To store selected time
    patientCheckUpDayId :any;
+   doctorSelected:any;
+   doctorFeeList:any;
   constructor(public patientAppointmentService: PatientAppointmentService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
      
@@ -111,6 +113,7 @@ export class AddEditPatientAppointmentComponent {
         lastName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(30),Validators.minLength(3)])],
         gender: [null, Validators.required],
         doctorId : [null, Validators.required],
+        doctorFee : [null, Validators.required],
         age: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(11), Validators.maxLength(11)])],
         appoitmentDate:  ['', Validators.compose([NoWhitespaceValidator, Validators.required])],
         timeSlot:['', Validators.compose([NoWhitespaceValidator, Validators.required])],
@@ -292,8 +295,24 @@ formatCNIC(event: any) {
 onDoctorChange(doctorId: any) {
   if (doctorId) {
     this.selectedDoctorId = doctorId;
-    
-
+    this.patientAppointmentService.getDoctorFeeByDocotorId(doctorId).pipe(
+      finalize(() => {
+        this.loading = false;
+      }))
+      .subscribe(result => {
+        if (result.success) {
+         this.doctorSelected=true;
+         this.PatientForm.get('doctorFee')?.setValue(result.data);
+          this.updatePaginatedSlots(); 
+        } 
+        else{
+          this.paginatedSlots = [];
+          showErrorMessage(ResultMessages.noSlotsFound);
+        }
+      },
+        error => {
+          showErrorMessage(ResultMessages.serverError);
+        });
   }
 }
 

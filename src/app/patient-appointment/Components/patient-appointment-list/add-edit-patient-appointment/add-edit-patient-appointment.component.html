@@ -47,7 +47,7 @@
             </div>
 
             <div class="row">
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Gender</mat-label>
                         <mat-select formControlName="gender">
@@ -66,7 +66,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-12 col-md-6 mb-3">
+                <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Doctor</mat-label>
                         <mat-select formControlName="doctorId" (selectionChange)="onDoctorChange($event.value)">
@@ -82,6 +82,12 @@
                                 </span>
                             </ng-container>
                         </mat-error>
+                    </mat-form-field>
+                </div>
+                <div  class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-4 mb-3">
+                    <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Doctor Fee</mat-label>
+                        <input matInput type="number" [disabled]="true" formControlName="doctorFee" >
                     </mat-form-field>
                 </div>
             </div>
