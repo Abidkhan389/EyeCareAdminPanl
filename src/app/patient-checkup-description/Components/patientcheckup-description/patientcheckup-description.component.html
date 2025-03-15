@@ -1,1 +1,242 @@
-<p>patientcheckup-description List works!</p>
+<div class="row">
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" role="form">
+        <div (click)="isCollapsed = !isCollapsed" class="filter-header p-2">
+            <span class="filter-title"><i class="fa fa-search me-2"></i>Advanced Search Filters</span>
+            <a [attr.aria-expanded]="!isCollapsed" aria-controls="collapseFilter" style="float:right">
+                <i class="fa fa-search" [ngClass]="{'fa-chevron-down': !isCollapsed, 'fa-chevron-up': isCollapsed}"></i>
+            </a>
+        </div>
+
+        <div id="collapseFilter" [ngbCollapse]="!isCollapsed">
+            <div class="filter-content">
+                <div class="row">
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>plan:</label>
+                            <input type="text" class="form-control" formControlName="plan"
+                                placeholder="Enter plan">
+                            <div *ngIf="form.controls['plan'].touched && !form.controls['plan'].valid">
+                                <span class="text-danger" *ngIf="form.controls['plan'].hasError('required')">
+                                    First Name is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>First Name:</label>
+                            <input type="text" class="form-control" formControlName="firstName"
+                                placeholder="Enter Last Name">
+                            <div *ngIf="form.controls['firstName'].touched && !form.controls['firstName'].valid">
+                                <span class="text-danger" *ngIf="form.controls['firstName'].hasError('required')">
+                                    First Name is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>Last Name:</label>
+                            <input type="text" class="form-control" formControlName="lasttName"
+                                placeholder="Enter Last Name">
+                            <div *ngIf="form.controls['lasttName'].touched && !form.controls['lasttName'].valid">
+                                <span class="text-danger" *ngIf="form.controls['lasttName'].hasError('required')">
+                                    First Name is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>City:</label>
+                            <input type="text" class="form-control" formControlName="city" placeholder="Enter City">
+                            <div *ngIf="form.controls['city'].touched && !form.controls['city'].valid">
+                                <span class="text-danger" *ngIf="form.controls['city'].hasError('required')">
+                                    City is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>CNIC:</label>
+                            <input type="text" class="form-control" formControlName="cnic" placeholder="Enter City">
+                            <div *ngIf="form.controls['cnic'].touched && !form.controls['cnic'].valid">
+                                <span class="text-danger" *ngIf="form.controls['cnic'].hasError('required')">
+                                    City is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
+                        <div class="form-group">
+                            <label>Phone Number:</label>
+                            <input type="text" class="form-control" formControlName="phoneNumber"
+                                placeholder="Enter Mobile Number">
+                            <div *ngIf="form.controls['phoneNumber'].touched && !form.controls['phoneNumber'].valid">
+                                <span class="text-danger" *ngIf="form.controls['phoneNumber'].hasError('required')">
+                                    Mobile Number is required.
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                   
+
+                </div>
+
+                <div class="row mt-2">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div class="form-group mb-0 d-flex align-items-center">
+                            <button class="mb-2 me-2 btn-icon btn-shadow btn btn-primary"
+                                [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" type="submit"
+                                [disabled]="!form.valid">
+                                <i class="fa fa-search"></i> Search
+                            </button>
+                            <button class="mb-2 mr-2 btn-icon btn-shadow btn btn-outline-danger" type="reset"
+                                (click)="resetTable()">
+                                <i class="fa fa-close"></i> Reset
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="row mb-2">
+    <div class="col-sm-12 " style="margin-top: 10px;">
+        <button class="btn-icon-only btn-shadow btn btn-primary float-end" (click)="AddEdit()" title="Add New">
+            <i class="fa fa-plus"></i> <span>Add New</span>
+        </button>
+
+    </div>
+</div>
+<div class="material striped table-container">
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+
+    <!-- Scrollable Table Wrapper -->
+    <div class="table-wrapper">
+        <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)">
+            <!-- Table Columns -->
+            <ng-container matColumnDef="sn.">
+                <th mat-header-cell *matHeaderCellDef> # </th>
+                <td mat-cell *matCellDef="let patient">{{ patient.serialNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef> Status </th>
+                <td mat-cell *matCellDef="let patient">
+                    <mat-slide-toggle [disabled]="loading" [checked]="patient.status == 1"
+                        (change)="updateStatus($event.checked, patient)">
+                        <i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
+                    </mat-slide-toggle>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef class="wide-column"> Actions </th>
+                <td mat-cell *matCellDef="let patient">
+                    <button mat-icon-button class="action-button" color="primary"
+                        (click)="viewPatientAppointment(patient.prescriptionId)" matTooltip="View">
+                        <mat-icon>visibility</mat-icon>
+                    </button>
+                    <button mat-icon-button color="primary" *ngIf="patient.status == 1"
+                        (click)="AddEdit(patient.prescriptionId)" matTooltip="Edit">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </td>
+            </ng-container>
+            <!-- doctor coloum -->
+            <ng-container matColumnDef="doctorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> doctor Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
+            </ng-container>
+             <!-- fisrtName   coloum -->
+            <ng-container matColumnDef="fisrtName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.firstName }} </td>
+            </ng-container>
+              <!-- lastName   coloum -->
+              <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.lastName }} </td>
+            </ng-container>
+             <!-- cnic coloum -->
+             <ng-container matColumnDef="cnic">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> CNIC </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.patientCnic }} </td>
+            </ng-container>
+             <!-- city coloum -->
+             <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.patientCity }} </td>
+            </ng-container>
+               <!-- phone coloum -->
+               <ng-container matColumnDef="phoneNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
+            </ng-container>
+            <!-- plan coloum -->
+            <ng-container matColumnDef="plan">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Plan </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.plan }} </td>
+            </ng-container>
+         
+
+
+            <!-- <ng-container matColumnDef="lastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient.lastName }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> Gender </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.gender }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cnic">
+                <th mat-header-cell *matHeaderCellDef> CNIC </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.cnic }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="city">
+                <th mat-header-cell *matHeaderCellDef> City </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.city }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="patientPhoneNumber">
+                <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="doctoerName">
+                <th mat-header-cell *matHeaderCellDef> Doctor Name </th>
+                <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
+            </ng-container> -->
+
+            <!-- Header Row -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+            <!-- Data Rows -->
+            <tr mat-row *matRowDef="let patient; columns: displayedColumns;"></tr>
+
+            <!-- Row shown when there is no matching data. -->
+            <tr class="mat-row" *matNoDataRow>
+                <td style="text-align: center;" class="mat-cell" [attr.colspan]="displayedColumns.length">
+                    No data found.
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <!-- Paginator -->
+    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit" showFirstLastButtons
+        [pageSizeOptions]="[5, 10, 25, 50, 100]">
+    </mat-paginator>
+</div>
