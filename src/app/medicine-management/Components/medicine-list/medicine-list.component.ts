@@ -40,7 +40,7 @@ export class MedicineListComponent {
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','doctorName','medicineName','medicineTypeName','medicineTypePotencyName','expiryDate','actions'];
+  displayedColumns: string[] = ['sn.', 'status','medicineName','medicineTypeName','medicineTypePotencyName','expiryDate','actions'];
   medicineName:any;
   pageSize = 5;
   currentPage = 1;
@@ -125,7 +125,6 @@ export class MedicineListComponent {
     Object.assign(this.tableParams, this.form.value);
     this.medicinesService.getAllMedicines(this.tableParams).subscribe({
       next: (response) => {
-        debugger
         this.count = response.data.totalCount;
         this.dataSource = response.data.dataList;
         this.MedicineList = response.data.dataList;

@@ -59,6 +59,7 @@ export class AddEditPatientAppointmentComponent {
    patientCheckUpDayId :any;
    doctorSelected:any;
    doctorFeeList:any;
+   selectedFee: number | null = null;
   constructor(public patientAppointmentService: PatientAppointmentService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
      
@@ -144,8 +145,7 @@ export class AddEditPatientAppointmentComponent {
           this.patientCheckUpDayId= result.data.patientCheckUpDayId
           this.selectSlot(result.data?.TimeSlot) 
           this.PatientForm.patchValue(result.data);
-          this.updatePaginatedSlots(); 
-          debugger
+          this.updatePaginatedSlots();
         }
       },
         error => {
@@ -166,6 +166,13 @@ export class AddEditPatientAppointmentComponent {
         error => {
           showErrorMessage(ResultMessages.serverError);
         });
+  }
+  onDoctorSelect(doctorId: number) {
+    this.selectedDoctorId = doctorId;
+    const selectedDoctor = this.DoctorList.find((doc:any) => doc.id === doctorId);
+    this.selectedFee = selectedDoctor.fee ? selectedDoctor.fee : 0;
+    this.PatientForm.get('doctorFee')?.setValue(this.selectedFee);
+          this.updatePaginatedSlots(); 
   }
   AddEdit(){
     
@@ -292,43 +299,39 @@ formatCNIC(event: any) {
   this.PatientForm.controls['cnic'].setValue(value, { emitEvent: false });
 }
 
-onDoctorChange(doctorId: any) {
-  if (doctorId) {
-    this.selectedDoctorId = doctorId;
-    this.patientAppointmentService.getDoctorFeeByDocotorId(doctorId).pipe(
-      finalize(() => {
-        this.loading = false;
-      }))
-      .subscribe(result => {
-        if (result.success) {
-         this.doctorSelected=true;
-         this.PatientForm.get('doctorFee')?.setValue(result.data);
-          this.updatePaginatedSlots(); 
-        } 
-        else{
-          this.paginatedSlots = [];
-          showErrorMessage(ResultMessages.noSlotsFound);
-        }
-      },
-        error => {
-          showErrorMessage(ResultMessages.serverError);
-        });
-  }
-}
+// onDoctorChange(doctorId: any) {
+//   if (doctorId) {
+//     this.selectedDoctorId = doctorId;
+//     this.patientAppointmentService.getDoctorFeeByDocotorId(doctorId).pipe(
+//       finalize(() => {
+//         this.loading = false;
+//       }))
+//       .subscribe(result => {
+//         if (result.success) {
+//          this.doctorSelected=true;
+//          this.PatientForm.get('doctorFee')?.setValue(result.data);
+//           this.updatePaginatedSlots(); 
+//         } 
+//         else{
+//           this.paginatedSlots = [];
+//           showErrorMessage(ResultMessages.noSlotsFound);
+//         }
+//       },
+//         error => {
+//           showErrorMessage(ResultMessages.serverError);
+//         });
+//   }
+// }
 
 onDateChange(selectedDate: any) {
   if (selectedDate) {
     const date = new Date(selectedDate);
-    debugger
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
     this.patientCheckUpDayId = this.weekDays.find(day => day.name.toLocaleLowerCase() === dayName.toLocaleLowerCase());
 
-   if(this.patientCheckUpDayId?.id && this.selectedDoctorId)
+   if((this.patientCheckUpDayId?.id ?? 0) !== null && this.selectedDoctorId)
    {
-   
     this.fetchAvailableSlots(this.patientCheckUpDayId?.id, date);
-
-
    }
     
   } 

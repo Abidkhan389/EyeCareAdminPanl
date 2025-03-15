@@ -45,7 +45,6 @@ constructor(
      .subscribe(
        (result: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
          if (result) {
-          debugger;
           this.medicineDetail=result.data;
          }
        },
@@ -54,4 +53,21 @@ constructor(
        }
      );
    }
+   isExpiringSoon(date: string | null): boolean {
+    if (!date) return false;
+  
+    const expiryDate = new Date(date);
+    const currentDate = new Date();
+  
+    // Reset time to 00:00:00 for accurate day comparison
+    expiryDate.setHours(0, 0, 0, 0);
+    currentDate.setHours(0, 0, 0, 0);
+  
+    // Calculate the difference in days
+    const timeDifference = expiryDate.getTime() - currentDate.getTime();
+    const differenceInDays = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+  
+    // Mark red if expiry is today, in the past, or within 5 days
+    return differenceInDays <= 1;
+  }
 }

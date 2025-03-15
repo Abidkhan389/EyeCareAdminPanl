@@ -127,7 +127,6 @@ form: FormGroup;
         Object.assign(this.tableParams, this.form.value);
         this.userManagementService.getAllByProc(this.tableParams).subscribe({
           next: (response) => {
-            debugger
             this.count = response.data.totalCount;
             this.dataSource = response.data.dataList;
             if (this.count == 0) {
@@ -174,7 +173,6 @@ form: FormGroup;
        }
     
       ViewUser(id: any): void {
-        debugger
         this.router.navigate(['view', id], { relativeTo: this.route });
       }
 }

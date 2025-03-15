@@ -43,7 +43,6 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       }
     }
     getDoctorMedicine(doctorId:any){
-      debugger
 this.loading = true;
 let model = Object.assign({});
 model.doctorId=doctorId
