@@ -64,7 +64,6 @@ export class MedicineDoctorManagementComponent implements OnInit{
           }))
           .subscribe(result => {       
             if (result.success) {
-              debugger;
               this.MedicineDoctorManagementList = result.data;
               if (this.MedicineDoctorManagementList.doctorIds != null) {
                 this.MedicineDoctorManagementList.doctorIds.forEach(
@@ -130,7 +129,6 @@ export class MedicineDoctorManagementComponent implements OnInit{
     // if(phn){
     //   model.mobileNumber = phn;
     // }
-    debugger;
     if (this.data.MedicineId)
       model.medicineId = this.data.MedicineId
       model.id = this.doctormedicineId
@@ -183,7 +181,6 @@ export class MedicineDoctorManagementComponent implements OnInit{
   }
   
   getDoctorName(doctorId: any): string | undefined {
-    debugger;
     return this.DoctorList.find((f: any) => f.id === doctorId)?.userName;
   }
 }

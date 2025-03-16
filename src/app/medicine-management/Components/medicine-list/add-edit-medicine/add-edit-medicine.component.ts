@@ -45,10 +45,9 @@ export class AddEditMedicineComponent implements OnInit{
     if (this.data.MedicineId) {
       this.GetMedicineById()
     }
-    this.GetAllDoctors();
+    //this.GetAllDoctors();
     this.GetAllMedicineTypeList();
     this.MedicinesForm.get('medicineTypeId')?.valueChanges.subscribe((id) => {
-      debugger;
       if (id) {
         this.fetchPotency(id);
       }
@@ -58,7 +57,6 @@ export class AddEditMedicineComponent implements OnInit{
     this.MedicinesForm= this.fb.group({
       medicineName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(200)])],
       expiryDate: [new Date(), Validators.required],
-      doctorId : [null, Validators.required],
       medicineTypeId : [null, Validators.required],
       medicineTypePotencyId : [null, Validators.required]
     })
@@ -101,12 +99,10 @@ export class AddEditMedicineComponent implements OnInit{
     .subscribe(
       (result: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
         if (result) {
-          debugger;
           this.MedicinesForm.patchValue({
             medicineTypeId: result.data.medicineTypeId, 
             medicineName : result.data.medicineName,
             medicineTypePotencyId : result.data.medicineTypePotencyId,
-            doctorId: result.data.doctorId,
             expiryDate:result.data.expiryDate
 
           });
@@ -129,7 +125,6 @@ export class AddEditMedicineComponent implements OnInit{
     // if(phn){
     //   model.mobileNumber = phn;
     // }
-    debugger;
     if (this.data.MedicineId)
       model.id = this.data.MedicineId
       this.medicineService.addEditMedicines(model).subscribe((data: any) => {

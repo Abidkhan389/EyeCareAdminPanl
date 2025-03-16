@@ -42,7 +42,7 @@ constructor(
          .subscribe({
            next: (result: any) => { // ✅ Explicitly define type (Consider using an interface)
              if (result.success) {
-               debugger; // ✅ Moved inside `if` block
+              // ✅ Moved inside `if` block
                if(result.data.roleName == ROLES.Doctor)
                {
                 this.isDoctor=true;

@@ -160,7 +160,6 @@ form: FormGroup;
 
   AddEdit(Id?: any)
    {
-    debugger
     const dialogref = this.dilog.open(AddEditDoctorAvailabilityComponent, {
       disableClose: true,
       autoFocus: false,
