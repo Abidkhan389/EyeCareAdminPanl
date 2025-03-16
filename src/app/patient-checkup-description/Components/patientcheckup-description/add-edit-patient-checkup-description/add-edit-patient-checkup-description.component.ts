@@ -27,7 +27,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   PatientDescriptionForm: FormGroup;
   loading: boolean = false;
   validationMessages = Messages.validation_messages;
-  hide = true;
+  hide = true; // add ehide case
   MedicineOption: any = [];
   patientDescription:any;
   medicineList: any;
