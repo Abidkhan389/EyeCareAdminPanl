@@ -10,18 +10,11 @@ export class PatientCheckUpDescriptionService {
   private setDescription:boolean=false;
 
  private apiUrl = environment.baseUrl + 'Patient';
+ private patientCheckUpDescriptionapiUrl = environment.baseUrl + 'PatientCheckUpHistory';
    constructor(private http: HttpClient) { }
- 
-   // Setter Method to set true/false
-  setDescriptionValue(description: boolean): void {
-    this.setDescription = description;
-  }
-  // Getter Method (optional, if you want to use this value elsewhere)
-  getDescriptionValue(): boolean {
-    return this.setDescription;
-  }
-   getAllTodeyPatientAppoitments(modal: any): Observable<any> {
-     const endpoint = `${this.apiUrl}/GetAllTodeyPatientAppoitments`;
+
+  getAllByProc(modal: any): Observable<any> {
+     const endpoint = `${this.patientCheckUpDescriptionapiUrl}/getAllByProc`;
      return this.http.post<any>(endpoint, modal).pipe(
        finalize(() => {
          console.log("API call completed");
@@ -39,7 +32,7 @@ export class PatientCheckUpDescriptionService {
      );
    }
    GetPatientDescriptionById(modal: any): Observable<any> {
-     const endpoint = `${this.apiUrl}/GetPatientDescriptionById`;
+     const endpoint = `${this.patientCheckUpDescriptionapiUrl}/GetPatientDescriptionById`;
      return this.http.post<any>(endpoint, modal).pipe(
        finalize(() => {
          console.log("API call completed");
