@@ -160,14 +160,14 @@ export class PatientcheckupDescriptionComponent {
       });
     }
   
-    AddEdit(Id?: any)
+    AddEdit(patient?: any)
      {
       const dialogref = this.dilog.open(AddEditPatientCheckupDescriptionComponent, {
         disableClose: true,
         autoFocus: false,
         width: '60%',
         data: {
-          prescriptionId: Id,
+          prescriptionObj: patient,
         },
       })
       dialogref.afterClosed().subscribe({

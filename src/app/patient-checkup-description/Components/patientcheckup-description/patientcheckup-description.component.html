@@ -109,14 +109,7 @@
         </div>
     </form>
 </div>
-<div class="row mb-2">
-    <div class="col-sm-12 " style="margin-top: 10px;">
-        <button class="btn-icon-only btn-shadow btn btn-primary float-end" (click)="AddEdit()" title="Add New">
-            <i class="fa fa-plus"></i> <span>Add New</span>
-        </button>
 
-    </div>
-</div>
 <div class="material striped table-container">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
 
@@ -147,7 +140,7 @@
                         <mat-icon>visibility</mat-icon>
                     </button>
                     <button mat-icon-button color="primary" *ngIf="patient.status == 1"
-                        (click)="AddEdit(patient.prescriptionId)" matTooltip="Edit">
+                        (click)="AddEdit(patient)" matTooltip="Edit">
                         <mat-icon>edit</mat-icon>
                     </button>
                 </td>

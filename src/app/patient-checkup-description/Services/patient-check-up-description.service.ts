@@ -31,7 +31,7 @@ export class PatientCheckUpDescriptionService {
      );
    }
    GetPatientDescriptionById(modal: any): Observable<any> {
-     const endpoint = `${this.apiUrl}/GetPatientDescriptionById`;
+     const endpoint = `${this.patientCheckUpHistoryapiUrl}/GetPatientDescriptionById`;
      return this.http.post<any>(endpoint, modal).pipe(
        finalize(() => {
          console.log("API call completed");
