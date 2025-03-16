@@ -82,10 +82,9 @@ export class AddEditUserComponent {
       .subscribe({
         next: (result: any) => { // ✅ Explicitly define type (Consider using an interface)
           if (result.success) {
-            debugger; // ✅ Moved inside `if` block
+          // ✅ Moved inside `if` block
 
             const formattedCNIC = this.formatCNICValue(result.data.cnic || '');
-            debugger;
              this.UserForm.patchValue({ ...result.data, cnic: formattedCNIC });
 
             //this.checkFormValidity(this.UserForm);
@@ -148,7 +147,6 @@ export class AddEditUserComponent {
     });
   }
   formatCNIC(event: any) {
-    debugger;
     let value = event.target.value.replace(/\D/g, ''); // Remove non-numeric characters
     if (value.length > 5) value = value.slice(0, 5) + '-' + value.slice(5);
     if (value.length > 13) value = value.slice(0, 13) + '-' + value.slice(13);

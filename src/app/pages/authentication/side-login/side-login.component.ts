@@ -77,7 +77,6 @@ hide = signal(true);
         )
         .subscribe({
           next: (response:any) => {
-            debugger
             if (response.data) {
                 TokenHelper.setToken(response.data.token);
               AuthService.SaveUserInfo(response.data);

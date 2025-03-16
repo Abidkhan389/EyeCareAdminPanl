@@ -69,7 +69,7 @@
                 <div class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Doctor</mat-label>
-                        <mat-select formControlName="doctorId" (selectionChange)="onDoctorChange($event.value)">
+                        <mat-select formControlName="doctorId" (selectionChange)="onDoctorSelect($event.value)">
                             <mat-option *ngFor="let doctor of DoctorList" [value]="doctor.id">
                                 {{ doctor.userName }}
                             </mat-option>
@@ -87,7 +87,7 @@
                 <div  class="col-12 col-xl-4 col-lg-4 col-md-6 col-sm-4 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Doctor Fee</mat-label>
-                        <input matInput type="number" [disabled]="true" formControlName="doctorFee" >
+                        <input matInput type="number" readonly formControlName="doctorFee" >
                     </mat-form-field>
                 </div>
             </div>

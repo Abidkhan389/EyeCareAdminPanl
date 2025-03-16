@@ -133,7 +133,6 @@ export class PatientAppointmentListComponent {
     Object.assign(this.tableParams, this.form.value);
     this.patientAppointmentService.getAllpatientAppointment(this.tableParams).subscribe({
       next: (response) => {
-        debugger
         this.count = response.data.totalCount;
         this.dataSource = response.data.dataList;
         if (this.count == 0) {

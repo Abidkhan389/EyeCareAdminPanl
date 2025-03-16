@@ -123,7 +123,6 @@ export class MedicineTypeListComponent implements OnInit{
     Object.assign(this.tableParams, this.form.value);
     this.medicineTypeService.getAllMedicineType(this.tableParams).subscribe({
       next: (response) => {
-        debugger
         this.count = response.data.totalCount;
         this.dataSource = response.data.dataList;
         if (this.count == 0) {

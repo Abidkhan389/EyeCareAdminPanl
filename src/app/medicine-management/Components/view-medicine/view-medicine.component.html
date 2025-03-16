@@ -11,36 +11,33 @@
               {{ medicineDetail?.medicineName  || 'N/A'}}
             </h6>
           </div>
-          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
-            <span class="f-w-600 f-s-15 mat-body-1">Doctor Name: </span>
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <span class="f-w-600 f-s-15 mat-body-1">Medicine Type: </span>
             <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
-              {{ medicineDetail?.doctorId  || 'N/A'}}
+              {{ medicineDetail?.medicineTypeName  || 'N/A'}}
             </h6>
           </div>
         </div>
 
-        <div class="row p-y-15">
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-              <span class="f-w-600 f-s-15 mat-body-1">Medicine Type: </span>
-              <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
-                {{ medicineDetail?.medicineTypeName  || 'N/A'}}
-              </h6>
-            </div>
-            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 text-right">
+        <div class="row p-y-15">      
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
               <span class="f-w-600 f-s-15 mat-body-1">Medicine Potency: </span>
               <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                 {{ medicineDetail?.medicineTypePotencyName  || 'N/A'}}
               </h6>
             </div>
-          </div>
-
-          <div class="row p-y-15">
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
               <span class="f-w-600 f-s-15 mat-body-1">Expiry Date: </span>
               <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
-                {{ medicineDetail?.startingDate  || 'N/A'}}
+                <span [ngStyle]="{ color: isExpiringSoon(medicineDetail.expiryDate) ? 'red' : 'black' }">
+                  {{ medicineDetail.expiryDate | date: 'yyyy-MM-dd' }}
+              </span>
               </h6>
-            </div>           
+            </div> 
+          </div>
+
+          <div class="row p-y-15">
+          
           </div>
                  
       </div>
