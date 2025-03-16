@@ -406,7 +406,7 @@
 
                         <button mat-raised-button color="primary" type="submit" class="saveButton"
                             [disabled]="PatientDescriptionForm.invalid">
-                            {{ editCase ? "Update Appointment" : "Create Appointment" }}
+                            {{ data.patientId ? "Update Appointment" : "Create Appointment" }}
                         </button>
                     </div>
                 </form>
