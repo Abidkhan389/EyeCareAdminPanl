@@ -27,13 +27,22 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   PatientDescriptionForm: FormGroup;
   loading:boolean=false;
   validationMessages = Messages.validation_messages;
-    hide = true;
-    MedicineOption: any = [];
-    medicineList:any;
-    monthDays: number[] = Array.from({ length: 30 }, (_, i) => i + 1);
-    constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private medicineService:MedicinesService,  private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
-      private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
-       
+  hide = true; // add ehide case
+  MedicineOption: any = [];
+  patientDescription:any;
+  medicineList: any;
+  editCase:boolean=false;
+  monthDays: number[] = Array.from({ length: 30 }, (_, i) => i + 1);
+  constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService, private medicineService: MedicinesService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
+    private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
+
+  }
+  ngOnInit(): void {
+    this.validateform();
+    if (this.data.patient) {
+     this.editCase=false;
+      this.getDoctorMedicine(this.data.patient.doctorId)
+
     }
     ngOnInit(): void {
       this.validateform();
