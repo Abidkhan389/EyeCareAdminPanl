@@ -41,7 +41,7 @@ export class PatientcheckupDescriptionComponent {
   dataSource !: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  displayedColumns: string[] = ['sn.', 'status','doctorName','fisrtName','lastName','cnic','city','phoneNumber','plan','actions'];
+  displayedColumns: string[] = ['sn.', 'status','doctorName','fisrtName','lastName','cnic','city','phoneNumber','appointmentDate','actions'];
 
   pageSize = 5;
   currentPage = 1;
@@ -66,13 +66,12 @@ export class PatientcheckupDescriptionComponent {
     }
     validateForm(){
       this.form = this.fb.group({
-        plan: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
         firstName: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
         lasttName: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
         city: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.titleRegex), Validators.maxLength(50)]],
         cnic: ['', [NoWhitespaceValidator,  Validators.maxLength(50)]],
         phoneNumber: ['', [NoWhitespaceValidator, Validators.pattern(Patterns.Num), Validators.maxLength(50)]],
-      
+        appoitmentDate: ['', [NoWhitespaceValidator]]
       });
     }
     updateStatus(event: any, patientAppointment: any) {
@@ -129,6 +128,7 @@ export class PatientcheckupDescriptionComponent {
       this.fetchAllPatientAppointmentCheckUpHistory()
     }
     fetchAllPatientAppointmentCheckUpHistory(){
+      this.handleDateTimeSelection();
       this.loading = true;
       Object.assign(this.tableParams, this.form.value);
       this.patientCheckUpDescriptionService.getAllByProc(this.tableParams).subscribe({
@@ -181,5 +181,31 @@ export class PatientcheckupDescriptionComponent {
   
     viewPatientAppointment(id: any): void {
       this.router.navigate(['view', id], { relativeTo: this.route });
+    }
+    handleDateTimeSelection() {
+      const control = this.form.get("appoitmentDate");
+      if (!control) return;
+    
+      const value = control.value;
+    
+      if (!value) {
+        // Patch null if no date selected
+        this.form.patchValue({ appoitmentDate: null });
+        return;
+      }
+    
+      const selectedDate = new Date(value);
+      if (isNaN(selectedDate.getTime())) {
+        this.form.patchValue({ appoitmentDate: null });
+        return;
+      }
+    
+      selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
+      const iso = selectedDate.toISOString();
+      this.form.patchValue({ appoitmentDate: iso });
+    }
+
+    printPatientCheckUpDescription(patient:any){
+
     }
 }

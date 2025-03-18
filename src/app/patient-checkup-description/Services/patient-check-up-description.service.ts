@@ -24,7 +24,7 @@ export class PatientCheckUpDescriptionService {
    
  
    activeInActive(modal: any): Observable<any> {
-     const endpoint = `${this.apiUrl}/ActiveInActive`;
+     const endpoint = `${this.patientCheckUpDescriptionapiUrl}/ActiveInActive`;
      return this.http.post<any>(endpoint, modal).pipe(
        finalize(() => {
          console.log("API call completed");
@@ -39,6 +39,14 @@ export class PatientCheckUpDescriptionService {
        })
      );
    }
+   GetPatientDescriptionByIdForShowHistroy(modal: any): Observable<any> {
+    const endpoint = `${this.patientCheckUpDescriptionapiUrl}/GetPatientDescriptionByIdForShowHistroy`;
+    return this.http.post<any>(endpoint, modal).pipe(
+      finalize(() => {
+        console.log("API call completed");
+      })
+    );
+  }
   
    addPatientDescription(modal: any): Observable<any> {
      const endpoint = `${this.apiUrl}/AddPatientDescription`;
