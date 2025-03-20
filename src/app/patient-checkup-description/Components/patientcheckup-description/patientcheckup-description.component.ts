@@ -23,7 +23,8 @@ import { ConfirmationService } from 'src/app/shared/services/confirmation.servic
 import { Patterns } from 'src/app/shared/Validators/patterns';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { AddEditPatientCheckupDescriptionComponent } from './add-edit-patient-checkup-description/add-edit-patient-checkup-description.component';
-
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 @Component({
   selector: 'app-patientcheckup-description',
   standalone: true,
@@ -54,6 +55,7 @@ export class PatientcheckupDescriptionComponent {
   count: number = 0;
   validationMessages = Messages.validation_messages;
   maxDate: string;
+  patientAppointmentCheckUpDescription:any;
   constructor(private patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
         protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
       this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
@@ -205,7 +207,68 @@ export class PatientcheckupDescriptionComponent {
       this.form.patchValue({ appoitmentDate: iso });
     }
 
-    printPatientCheckUpDescription(patient:any){
+    printPatientCheckUpDescription(content:any,id:any){
+        this.loading = true;
+        let model = Object.assign({});
+        model.id = id
+        this.patientCheckUpDescriptionService.GetPatientDescriptionByIdForShowHistroy(model).pipe(
+          finalize(() => {
+            this.loading = false;
+          }))
+          .subscribe(result => {
+            if (result) {
+              debugger
+              this.patientAppointmentCheckUpDescription = result.data;
+              this.openDetailModal(content);
+            }
+          },
+            error => {
+              showErrorMessage(ResultMessages.serverError);
+            });
+      }
 
-    }
+        openDetailModal(content:any) {
+          this.modalOptions.backdrop = 'static';
+          this.modalOptions.keyboard = false;
+          this.modalOptions.size = 'lg';
+          this.modalOptions.centered = true;
+          this.modalService.open(content, this.modalOptions);
+        }
+      onPrint() {
+        let data = document.getElementById('print');
+      
+        if (!data) return;
+      
+        html2canvas(data).then(canvas => {
+          const contentDataURL = canvas.toDataURL('image/png');
+          const pdf = new jsPDF('l', 'cm', 'a4'); // Landscape mode
+      
+          // Add image
+          pdf.addImage(contentDataURL, 'PNG', 0, 0, 29.7, 21.0);
+      
+          // Save the PDF
+          // const fileName = this.patientAppointmentCheckUpDescription.firstName + " " + this.patientAppointmentCheckUpDescription.lastName + ' Report.pdf';
+          // pdf.save(fileName);
+      
+          // Convert to Blob and Print
+          const pdfBlob = pdf.output('blob');
+          const pdfUrl = URL.createObjectURL(pdfBlob);
+      
+          const iframe = document.createElement('iframe');
+          iframe.style.display = 'none';
+          iframe.src = pdfUrl;
+          document.body.appendChild(iframe);
+      
+          iframe.onload = () => {
+            iframe.contentWindow?.focus();
+            iframe.contentWindow?.print();
+            URL.revokeObjectURL(pdfUrl); // Clean up
+          };
+           // ✅ Close bootstrap modal directly
+      this.modalService.dismissAll(); // ← Use this line
+        }).catch(function (error) {
+          console.error('oops, something went wrong!', error);
+        });
+      }
+      
 }

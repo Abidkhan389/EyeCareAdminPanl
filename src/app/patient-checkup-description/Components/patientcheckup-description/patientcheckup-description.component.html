@@ -146,7 +146,7 @@
                         <mat-icon>edit</mat-icon>
                     </button>
                     <button mat-icon-button color="primary" *ngIf="patient.status == 1"
-                    (click)="printPatientCheckUpDescription(patient)" matTooltip="Print">
+                    (click)="printPatientCheckUpDescription(content,patient.prescriptionId)" matTooltip="Print">
                     <mat-icon>print</mat-icon>
                 </button>
                 </td>
@@ -239,3 +239,303 @@
         [pageSizeOptions]="[5, 10, 25, 50, 100]">
     </mat-paginator>
 </div>
+
+
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-body">
+        <div class="outer-border" id="print">
+            <div class="inner-dotted-border">
+                <div class="container font-style-print">
+       
+       
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Patient First Name: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.firstName  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12  middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Patient Last Name: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.lastName  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Cnic:</span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.cnic || 'N/A' }}
+                        </h6>
+                      </div>
+                      
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Phone Number: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.phoneNumber  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">City: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.city  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Age: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.age  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                 
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Vision: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftVision  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">Vision</strong>
+                        </span>
+                      </div>
+                      
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Vision: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightVision  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left MG: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftMG  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">MG</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right MG: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightMG  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left EOM: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftEOM  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">EOM</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right EOM: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightEOM  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Ortho: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftOrtho  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">ORTHO</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Ortho: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightOrtho  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Tension: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftTension  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">TENSION</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Tension: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightTension  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left AntSegment: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftAntSegment  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">ANTSEGMENT</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right AntSegment: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightAntSegment  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Disc: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftDisc  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">DISC</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Disc: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightDisc  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Macula: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftMacula  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">MACULA</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Macula: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightMacula  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 ">
+                        <span class="f-w-600 f-s-15 mat-body-1">Left Periphery: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.leftPeriphery  || 'N/A'}}
+                        </h6>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 middleColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">
+                          <strong style="text-decoration: underline;">PERIPHERY</strong>
+                        </span>
+                      </div>
+                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle">
+                        <span class="f-w-600 f-s-15 mat-body-1">Right Periphery: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.rightPeriphery  || 'N/A'}}
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="row p-y-15">
+                        <span class="f-w-600 f-s-15 mat-body-1">Complaint: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.complaint  || 'N/A'}}
+                        </h6>
+                    </div>
+                    <div class="row">
+                        <span class="f-w-600 f-s-15 mat-body-1">Diagnosis: </span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.diagnosis  || 'N/A'}}
+                        </h6>
+                    </div>
+                    <div class="row p-y-15">
+                      <span class="f-w-600 f-s-15 mat-body-1">Plan: </span>
+                      <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                        {{ patientAppointmentCheckUpDescription?.plan  || 'N/A'}}
+                      </h6>
+                  </div>
+                    
+                    <div class="medicine-history-section">
+                      <h4 class="mb-2">Prescribed Medicines</h4>
+                    
+                      <ng-container *ngIf="patientAppointmentCheckUpDescription?.medicine?.length > 0; else noMedicine">
+                        <table class="table table-bordered table-striped">
+                          <thead class="table-secondary">
+                            <tr>
+                              <th>#</th>
+                              <th>Medicine Name</th>
+                              <th>Morning</th>
+                              <th>Afternoon</th>
+                              <th>Evening</th>
+                              <th>Night</th>
+                              <th>Repeat/1hr</th>
+                              <th>Repeat/2hr</th>
+                              <th>Duration (Days)</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr *ngFor="let med of patientAppointmentCheckUpDescription.medicine; let i = index">
+                              <td>{{ i + 1 }}</td>
+                              <td>{{ med.medicineName }}</td>
+                              <td>{{ med.morning ? '✔️' : '❌' }}</td>
+                              <td>{{ med.afternoon ? '✔️' : '❌' }}</td>
+                              <td>{{ med.evening ? '✔️' : '❌' }}</td>
+                              <td>{{ med.night ? '✔️' : '❌' }}</td>
+                              <td>{{ med.repeatEveryHours ? '✔️' : '❌' }}</td>
+                              <td>{{ med.repeatEveryTwoHours ? '✔️' : '❌' }}</td>
+                              <td>{{ med.durationInDays || '-' }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </ng-container>
+                    
+                      <ng-template #noMedicine>
+                        <p class="text-muted">No medicine data available.</p>
+                      </ng-template>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="mb-2 mr-2 btn-icon btn-shadow  btn btn-outline-secondary" type="button" [disabled]="loading"
+            (click)="c('Cross click')">
+            <i class="ft-x"></i> Cancel
+        </button>
+        <button class="mb-2 me-2 btn-icon btn-shadow  btn btn-outline-primary" type="button"
+            [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" (click)="onPrint()">
+            <i class="fa fa-check-square-o"></i> Download
+        </button>
+    </div>
+</ng-template>
