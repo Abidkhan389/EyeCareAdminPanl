@@ -29,10 +29,11 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   validationMessages = Messages.validation_messages;
   hide = true;
   MedicineOption: any = [];
-  patientDescription:any;
+  patientDescription: any;
   medicineList: any;
-  editCase:boolean=false;
+  editCase: boolean = false;
   monthDays: number[] = Array.from({ length: 30 }, (_, i) => i + 1);
+  medicinePotencyListArray: any[] = []; 
   constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService, private medicineService: MedicinesService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
 
@@ -40,33 +41,45 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   ngOnInit(): void {
     this.validateform();
     if (this.data.patient) {
-     this.editCase=false;
+      this.editCase = false;
       this.getDoctorMedicine(this.data.patient.doctorId)
     }
     if (this.data.prescriptionObj) {
-      this.editCase=true;
+      this.editCase = true;
       this.getDoctorMedicine(this.data.prescriptionObj.doctorId)
       this.GetPatiencheckupDescription(this.data.prescriptionObj.prescriptionId, (data: { [x: string]: any; doctorTimeSlots?: any; dayIds?: any }) => {
         if (data) {
           this.PatientDescriptionForm.patchValue(data);
-    
+
           this.MedicineOption = this.PatientDescriptionForm.get('medicine') as FormArray;
-    
+
           // Clear existing medicine form array
           this.MedicineOption.clear();
-    
+
+          // Add new medicine form controls from backend data
           // Add new medicine form controls from backend data
           if (data['medicine'] && data['medicine'].length > 0) {
-            data['medicine'].forEach((item: any) => {
-              const medicineForm = this.createMedicineForm(); // create empty control
-              this.MedicineOption.push(medicineForm); // push it to form array
-              medicineForm.patchValue(item); // patch values individually
+            data['medicine'].forEach((item: any, index: number) => {
+              const medicineForm = this.createMedicineForm(); // create form group
+              this.MedicineOption.push(medicineForm); // add to FormArray
+          
+              // Fetch potency for this specific medicineId
+              this.medicineService.GetDoctorMedicinePotencyById({ medicineId: item.medicineId }).subscribe(result => {
+                if (result) {
+                  this.medicinePotencyListArray[index] = result.data; // save per-row potency list
+          
+                  // Now patch after potency is available
+                  medicineForm.patchValue(item);
+                }
+              });
             });
           }
+          
+
         }
       });
     }
-    
+
   }
   getDoctorMedicine(doctorId: any) {
     this.loading = true;
@@ -79,6 +92,24 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       .subscribe(result => {
         if (result) {
           this.medicineList = result.data;
+        }
+      },
+        error => {
+          showErrorMessage(ResultMessages.serverError);
+        });
+  }
+  // Fetch potency from backend
+  OnMedicineChangeFetchPotency(medicineId: any,index: number) {
+    let model = Object.assign({});
+    model.medicineId = medicineId
+    this.medicineService.GetDoctorMedicinePotencyById(model).pipe(
+      finalize(() => {
+        this.loading = false;
+      }))
+      .subscribe(result => {
+        if (result) {
+          debugger
+          this.medicinePotencyListArray[index] = result.data;
         }
       },
         error => {
@@ -120,6 +151,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
     return this.fb.group({
       id: [null],
       medicineId: [null, Validators.compose([Validators.required])],
+      potencyId: [null, Validators.compose([Validators.required])],
       durationInDays: [null, Validators.compose([Validators.required])],
       morning: [false],
       afternoon: [false],
@@ -147,7 +179,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       }))
       .subscribe(result => {
         if (result) {
-          callback(result.data); 
+          callback(result.data);
         }
       },
         error => {
@@ -159,17 +191,16 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
 
     this.loading = true;
     let model = Object.assign({}, this.PatientDescriptionForm.getRawValue());
-    if(this.editCase)
-    {
+    if (this.editCase) {
       model.id = this.data.prescriptionObj.prescriptionId
       model.patientId = this.data.prescriptionObj.patientId
-    model.doctorId = this.data.prescriptionObj.doctorId
+      model.doctorId = this.data.prescriptionObj.doctorId
     }
-    else{
+    else {
       model.patientId = this.data.patient.patientId
       model.doctorId = this.data.patient.doctorId
     }
-     
+
     this.patientCheckUpDescriptionService.addPatientDescription(model).subscribe((data: any) => {
       if (data.success) {
         showSuccessMessage(data.message);
@@ -177,7 +208,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       }
       else {
         showErrorMessage(data.message);
-        this.loading = true;
+        this.loading = false;
       }
     });
 
