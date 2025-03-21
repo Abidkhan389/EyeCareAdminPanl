@@ -315,6 +315,7 @@
                                                 style="z-index: 1;">
                                                 <tr>
                                                     <th width="15%">Medicine</th>
+                                                    <th width="15%">Potency</th>
                                                     <th width="10%">Days</th>
                                                     <th width="8%">Morning</th>
                                                     <th width="8%">Afternoon</th>
@@ -331,7 +332,7 @@
                                                     <!-- Medicine -->
                                                     <td>
                                                         <mat-form-field appearance="outline" class="w-100">
-                                                            <mat-select formControlName="medicineId">
+                                                            <mat-select formControlName="medicineId" (selectionChange)="OnMedicineChangeFetchPotency($event.value,i)">
                                                                 <mat-option *ngFor="let medicine of medicineList" [value]="medicine.medicineId">{{ medicine.medicineName
                                                                     }}</mat-option>
                                                             </mat-select>
@@ -343,6 +344,28 @@
                                                                 class="text-danger">
                                                                 <span
                                                                     *ngIf="MedicineOption.controls[i].controls.medicineId.hasError(validation.type)">
+                                                                    {{ validation.message }}
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <!-- Medicine Ptency-->
+                                                    <td>
+                                                        <mat-form-field appearance="outline" class="w-100">
+                                                            <mat-select formControlName="potencyId">
+                                                                <mat-option *ngFor="let medicinePotency of medicinePotencyListArray[i] || []" [value]="medicinePotency.potencyId">
+                                                                  {{ medicinePotency.potency }}
+                                                                </mat-option>
+                                                              </mat-select>
+                                                              
+                                                           
+                                                        </mat-form-field>
+                                                        <div
+                                                            *ngIf="MedicineOption.controls[i].controls.potencyId.touched && !MedicineOption.controls[i].controls.potencyId.valid">
+                                                            <div *ngFor="let validation of validationMessages.value"
+                                                                class="text-danger">
+                                                                <span
+                                                                    *ngIf="MedicineOption.controls[i].controls.potencyId.hasError(validation.type)">
                                                                     {{ validation.message }}
                                                                 </span>
                                                             </div>
