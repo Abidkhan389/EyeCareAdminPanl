@@ -13,7 +13,10 @@ export class WelcomeService {
 
   constructor(private http: HttpClient) {}
 
-
+  getCurrentWeekAndMonthCount(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/CurrentWeekMonthWeekPatientCount`;
+    return this.http.post<any>(endpoint, modal);
+  }
   WelcomeDashboardIncomeData(): Observable<any> {
     return this.http.get<any>(this.apiUrl).pipe(
       catchError((error) => {

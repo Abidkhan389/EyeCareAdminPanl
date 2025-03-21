@@ -105,6 +105,7 @@ export class AuthService {
     localStorage.setItem('profilePicture', response.profilePicture ?? '');
     localStorage.setItem('roles', response.roles.toString());
     localStorage.setItem('email', response.user.email ?? '');
+    localStorage.setItem('FullName', response.firstName ?? '' + response.lastName ?? '');
   }
   public static filterRoutes(routes: Routes): Routes {
     const userRoles = localStorage.getItem('roles')?.split(',') ?? [];

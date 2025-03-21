@@ -135,7 +135,6 @@ export class PatientcheckupDescriptionComponent {
       Object.assign(this.tableParams, this.form.value);
       this.patientCheckUpDescriptionService.getAllByProc(this.tableParams).subscribe({
         next: (response) => {
-          debugger
           this.count = response.data.totalCount;
           this.dataSource = response.data.dataList;
           if (this.count == 0) {
@@ -217,7 +216,6 @@ export class PatientcheckupDescriptionComponent {
           }))
           .subscribe(result => {
             if (result) {
-              debugger
               this.patientAppointmentCheckUpDescription = result.data;
               this.openDetailModal(content);
             }

@@ -67,6 +67,7 @@ export class SignInComponent implements OnInit {
               localStorage.setItem('authToken', response.token);
               localStorage.setItem('firstName', response.firstName ?? '');
               localStorage.setItem('lastName', response.lastName ?? '');
+              localStorage.setItem('FullName', response.firstName ?? '' + response.lastName ?? '');
               localStorage.setItem('id', response.id ?? '');
               localStorage.setItem(
                 'profilePicture',
