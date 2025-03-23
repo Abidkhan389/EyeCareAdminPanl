@@ -26,10 +26,10 @@
             class="text-primary icon-8 d-flex"
           ></i-tabler>
           <div class="m-l-8">
-            <span class="mat-body-1 text-dark">April 07 - April 14</span>
+            <span class="mat-body-1 text-dark">{{currentWeekRange}}</span>
           </div>
         </div>
-        <span>6,380</span>
+        <span>{{currentWeekData}}</span>
       </div>
       <div
         class="d-flex align-items-center justify-content-between w-100 m-t-10"
@@ -43,7 +43,7 @@
             <span class="mat-body-1 text-dark">Last Week</span>
           </div>
         </div>
-        <span>4,298</span>
+        <span>{{lastWeekData}}</span>
       </div>
     </mat-card-content>
   </mat-card>

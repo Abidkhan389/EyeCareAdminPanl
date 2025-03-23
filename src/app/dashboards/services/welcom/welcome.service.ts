@@ -17,6 +17,26 @@ export class WelcomeService {
     const endpoint = `${this.apiUrl}/CurrentWeekMonthWeekPatientCount`;
     return this.http.post<any>(endpoint, modal);
   }
+  AllPatientWithFeeCount(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/AllPatientWithFeeCount`;
+    return this.http.post<any>(endpoint, modal);
+  }
+  LastWeekPatientWithFeeSum(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/LastWeekPatientFeeSum`;
+    return this.http.post<any>(endpoint, modal);
+  }
+  AllPatientRevenueyearlyWise(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/AllPatientYearlyWiseCount`;
+    return this.http.post<any>(endpoint, modal);
+  }
+  LastTwoWeekWeekPatientCount(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/LastTwoWeekWeekPatientCount`;
+    return this.http.post<any>(endpoint, modal);
+  }
+  PreviousDayPatientsRecord(modal: any): Observable<any> {
+    const endpoint = `${this.apiUrl}/PreviousDayPatientsRecord`;
+    return this.http.post<any>(endpoint, modal);
+  }
   WelcomeDashboardIncomeData(): Observable<any> {
     return this.http.get<any>(this.apiUrl).pipe(
       catchError((error) => {

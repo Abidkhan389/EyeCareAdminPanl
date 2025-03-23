@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MaterialModule } from '../../../material.module';
 
 import {
@@ -12,6 +12,10 @@ import {
   ApexPlotOptions,
   NgApexchartsModule,
 } from 'ng-apexcharts';
+import { WelcomeService } from '../../services/welcom/welcome.service';
+import { finalize } from 'rxjs';
+import { ResultMessages } from 'src/app/_common/constant';
+import { showErrorMessage } from 'src/app/_common/messages';
 
 export interface salesoverviewChart {
   series: ApexAxisChartSeries;
@@ -30,11 +34,16 @@ export interface salesoverviewChart {
   templateUrl: './sales-overview.component.html',
   styleUrl: './sales-overview.component.scss'
 })
-export class AppSalesOverviewComponent {
+export class AppSalesOverviewComponent implements OnInit {
+  loginuserName:any;
+  loginuserId:any;
+  loginuserRole:any;
+  TotalPatient:any;
+  TotalPatientFeeSum:any;
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public salesoverviewChart!: Partial<salesoverviewChart> | any;
 
-  constructor() {
+  constructor(private welcomeService:WelcomeService) {
     this.salesoverviewChart = {
       series: [50, 80, 30],
 
@@ -69,4 +78,28 @@ export class AppSalesOverviewComponent {
       colors: ['rgba(99, 91, 255, 1)', '#16cdc7', 'rgba(255, 102, 146, 1)'],
     };
   }
+  ngOnInit(): void {
+      this.loginuserName = localStorage.getItem('FullName');
+      this.loginuserId = localStorage.getItem('id');
+      this.loginuserRole = localStorage.getItem('roles');
+      let model = Object.assign({});
+      model.logInUserId = this.loginuserId;
+      model.logInUserRole = this.loginuserRole;
+      
+        this.welcomeService.LastWeekPatientWithFeeSum(model).pipe(
+          finalize(() => {
+           // this.loading = false; // ✅ Ensures `loading` is reset when the API call completes
+          })
+        )
+        .subscribe(
+          (result: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
+            if (result) {
+             this.TotalPatient = result.data.patientCount;
+             this.TotalPatientFeeSum = result.data.patientFeeCount;
+            }
+          },
+          (error: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
+            showErrorMessage(ResultMessages.serverError);
+          });
+    }
 }

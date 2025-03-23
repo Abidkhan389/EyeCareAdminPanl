@@ -12,6 +12,10 @@ import {
   ApexPlotOptions,
   NgApexchartsModule,
 } from 'ng-apexcharts';
+import { WelcomeService } from '../../services/welcom/welcome.service';
+import { finalize } from 'rxjs';
+import { ResultMessages } from 'src/app/_common/constant';
+import { showErrorMessage } from 'src/app/_common/messages';
 
 export interface yourperformanceChart {
   series: ApexAxisChartSeries;
@@ -39,10 +43,47 @@ interface performanceLists {
   styleUrl: './your-performance.component.scss'
 })
 export class AppYourPerformanceComponent {
+  performanceLists: performanceLists[] = [];
+  loginuserName: any;
+  loginuserId: any;
+  loginuserRole: any;
+  currentYear: any;
+  PreviousDayPatientChecked: any;
+  PreviousDayPatientUnChecked: any;
+  performanceData: any;
   @ViewChild('chart') chart: ChartComponent = Object.create(null);
   public yourperformanceChart!: Partial<yourperformanceChart> | any;
 
-  constructor() {
+  constructor(private welcomeService: WelcomeService) {
+    this.currentYear = new Date().getFullYear();
+    this.currentYear = new Date().getFullYear();
+    this.loginuserName = localStorage.getItem('FullName');
+    this.loginuserId = localStorage.getItem('id');
+    this.loginuserRole = localStorage.getItem('roles');
+    let model = Object.assign({});
+    model.logInUserId = this.loginuserId;
+    model.logInUserRole = this.loginuserRole;
+    this.getPerformanceDashboard(model);
+  }
+  getPerformanceDashboard(model: any) {
+    this.welcomeService.PreviousDayPatientsRecord(model).pipe(
+      finalize(() => {
+        // this.loading = false; // ✅ Ensures `loading` is reset when the API call completes
+      })
+    )
+      .subscribe(
+        (result: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
+          if (result) {
+            this.performanceData = result.data;
+            this.loadChart(this.performanceData);
+          }
+        },
+        (error: any) => { // ✅ Explicitly define type as 'any' to avoid TS7006
+          showErrorMessage(ResultMessages.serverError);
+        });
+  }
+
+  loadChart(performanceData: any) {
     this.yourperformanceChart = {
       series: [20, 20, 20, 20, 20],
       labels: ['245', '45', '14', '78', '95'],
@@ -90,29 +131,28 @@ export class AppYourPerformanceComponent {
         },
       ],
     };
+    this.performanceLists = [
+      {
+        id: 1,
+        color: 'primary',
+        icon: 'solar:shop-2-linear',
+        title: performanceData.previousDayPatientChecked.toString(),
+        subtext: 'Checked',
+      },
+      {
+        id: 2,
+        color: 'error',
+        icon: 'solar:filters-outline',
+        title: performanceData.previousDayPatientUnChecked.toString(),
+        subtext: 'unChecked',
+      },
+      {
+        id: 3,
+        color: 'accent',
+        icon: 'solar:pills-3-linear',
+        title: performanceData.previousDayPatientTotal.toString(),
+        subtext: 'Total',
+      },
+    ];
   }
-
-  performanceLists: performanceLists[] = [
-    {
-      id: 1,
-      color: 'primary',
-      icon: 'solar:shop-2-linear',
-      title: '64 new orders',
-      subtext: 'Processing',
-    },
-    {
-      id: 2,
-      color: 'error',
-      icon: 'solar:filters-outline',
-      title: '4 orders',
-      subtext: 'On hold',
-    },
-    {
-      id: 3,
-      color: 'accent',
-      icon: 'solar:pills-3-linear',
-      title: '12 orders',
-      subtext: 'Delivered',
-    },
-  ];
 }

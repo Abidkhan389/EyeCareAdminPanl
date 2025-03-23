@@ -108,7 +108,6 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       }))
       .subscribe(result => {
         if (result) {
-          debugger
           this.medicinePotencyListArray[index] = result.data;
         }
       },
