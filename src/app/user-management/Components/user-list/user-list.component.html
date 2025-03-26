@@ -137,12 +137,12 @@
                 <th mat-header-cell *matHeaderCellDef class="wide-column"> Actions </th>
                 <td mat-cell *matCellDef="let user">
                     <button mat-icon-button class="action-button" color="primary"
-                        (click)="ViewUser(user.userId)">
-                        <i class="fa fa-eye me-2"></i>
+                        (click)="ViewUser(user.userId)" matTooltip="View">
+                        <mat-icon>visibility</mat-icon> <!-- Eye icon -->
                     </button>
                     <button mat-icon-button color="primary" *ngIf="user.status == 1"
-                        (click)="AddEdit(user.userId)">
-                        <i class="fa fa-edit me-1"></i>
+                        (click)="AddEdit(user.userId)" matTooltip="Manage User">
+                        <mat-icon>person</mat-icon> <!-- User icon -->
                     </button>
                 </td>
             </ng-container>

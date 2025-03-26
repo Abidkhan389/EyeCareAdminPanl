@@ -14,20 +14,6 @@ export const navItems: NavItem[] = [
   },
   
   {
-    displayName: 'Classroom Testing',
-    iconName: 'mdi:school-outline', // School icon for Classroom
-    route: '/classroom',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
-  },
-  
-  {
-    displayName: 'Setting',
-    iconName: 'mdi:cog-outline', // Settings icon
-    route: '/AppSetting',
-    allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
-  },
- 
-  {
     displayName: 'User Management',
     iconName: 'mdi:cog-outline', // Store icon for Vendors
     route: '/user',

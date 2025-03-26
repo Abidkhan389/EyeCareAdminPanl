@@ -3,6 +3,8 @@ export class Patterns {
     public static passwordRegex: RegExp = /^(?!.*[\s])(?=.*[a-z])(?=.*\d)(?=.*[A-Z])(?=.*[0-9])(?=.*[~`!?@#\$%\^&\*\[\]"\';:_\-<>\.,=\+\/\\\(\)|{}]).+$/;
   
     public static emailRegex: RegExp = /^[0-9A-Za-z._-]+@[A-Za-z0-9]+\.[A-Za-z._-]+$/;
+    public static emailOrPhoneRegex: RegExp = /^([0-9]{10,15}|[0-9A-Za-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})$/;
+
   
     public static codeRegex: RegExp = /^[0-9]{6}$/;
   

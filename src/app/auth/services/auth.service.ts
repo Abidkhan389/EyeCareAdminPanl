@@ -98,11 +98,12 @@ export class AuthService {
     id?: string;
     user?:any;
   }) {
+    
     localStorage.setItem('authToken', response.token ?? '');
     localStorage.setItem('firstName', response.firstName ?? '');
     localStorage.setItem('lastName', response.lastName ?? '');
     localStorage.setItem('id', response.user.id ?? '');
-    localStorage.setItem('profilePicture', response.profilePicture ?? '');
+    localStorage.setItem('profilePicture', response.user.profilePicture ?? '');
     localStorage.setItem('roles', response.roles.toString());
     localStorage.setItem('email', response.user.email ?? '');
   }
