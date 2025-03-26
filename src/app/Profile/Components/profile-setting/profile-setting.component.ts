@@ -10,6 +10,7 @@ import { IBrand } from 'src/app/shared/models/brand';
 import { BrandService } from 'src/app/shared/services/brand.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 
 @Component({
   selector: 'app-profile-setting',
@@ -60,19 +61,23 @@ export class ProfileSettingComponent implements OnInit {
       this.isLoading = false; // Assume data is loaded after setting the tab
     });
     this.brand$ = this.brandService.brand$;
+    this.UserForm.get('oldPassword')?.valueChanges.subscribe(value=>{
+      this.oldPassword=value;
+    });
   }
 
   loadUserInfo()
   {
     let model = Object.assign({});
-    model.email=localStorage.getItem('email');
+    model.emailOrPhoneNumber=localStorage.getItem('email');
     model.userId= localStorage.getItem('id');
-
-    this.profileSettingService.GetUserByIdAsync(model).subscribe({
+    debugger
+    this.profileSettingService.GetUserProfileByEmailAndId(model).subscribe({
       next: (response: RepoResponse<any[]>) => {
         if (response.success) {
+          debugger  
           this.UserForm.patchValue(response.data); 
-          this.oldPassword= this.UserForm.get('password')?.value;
+          this.UserForm.get('emailorPhoneNumber')?.disable();
           this.entityId=this.UserForm.get('entityId')?.value;
           this.userId=this.UserForm.get('userId')?.value;
           this.selectedFile= this.UserForm.get('profilePicture')?.value;
@@ -92,7 +97,6 @@ export class ProfileSettingComponent implements OnInit {
   {
     this.UserForm = this.fb.group({
       userId: ['' ], // UserId is required and should match the type (string)
-      entityId: [''], // entityId is required and should match the type (string)
       firstName: ['', [
         Validators.compose([
           NoWhitespaceValidator,
@@ -115,15 +119,15 @@ export class ProfileSettingComponent implements OnInit {
           Validators.maxLength(15) // Assuming max length for phone numbers
         ])
       ]],
-      email: ['', [
+      emailorPhoneNumber: ['', [
         Validators.compose([
           NoWhitespaceValidator,
           Validators.required,
-          Validators.pattern(Patterns.emailRegex),
+          Validators.pattern(Patterns.emailOrPhoneRegex),
           Validators.maxLength(100)
         ])
       ]],
-      password: [
+      oldPassword: [
         '',
         Validators.compose([
           NoWhitespaceValidator,
@@ -131,7 +135,7 @@ export class ProfileSettingComponent implements OnInit {
           Validators.maxLength(20),
         ]),
       ],
-      confirmPassword: [
+      newPassword: [
         '',
         Validators.compose([
           NoWhitespaceValidator,
@@ -139,15 +143,23 @@ export class ProfileSettingComponent implements OnInit {
           Validators.maxLength(20),
         ]),
       ],
-      PasswordChange: [false] // Boolean default value
+      confirmNewPassword: [
+        '',
+        Validators.compose([
+          NoWhitespaceValidator,
+          Validators.pattern(Patterns.passwordRegex),Validators.minLength(4),
+          Validators.maxLength(20),
+        ]),
+      ],
+      passwordChange: [false] // Boolean default value
     },
     { validator: this.comparePasswords }
   );
     
   }
   comparePasswords(fb: FormGroup) {
-    const passwordCtrl = fb.get('password');
-    const confirmPasswordCtrl = fb.get('confirmPassword');
+    const passwordCtrl = fb.get('newPassword');
+    const confirmPasswordCtrl = fb.get('confirmNewPassword');
   
     if (confirmPasswordCtrl?.errors == null || !confirmPasswordCtrl.errors['passwordMismatch']) {
       if (passwordCtrl?.value !== confirmPasswordCtrl?.value) {
@@ -160,11 +172,12 @@ export class ProfileSettingComponent implements OnInit {
   
   get passwordMatchError() {
     return (
-      this.UserForm.get('confirmPassword')?.hasError('passwordMismatch') &&
-      this.UserForm.get('confirmPassword')?.touched
+      this.UserForm.get('confirmNewPassword')?.hasError('passwordMismatch') &&
+      this.UserForm.get('confirmNewPassword')?.touched
     );
   }
   onFormSubmit(){
+    this.isLoading=true;
     let model = new FormData(); // Create a FormData object
 
 // Append regular form data
@@ -174,26 +187,32 @@ Object.keys(formValues).forEach((key) => {
 });
 
 // Check if the password has changed
-let newPassword = this.UserForm.get('password')?.value;
-if (this.oldPassword !== newPassword) {
-  model.append('PasswordChange', 'true');
+let newPassword = this.UserForm.get('newPassword')?.value;
+// Ensure newPassword is not null or an empty string before comparing
+if (newPassword && newPassword !== '' && this.oldPassword !== newPassword) {
+  model.set('passwordChange', 'true'); 
 } else {
-  model.append('PasswordChange', 'false');
+  model.set('passwordChange', 'false');
 }
+
 model.append('EntityType', "Profile");
 // Append the selected file if present
 if (this.selectedFile) {
   model.append('File', this.selectedFile);  
 }
-    this.profileSettingService.UpdateUserAsync(model).subscribe({
+    this.profileSettingService.UpdateUserProfile(model).subscribe({
       next: (response: RepoResponse<any[]>) => {
         if (response.success) {
           // if(this.imageChange)
           // {
           //   this.fileUploadMethod();
           // }
-          this.showSuccessMessage('User Profile updated successfully!');
+          showSuccessMessage(response.message);
           this.isLoading = false;
+        }
+        else{
+           showErrorMessage(response.message);
+                  this.isLoading = false;
         }
       },
       error: (err) => {
@@ -204,38 +223,7 @@ if (this.selectedFile) {
     
    
   }
-  fileUploadMethod()
-  {
-    const formData = new FormData();
-  formData.append('File', this.selectedFile); // Must match the backend property name
-  formData.append('EntityType', 'Profile'); // Example data, replace as needed
-  formData.append('EntityId', this.entityId.toString()); // Ensure it's a string
-  formData.append('UserId', this.userId);
-    this.profileSettingService.fileUpload(formData).subscribe({
-      next: (response) => {
-        console.log('File uploaded successfully', response);
-      },
-      error: (err) => {
-        console.error('Error uploading file', err);
-      },
-    });
-  }
-  showSuccessMessage(successMessage: string) {
-    this.message.open(successMessage, 'Close', {
-      duration: 3000, // Duration in milliseconds
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom', // or 'top'
-      panelClass: ['success-snackbar'], // Optional: for custom styling
-    });
-  }
-  showErrorMessage(failMessage: string) {
-    this.message.open(failMessage, 'Retry', {
-      duration: 5000, // Duration in milliseconds
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom', // or 'top'
-      panelClass: ['error-snackbar'], // Optional: for custom styling
-    });
-  }
+ 
   onFileSelected(event:any)
   {
     const input = event.target as HTMLInputElement;
@@ -266,6 +254,23 @@ if (this.selectedFile) {
     this.profilePicture = this.oldPicture;
     this.imageChange=false;
   }
+  showSuccessMessage(successMessage: string) {
+    this.message.open(successMessage, 'Close', {
+      duration: 3000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom', // or 'top'
+      panelClass: ['success-snackbar'], // Optional: for custom styling
+    });
+  }
+  showErrorMessage(failMessage: string) {
+    this.message.open(failMessage, 'Retry', {
+      duration: 5000, // Duration in milliseconds
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom', // or 'top'
+      panelClass: ['error-snackbar'], // Optional: for custom styling
+    });
+  }
+ 
   isAdminOrSuperAdmin(): boolean {
     const userRole = localStorage.getItem('roles');
     // Check if the role is Admin or SuperAdmin

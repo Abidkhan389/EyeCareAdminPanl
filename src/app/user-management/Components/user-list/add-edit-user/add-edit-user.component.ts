@@ -44,7 +44,7 @@ export class AddEditUserComponent {
   }
   validateform() {
     this.UserForm = this.fb.group({
-      email: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.emailRegex), Validators.maxLength(80)])],
+      email: ['', Validators.compose([NoWhitespaceValidator, Validators.required,Validators.pattern(Patterns.emailOrPhoneRegex), Validators.maxLength(80)])],
       firstName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       lastName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       password: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
@@ -52,8 +52,8 @@ export class AddEditUserComponent {
       cnic: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.CnicPattern), Validators.minLength(15), Validators.maxLength(15)])],
       city: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       roleId: [null, Validators.required],
-      fee: ['']
-    });    
+      fee: [null]
+    });     
   }
 
   //Getting Roles
@@ -131,10 +131,14 @@ export class AddEditUserComponent {
     this.UserForm.get('fee')?.updateValueAndValidity();
   }
   AddEdit() {
+    
     this.loading = true;
     let model = Object.assign({}, this.UserForm.getRawValue());
+    if(model.fee=="")
+      model.fee=null;
     if (this.data.userId)
       model.id = this.data.userId
+    debugger
     this.userManagementService.addEditUser(model).subscribe((data: any) => {
       if (data.success) {
         showSuccessMessage(data.message);

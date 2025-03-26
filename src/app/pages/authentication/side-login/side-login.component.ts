@@ -79,6 +79,7 @@ hide = signal(true);
           next: (response:any) => {
             if (response.data) {
                 TokenHelper.setToken(response.data.token);
+                
               AuthService.SaveUserInfo(response.data);
               AuthService.RedirectUserHome(response.data, this.router);
             } else {

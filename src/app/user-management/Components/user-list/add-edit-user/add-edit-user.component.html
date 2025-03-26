@@ -66,7 +66,7 @@
                   <mat-label>Email</mat-label>
                   <input matInput formControlName="email" placeholder="Enter Email" />
                   <mat-error *ngIf="UserForm.controls['email'].touched && !UserForm.controls['email'].valid">
-                    <ng-container *ngFor="let validation of validationMessages.email">
+                    <ng-container *ngFor="let validation of validationMessages.value">
                       <span *ngIf="UserForm.controls['email'].hasError(validation.type)">
                         {{ validation.message }}
                       </span>

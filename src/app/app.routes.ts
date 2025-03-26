@@ -29,51 +29,6 @@ export const routes: Routes = [
       },
      
       {
-        path: 'classroom',
-        loadChildren: () =>
-          import('./classroom/classroom.module').then((_) => _.ClassroomModule),
-        data: {
-          title: 'Classroom',
-          urls: [
-            { title: 'Classroom', url: '/classroom' },
-            { title: 'Classroom' },
-          ],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
-        },
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'Settings',
-        loadChildren: () =>
-          import('./security/security.module').then((_) => _.SecurityModule),
-        data: {
-          title: 'Settings',
-          urls: [
-            { title: 'Settings', url: '/Settings' },
-            { title: 'Settings' },
-          ],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin,ROLES.Doctor,ROLES.Rerecptionist],
-        },
-        canActivate: [AuthGuard],
-      },
-
-      {
-        path: 'AppSetting',
-        loadChildren: () =>
-          import('./app-setting/app-setting.module').then(
-            (_) => _.AppSettingModule
-          ),
-        data: {
-          title: 'App Setting',
-          urls: [
-            { title: 'App Setting', url: '/AppSetting' },
-            { title: 'App Setting' },
-          ],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Admin],
-        },
-        canActivate: [AuthGuard],
-      },
-      {
         path: 'Profile',
         loadChildren: () =>
           import('./Profile/profile-setting.module').then(
@@ -82,9 +37,14 @@ export const routes: Routes = [
         data: {
           title: 'Profile',
           urls: [{ title: 'Profile', url: '/Profile' }, { title: 'Profile' }],
-         
+          allowedRoles: [
+            ROLES.SuperAdmin,
+            ROLES.Admin,
+            ROLES.Doctor,
+            ROLES.Rerecptionist
+          ],
         },
-        canActivate: [AuthGuard],
+        canActivate: [AuthGuard,RoleGuard],
       },
       {
         path: 'user',
