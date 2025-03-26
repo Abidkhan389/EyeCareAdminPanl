@@ -12,7 +12,7 @@ import { DayOfWeek, Gendertype, MaterialType } from 'src/app/_common/_helper/enu
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
 import { Patterns } from 'src/app/shared/Validators/patterns';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
-import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
+import { showErrorMessage, showInfoMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { ResultMessages } from 'src/app/_common/constant';
 import { finalize } from 'rxjs';
 @Component({
@@ -261,7 +261,7 @@ export class AddEditPatientAppointmentComponent {
         } 
         else{
           this.paginatedSlots = [];
-          showErrorMessage(ResultMessages.noSlotsFound);
+          showInfoMessage(ResultMessages.noSlotsFound);
         }
       },
         error => {
