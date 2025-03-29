@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>All Holidays</h2>
+<mat-dialog-content>
+  <p *ngIf="fullWeeks > 0"><strong>{{ fullWeeks }} Week(s)</strong></p>
+  <p *ngIf="remainingDays.length > 0">
+    <strong>Remaining Days:</strong> {{ remainingDays.join(', ') }}
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Close</button>
+</mat-dialog-actions>
