@@ -174,6 +174,46 @@ export class AddEditPatientAppointmentComponent {
     this.PatientForm.get('doctorFee')?.setValue(this.selectedFee);
           this.updatePaginatedSlots(); 
   }
+
+  GetSelectedDoctorHolidays(doctorId:any){
+    this.loading = true;
+    let model = { DoctorId: String(doctorId) }; 
+    this.doctorHolidayService.getDoctorHolidayByDoctorIdForPatientAppointment(model).pipe(
+      finalize(() => {
+        this.loading = false;
+      }))
+      .subscribe(result => {
+        if (result) {
+          this.doctorHolidaysDates = result.data.map((h:any) => ({
+            from:new Date(h.fromDate),
+            to:new Date(h.toDate)
+          }));
+          console.log("Mapped Holidays:", this.doctorHolidaysDates);
+        }
+      },
+        error => {
+          showErrorMessage(ResultMessages.serverError);
+        });
+  }
+  disableNonHolidayDates = (date: Date | null): boolean => {
+    if (!date) return true; // ❌ Disable if no date selected
+    
+    const checkDate = new Date(date).setHours(0, 0, 0, 0);
+    console.log("Checking Date:", checkDate);
+  
+    // Disable only holidays, enable all others
+    const isHoliday = this.doctorHolidaysDates.some(h => {
+      const fromDate = new Date(h.from).setHours(0, 0, 0, 0);
+      const toDate = new Date(h.to).setHours(23, 59, 59, 999);
+      
+      console.log("Comparing:", { checkDate, fromDate, toDate });
+  
+      return checkDate >= fromDate && checkDate <= toDate;
+    });
+  
+    return !isHoliday; // ✅ Holidays disabled, others enabled
+  };
+
   AddEdit(){
     
     this.loading = true;
