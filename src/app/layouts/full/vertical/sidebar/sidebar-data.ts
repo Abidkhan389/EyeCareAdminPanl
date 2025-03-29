@@ -49,4 +49,10 @@ export const navItems: NavItem[] = [
     route: '/patientCheckupDescription',
     allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor,ROLES.Rerecptionist],
   },
+  {
+    displayName: 'Doctor Holidays' ,
+    iconName: 'mdi:calendar-clock', // Represents scheduling and availability
+    route: '/doctorHoliDay',
+    allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
+  },
 ];
