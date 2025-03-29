@@ -117,13 +117,12 @@
                           formControlName="appoitmentDate" 
                           [min]="minDate" 
                           [max]="maxDate" 
-                          (dateChange)="onDateChange($event.value)"
-                          [matDatepickerFilter]="disableNonHolidayDates"  
-                          matTooltipPosition="above">
-                      
+                           
+                          (dateChange)="onDateChange($event.value)">
+                          
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker> 
-                      
+                        <mat-datepicker #picker></mat-datepicker>
+                        
                         <mat-error *ngIf="PatientForm.controls['appoitmentDate'].touched && !PatientForm.controls['appoitmentDate'].valid">
                           <ng-container *ngFor="let validation of validationMessages.value">
                             <span *ngIf="PatientForm.controls['appoitmentDate'].hasError(validation.type)">
@@ -132,15 +131,6 @@
                           </ng-container>
                         </mat-error>
                       </mat-form-field>
-                      
-                    
-                      
-                      
-                      
-                      
-                      
-                      
-                      
                       
                    
                     <!--<mat-form-field appearance="outline" class="w-100">
