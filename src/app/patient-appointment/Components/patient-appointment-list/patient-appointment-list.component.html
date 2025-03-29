@@ -195,15 +195,9 @@
                 <mat-header-cell *matHeaderCellDef class="status-icon">CheckUp Status</mat-header-cell>
                 <mat-cell *matCellDef="let patient">
                     <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
-                        <span matTooltip="{{ isAppointmentOver(patient.appointmentTime) ? 'Patient Appointment is over' : 'Patient In Queue' }}">
-                            <button 
-                                (click)="patientAppointmentForDescription(patient)" 
-                                mat-icon-button 
-                                class="status-icon" 
-                                [disabled]="isAppointmentOver(patient.appointmentTime)">
-                                <mat-icon>schedule</mat-icon>
-                            </button>
-                        </span>
+                        <button (click)="patientAppointmentForDescription(patient)" mat-icon-button class="status-icon" matTooltip="Patient In Queue">
+                            <mat-icon>schedule</mat-icon>
+                        </button>
                     </ng-container>
                     <ng-template #checkedIcon>
                         <button mat-icon-button class="status-icon" matTooltip="Patient Checked">
@@ -212,9 +206,6 @@
                     </ng-template>
                 </mat-cell>
             </ng-container>
-            
-            
-            
 
             <ng-container matColumnDef="timeSlot">
                 <th mat-header-cell *matHeaderCellDef> Time Slot</th>

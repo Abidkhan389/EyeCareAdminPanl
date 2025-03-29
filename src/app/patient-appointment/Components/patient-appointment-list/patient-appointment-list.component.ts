@@ -223,12 +223,5 @@ export class PatientAppointmentListComponent {
     });
   }
   
-  isAppointmentOver(appointmentTime: string | Date): boolean {
-    const appointmentDate = new Date(appointmentTime);
-    const today = new Date();
-    
-    // Compare only the date part
-    return appointmentDate.setHours(0, 0, 0, 0) < today.setHours(0, 0, 0, 0);
-  }
   
 }
