@@ -130,20 +130,6 @@ export const routes: Routes = [
         },
         canActivate: [AuthGuard,RoleGuard],
       },
-      {
-        path: 'doctorHoliDay',
-        loadChildren: () =>
-            import('./doctor-holiday-management/doctor-holiday-management.module').then(
-                (_) => _.DoctorHolidayManagementModule
-              ),
-        data: {
-          title: 'doctorHoliDay',
-          urls: [{ title: 'DoctorHoliDay'}, { title: 'doctorHoliDay' }],
-          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
-         
-        },
-        canActivate: [AuthGuard,RoleGuard],
-      },
     ],
   },
   {
