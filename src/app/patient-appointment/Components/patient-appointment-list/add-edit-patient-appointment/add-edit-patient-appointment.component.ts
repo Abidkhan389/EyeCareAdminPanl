@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, Inject,ElementRef,ViewChild  } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject,ElementRef,ViewChild, CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MaterialModule } from 'src/app/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Messages } from 'src/app/shared/Validators/validation-messages';
-import * as moment from 'moment';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Helpers } from 'src/app/_common/_helper/app_helper';
@@ -15,10 +14,17 @@ import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { showErrorMessage, showInfoMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { ResultMessages } from 'src/app/_common/constant';
 import { finalize } from 'rxjs';
+import { DoctorHolidayService } from 'src/app/doctor-holiday-management/Services/doctor-holiday.service';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+// import { IDoctorHoliday } from '../../../../interfaces/IDoctorHoliday';
+
+
 @Component({
   selector: 'app-add-edit-patient-appointment',
   standalone: true,
-  imports: [MaterialModule,CommonModule,SharedModule],
+  imports: [MaterialModule,CommonModule,SharedModule,MatDatepickerModule,MatNativeDateModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ✅ Add this
   templateUrl: './add-edit-patient-appointment.component.html',
   styleUrl: './add-edit-patient-appointment.component.scss'
 })
@@ -60,7 +66,9 @@ export class AddEditPatientAppointmentComponent {
    doctorSelected:any;
    doctorFeeList:any;
    selectedFee: number | null = null;
-  constructor(public patientAppointmentService: PatientAppointmentService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
+   doctorHolidaysDates: { from: Date; to: Date }[] = [];
+   tooltipText: string = '';
+  constructor(public patientAppointmentService: PatientAppointmentService,private doctorHolidayService:DoctorHolidayService ,private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
      
     this.weekDays = Helpers.enumToArray(DayOfWeek) as { id: number; name: string }[];
@@ -71,6 +79,7 @@ export class AddEditPatientAppointmentComponent {
     if (this.data.patientId) {
       this.GetPatient()
     }
+    
    
     this.validateform();
     this.GetAllDoctors();
@@ -104,6 +113,7 @@ export class AddEditPatientAppointmentComponent {
   // });
 
   }
+  
   validateform() {
     // const now = new Date();
     // const hours = now.getHours().toString().padStart(2, '0'); 
@@ -169,12 +179,12 @@ export class AddEditPatientAppointmentComponent {
   }
   onDoctorSelect(doctorId: number) {
     this.selectedDoctorId = doctorId;
+    this.GetSelectedDoctorHolidays(doctorId.toString());
     const selectedDoctor = this.DoctorList.find((doc:any) => doc.id === doctorId);
     this.selectedFee = selectedDoctor.fee ? selectedDoctor.fee : 0;
     this.PatientForm.get('doctorFee')?.setValue(this.selectedFee);
           this.updatePaginatedSlots(); 
   }
-
   GetSelectedDoctorHolidays(doctorId:any){
     this.loading = true;
     let model = { DoctorId: String(doctorId) }; 
@@ -214,6 +224,8 @@ export class AddEditPatientAppointmentComponent {
     return !isHoliday; // ✅ Holidays disabled, others enabled
   };
 
+  
+ 
   AddEdit(){
     
     this.loading = true;
@@ -301,7 +313,7 @@ export class AddEditPatientAppointmentComponent {
         } 
         else{
           this.paginatedSlots = [];
-          showInfoMessage(ResultMessages.noSlotsFound);
+          showInfoMessage(result.message);
         }
       },
         error => {
@@ -365,6 +377,7 @@ formatCNIC(event: any) {
 
 onDateChange(selectedDate: any) {
   if (selectedDate) {
+  
     const date = new Date(selectedDate);
     const dayName = date.toLocaleDateString('en-US', { weekday: 'long' });
     this.patientCheckUpDayId = this.weekDays.find(day => day.name.toLocaleLowerCase() === dayName.toLocaleLowerCase());
