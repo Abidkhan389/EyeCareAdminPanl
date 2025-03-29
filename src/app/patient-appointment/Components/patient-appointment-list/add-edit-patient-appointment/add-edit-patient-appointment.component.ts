@@ -223,6 +223,7 @@ export class AddEditPatientAppointmentComponent {
   
     return !isHoliday; // ✅ Holidays disabled, others enabled
   };
+
   
  
   AddEdit(){
