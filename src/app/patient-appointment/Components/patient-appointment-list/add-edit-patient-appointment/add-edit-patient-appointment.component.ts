@@ -248,39 +248,61 @@ export class AddEditPatientAppointmentComponent {
   closeClick() {
     this.dialogref.close();
   }
-  fetchAvailableSlots(dayId:any, date:any){
-    // this.loading = true;
-    let model = Object.assign({});
+
+  fetchAvailableSlots(dayId: any, date: any) {
+    this.loading = true;
+    let model: any = {};
     model.dayId = dayId;
     model.doctorId = this.selectedDoctorId;
+    
     const userSelectedDate = new Date(date);
-
-    // Convert the user-selected date to local DateTime
     userSelectedDate.setMinutes(userSelectedDate.getMinutes() - userSelectedDate.getTimezoneOffset());
-
-    // Format the date as an ISO string
-    const isoDateTimeString = userSelectedDate.toISOString();
-    model.AppointmentDate = isoDateTimeString;
+    model.AppointmentDate = userSelectedDate.toISOString();
+    
     this.patientAppointmentService.getDoctorAppointmentsSlotsOfDay(model).pipe(
       finalize(() => {
         this.loading = false;
-      }))
-      .subscribe(result => {
-        if (result.success) {
-          this.doctorAvailibalTimeSlots = result.data.doctorSlots.map((slot: { doctorTime: any; }) => slot.doctorTime);
-          this.doctorAvailibalTimeSlotsDoctorAndDayId = result.data; 
-         
-          this.updatePaginatedSlots(); 
-        } 
-        else{
-          this.paginatedSlots = [];
-          showInfoMessage(result.message);
-        }
-      },
-        error => {
-          showErrorMessage(ResultMessages.serverError);
-        });
+      })
+    ).subscribe(result => {
+      if (result.success) {
+        let currentTime = new Date();
+        let isToday = 
+          currentTime.getFullYear() === userSelectedDate.getFullYear() &&
+          currentTime.getMonth() === userSelectedDate.getMonth() &&
+          currentTime.getDate() === userSelectedDate.getDate();
+  
+        this.doctorAvailibalTimeSlots = result.data.doctorSlots.filter((slot: { doctorTime: string }) => {
+          if (!isToday) return true; // If not today, return all slots
+          
+          let timeParts = slot.doctorTime.match(/(\d+):(\d+) (AM|PM)/);
+          if (!timeParts) return false;
+  
+          let hours = parseInt(timeParts[1], 10);
+          let minutes = parseInt(timeParts[2], 10);
+          let isPM = timeParts[3] === "PM";
+  
+          if (isPM && hours !== 12) hours += 12;
+          if (!isPM && hours === 12) hours = 0; // Convert 12 AM to 00
+  
+          let slotTimeInMinutes = hours * 60 + minutes;
+          let currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+          
+          return slotTimeInMinutes >= currentMinutes; // Keep only future slots
+        }).map((slot: { doctorTime: string }) => slot.doctorTime);
+        
+        this.doctorAvailibalTimeSlotsDoctorAndDayId = result.data; 
+        this.updatePaginatedSlots(); 
+      } else {
+        this.paginatedSlots = [];
+        showInfoMessage(result.message);
+      }
+    },
+    error => {
+      showErrorMessage(ResultMessages.serverError);
+    });
   }
+  
+  
   selectSlot(time: string) {
     this.selectedSlot = time;
     this.PatientForm.controls['timeSlot'].setValue(time);
