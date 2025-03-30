@@ -251,22 +251,28 @@
        
        
                     <div class="row p-y-15">
-                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+                      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                         <span class="f-w-600 f-s-15 mat-body-1">Patient Name: </span>
                         <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                           {{ patientAppointmentCheckUpDescription?.firstName }}{{patientAppointmentCheckUpDescription?.lastName}}
                         </h6>
                       </div>
-                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12  middleColoumStyle">
+                      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12  middleColoumStyle">
                         <span class="f-w-600 f-s-15 mat-body-1">Date: </span>
                         <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                           {{ patientAppointmentCheckUpDescription?.createdAt  | date :"yyyy:MM:dd"}}
                         </h6>
                       </div>
-                      <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 lastColoumStyle ">
+                      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 lastColoumStyle ">
                         <span class="f-w-600 f-s-15 mat-body-1">Age:</span>
                         <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                           {{ patientAppointmentCheckUpDescription?.age || 'N/A' }}
+                        </h6>
+                      </div>
+                      <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12 lastColoumStyle ">
+                        <span class="f-w-600 f-s-15 mat-body-1">TrackingNumber:</span>
+                        <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
+                          {{ patientAppointmentCheckUpDescription?.trackingNumber || 'N/A' }}
                         </h6>
                       </div>
                       
