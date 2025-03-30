@@ -138,7 +138,6 @@ export class AddEditUserComponent {
       model.fee=null;
     if (this.data.userId)
       model.id = this.data.userId
-    debugger
     this.userManagementService.addEditUser(model).subscribe((data: any) => {
       if (data.success) {
         showSuccessMessage(data.message);

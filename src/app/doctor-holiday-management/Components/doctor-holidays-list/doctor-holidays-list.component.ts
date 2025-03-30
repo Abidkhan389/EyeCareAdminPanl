@@ -145,7 +145,6 @@ this.maxDate = nextYearDate.toISOString().slice(0, 16); // Fix format
         Object.assign(this.tableParams, this.form.value);
         this.doctorHolidayService.getAllByProcDoctorHolidays(this.tableParams).subscribe({
           next: (response) => {
-            debugger
             this.count = response.data.totalCount;
             this.dataSource = response.data.dataList;
             if (this.count == 0) {

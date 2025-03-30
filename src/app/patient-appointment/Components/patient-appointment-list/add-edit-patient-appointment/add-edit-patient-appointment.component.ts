@@ -23,8 +23,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 @Component({
   selector: 'app-add-edit-patient-appointment',
   standalone: true,
-  imports: [MaterialModule,CommonModule,SharedModule,MatDatepickerModule,MatNativeDateModule],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA], // ✅ Add this
+  imports: [MaterialModule,CommonModule,SharedModule],
   templateUrl: './add-edit-patient-appointment.component.html',
   styleUrl: './add-edit-patient-appointment.component.scss'
 })
@@ -67,7 +66,6 @@ export class AddEditPatientAppointmentComponent {
    doctorFeeList:any;
    selectedFee: number | null = null;
    doctorHolidaysDates: { from: Date; to: Date }[] = [];
-   tooltipText: string = '';
   constructor(public patientAppointmentService: PatientAppointmentService,private doctorHolidayService:DoctorHolidayService ,private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientAppointmentComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
      
@@ -83,34 +81,6 @@ export class AddEditPatientAppointmentComponent {
    
     this.validateform();
     this.GetAllDoctors();
-    // Listen to Doctor Selection Change
-  //   this.PatientForm.get('doctorId')?.valueChanges.subscribe((doctorId) => {
-  //     if (doctorId) {
-  //       this.selectedDoctorId=doctorId;
-  //       // Reset state & Enable `dayId`
-  //       this.PatientForm.get('appoitmentDate')?.disable(); // Ensure it resets first
-  //       this.PatientForm.get('appoitmentDate')?.enable();
-  //     } else {
-  //       this.PatientForm.get('appoitmentDate')?.disable();
-  //     }
-  //   });
-    
-  // this.PatientForm.get('appoitmentDate')?.valueChanges.subscribe((dayId) => {
-  //   if (dayId) {
-  //      // Convert date to JavaScript Date object
-  //   const selectedDate = new Date(dayId);
-    
-  //   // Get the day name
-  //   const dayName = selectedDate.toLocaleDateString('en-US', { weekday: 'long' });
-  //   const matchingDay = this.weekDays.find(day=> day.name.toLocaleLowerCase() === dayName.toLocaleLowerCase());
-  //     // Disable appointmentTime while fetching slots
-  //     this.PatientForm.get('timeSlot')?.disable();
-      
-  //     this.fetchAvailableSlots(matchingDay?.id,selectedDate);
-  //   } else {
-  //     this.PatientForm.get('timeSlot')?.disable();
-  //   }
-  // });
 
   }
   
@@ -179,12 +149,23 @@ export class AddEditPatientAppointmentComponent {
   }
   onDoctorSelect(doctorId: number) {
     this.selectedDoctorId = doctorId;
+    this.doctorAvailibalTimeSlots = [];
+    this.paginatedSlots = [];
+
+    // ✅ Clear the form control value if needed
+    this.PatientForm.get('timeSlot')?.setValue(null); 
+    // ✅ Mark form control as untouched (if necessary)
+    this.PatientForm.get('timeSlot')?.markAsUntouched();
+
+    // ✅ Fetch holidays
     this.GetSelectedDoctorHolidays(doctorId.toString());
-    const selectedDoctor = this.DoctorList.find((doc:any) => doc.id === doctorId);
-    this.selectedFee = selectedDoctor.fee ? selectedDoctor.fee : 0;
+
+    const selectedDoctor = this.DoctorList.find((doc: any) => doc.id === doctorId);
+    this.selectedFee = selectedDoctor?.fee ? selectedDoctor.fee : 0;
     this.PatientForm.get('doctorFee')?.setValue(this.selectedFee);
-          this.updatePaginatedSlots(); 
-  }
+        this.updatePaginatedSlots();
+}
+
   GetSelectedDoctorHolidays(doctorId:any){
     this.loading = true;
     let model = { DoctorId: String(doctorId) }; 
@@ -205,27 +186,7 @@ export class AddEditPatientAppointmentComponent {
           showErrorMessage(ResultMessages.serverError);
         });
   }
-  disableNonHolidayDates = (date: Date | null): boolean => {
-    if (!date) return true; // ❌ Disable if no date selected
-    
-    const checkDate = new Date(date).setHours(0, 0, 0, 0);
-    console.log("Checking Date:", checkDate);
   
-    // Disable only holidays, enable all others
-    const isHoliday = this.doctorHolidaysDates.some(h => {
-      const fromDate = new Date(h.from).setHours(0, 0, 0, 0);
-      const toDate = new Date(h.to).setHours(23, 59, 59, 999);
-      
-      console.log("Comparing:", { checkDate, fromDate, toDate });
-  
-      return checkDate >= fromDate && checkDate <= toDate;
-    });
-  
-    return !isHoliday; // ✅ Holidays disabled, others enabled
-  };
-
-  
- 
   AddEdit(){
     
     this.loading = true;

@@ -117,8 +117,7 @@
                           formControlName="appoitmentDate" 
                           [min]="minDate" 
                           [max]="maxDate" 
-                          (dateChange)="onDateChange($event.value)"
-                          [matDatepickerFilter]="disableNonHolidayDates"  
+                          (dateChange)="onDateChange($event.value)"                         
                           matTooltipPosition="above">
                       
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
