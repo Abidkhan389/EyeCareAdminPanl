@@ -54,15 +54,16 @@ export class PatientcheckupDescriptionComponent {
   isCollapsed: boolean = true;
   count: number = 0;
   validationMessages = Messages.validation_messages;
-  maxDate: string;
+  maxDate: any;
   patientAppointmentCheckUpDescription:any;
+  selectedSearchFilterDate:any;
   constructor(private patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
         protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
       this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
     }
     ngOnInit(): void {
-      const nextMonthDate = new Date(new Date().setMonth(new Date().getMonth() + 1));
-      this.maxDate = nextMonthDate.toISOString().split('T')[0]; 
+      this.maxDate = new Date(new Date().setMonth(new Date().getMonth() + 1)); // one month ahead
+
       this.validateForm();
       this.fetchAllPatientAppointmentCheckUpHistory();
     }
@@ -121,9 +122,10 @@ export class PatientcheckupDescriptionComponent {
     }
      //Reset Form Values on Advance Search
      resetTable() {
-      this.form.reset();
+      this.form.reset(); // Reset the entire form
       this.fetchAllPatientAppointmentCheckUpHistory();
     }
+    
     onPaginate(pageEvent: PageEvent) {
       this.tableParams.limit = pageEvent.pageSize
       this.tableParams.start = pageEvent.pageIndex * pageEvent.pageSize
@@ -141,7 +143,8 @@ export class PatientcheckupDescriptionComponent {
             this.noData = true;
           }
           else{
-            this.noData = false
+            this.noData = false;
+
           }
           this.dataSource.sort = this.sort;
           this.loading = false;
@@ -196,15 +199,22 @@ export class PatientcheckupDescriptionComponent {
       }
     
       const selectedDate = new Date(value);
+    
       if (isNaN(selectedDate.getTime())) {
         this.form.patchValue({ appoitmentDate: null });
         return;
       }
     
+      // Adjust for time zone by getting UTC equivalent
       selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
-      const iso = selectedDate.toISOString();
-      this.form.patchValue({ appoitmentDate: iso });
+    
+      // Format the date to ISO without the time (just date)
+      const isoDate = selectedDate.toISOString().split('T')[0]; // Get only the date portion (YYYY-MM-DD)
+    
+      // Patch the formatted date into the form
+      this.form.patchValue({ appoitmentDate: isoDate });
     }
+    
 
     printPatientCheckUpDescription(content:any,id:any){
         this.loading = true;
