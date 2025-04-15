@@ -10,89 +10,81 @@
 
         <div id="collapseFilter" [ngbCollapse]="!isCollapsed">
             <div class="filter-content">
-                <div class="row d-flex  align-items-center">
+                <div class="row d-flex align-items-center">
+                    <!-- First Name -->
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                        <div class="form-group">
-                            <label>First Name:</label>
-                            <input type="text" class="form-control" formControlName="firstName"
-                                placeholder="Enter First Name">
-                            <div *ngIf="form.controls['firstName'].touched && !form.controls['firstName'].valid">
-                                <span class="text-danger" *ngIf="form.controls['firstName'].hasError('required')">
-                                    First Name is required.
-                                </span>
-                            </div>
-                        </div>
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>First Name</mat-label>
+                        <input matInput formControlName="firstName" placeholder="Enter First Name">
+                        <mat-error *ngIf="form.controls['firstName'].touched && !form.controls['firstName'].valid">
+                          <span class="text-danger" *ngIf="form.controls['firstName'].hasError('required')">
+                            First Name is required.
+                          </span>
+                        </mat-error>
+                      </mat-form-field>
                     </div>
-
+                  
+                    <!-- Last Name -->
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                        <div class="form-group">
-                            <label>Last Name:</label>
-                            <input type="text" class="form-control" formControlName="lastName"
-                                placeholder="Enter Last Name">
-                            <div *ngIf="form.controls['lastName'].touched && !form.controls['lastName'].valid">
-                                <span class="text-danger" *ngIf="form.controls['lastName'].hasError('required')">
-                                    Last Name is required.
-                                </span>
-                            </div>
-                        </div>
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Last Name</mat-label>
+                        <input matInput formControlName="lastName" placeholder="Enter Last Name">
+                        <mat-error *ngIf="form.controls['lastName'].touched && !form.controls['lastName'].valid">
+                          <span class="text-danger" *ngIf="form.controls['lastName'].hasError('required')">
+                            Last Name is required.
+                          </span>
+                        </mat-error>
+                      </mat-form-field>
                     </div>
+                  
+                    <!-- From Date -->
+<div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>From Date</mat-label>
+      <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" placeholder="From Date" [max]="maxDate">
+      <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #fromDatePicker></mat-datepicker>
+      <mat-error *ngIf="form.controls['fromDate'].touched && !form.controls['fromDate'].valid">
+        <span class="text-danger" *ngIf="form.controls['fromDate'].hasError('required')">
+          From Date is required.
+        </span>
+      </mat-error>
+    </mat-form-field>
+  </div>
+  
+                  </div>
+                  
+                  <div class="row">
+                    <!-- To Date -->
                     <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                        <div class="form-group">
-                            <label>From Date:</label>
-                            <input type="datetime-local" class="form-control" formControlName="fromDate"
-                                [attr.max]="maxDate" placeholder="From Date">
-
-
-                            <div *ngIf="form.controls['fromDate'].touched && !form.controls['fromDate'].valid">
-                                <span class="text-danger" *ngIf="form.controls['fromDate'].hasError('required')">
-                                    From Date is required.
-                                </span>
-                            </div>
-                        </div>
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>To Date</mat-label>
+                        <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" [max]="maxDate" placeholder="To Date">
+                        <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #toDatePicker></mat-datepicker>
+                        <mat-error *ngIf="form.controls['toDate'].touched && !form.controls['toDate'].valid">
+                          <span class="text-danger" *ngIf="form.controls['toDate'].hasError('required')">
+                            To Date is required.
+                          </span>
+                        </mat-error>
+                      </mat-form-field>
                     </div>
-                    <!-- Select Day (Bootstrap Select with Placeholder) -->
-                    <!-- <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                        <div class="form-group mb-0">
-                            <label>Select Day</label>
-                            <select class="form-control" formControlName="dayOfWeek">
-                                <option *ngFor="let day of weekDays" [value]="day.id">
-                                    {{ day.name }}
-                                </option>
-                            </select>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="row">
-
-                    
-                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12">
-                        <div class="form-group">
-                            <label>To Date:</label>
-                            <input type="datetime-local" class="form-control" formControlName="toDate"
-                                [attr.max]="maxDate" placeholder="From Date">
-                            <div *ngIf="form.controls['toDate'].touched && !form.controls['toDate'].valid">
-                                <span class="text-danger" *ngIf="form.controls['toDate'].hasError('required')">
-                                    From Date is required.
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt-2">
+                  </div>
+                  
+                  <div class="row mt-2">
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                        <div class="form-group mb-0 d-flex align-items-center">
-                            <button class="mb-2 me-2 btn-icon btn-shadow btn btn-primary"
-                                [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" type="submit"
-                                [disabled]="!form.valid">
-                                <i class="fa fa-search"></i> Search
-                            </button>
-                            <button class="mb-2 mr-2 btn-icon btn-shadow btn btn-outline-danger" type="reset"
-                                (click)="resetTable()">
-                                <i class="fa fa-close"></i> Reset
-                            </button>
-                        </div>
+                      <div class="form-group mb-0 d-flex align-items-center">
+                        <button class="mb-2 me-2 btn-icon btn-shadow btn btn-primary" [ngClass]="{'m-loader m-loader--right m-loader--info': loading}" type="submit" [disabled]="!form.valid">
+                          <i class="fa fa-search"></i> Search
+                        </button>
+                        <button class="mb-2 mr-2 btn-icon btn-shadow btn btn-outline-danger" type="reset" (click)="resetTable()">
+                          <i class="fa fa-close"></i> Reset
+                        </button>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                  
+                  
             </div>
         </div>
     </form>
