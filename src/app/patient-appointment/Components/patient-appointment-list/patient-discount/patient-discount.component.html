@@ -23,10 +23,10 @@
                     </mat-form-field>
                 </div>
               
-                <!-- Last Name -->
+                <!-- Patient Discount -->
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
                     <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>{{ "Last Name" | translate }}</mat-label>
+                        <mat-label>{{ "Fee Discount" | translate }}</mat-label>
                         <input matInput type="number" min="0" formControlName="discountFee" placeholder="Discount" />
                         <mat-error *ngIf="PatientForm.controls['discountFee'].touched && !PatientForm.controls['discountFee'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">

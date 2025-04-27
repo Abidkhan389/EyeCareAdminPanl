@@ -230,6 +230,7 @@ export class PatientAppointmentListComponent {
     });
   }
   applyDiscount(patient: any) {
+    debugger;
     const dialogref = this.dilog.open(PatientDiscountComponent, {
       disableClose: true,
       autoFocus: false,
