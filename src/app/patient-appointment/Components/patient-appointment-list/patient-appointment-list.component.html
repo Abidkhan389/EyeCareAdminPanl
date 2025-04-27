@@ -152,6 +152,10 @@
                         (click)="AddEdit(patient.patientId)" matTooltip="Edit">
                         <mat-icon>edit</mat-icon>
                     </button>
+                    <button mat-icon-button color="primary" *ngIf="patient.status == 1"
+                    (click)="applyDiscount(patient)" matTooltip="Disscount">
+                    <mat-icon>local_offer</mat-icon>
+                </button>
                 </td>
             </ng-container>
 
