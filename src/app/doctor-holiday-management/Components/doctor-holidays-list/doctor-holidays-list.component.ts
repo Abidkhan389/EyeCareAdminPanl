@@ -57,7 +57,7 @@ export class DoctorHolidaysListComponent implements OnInit {
     count: number = 0;
     validationMessages = Messages.validation_messages;
     weekDays: { id: number; name: string }[] = [];
-    maxDate: string;
+    maxDate: any;
     constructor(private doctorHolidayService:DoctorHolidayService, private dialog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
         protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
         this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
@@ -65,13 +65,13 @@ export class DoctorHolidaysListComponent implements OnInit {
       
     }
     ngOnInit(): void {
-      const today = new Date();
+      // Calculate the max date (next year)
+const today = new Date();
 const nextYearDate = new Date(today);
 nextYearDate.setFullYear(today.getFullYear() + 1);
 
-// Ensure `YYYY-MM-DDTHH:MM` format for `datetime-local`
-this.maxDate = nextYearDate.toISOString().slice(0, 16); // Fix format
-
+// Set the maxDate to the calculated date
+this.maxDate = nextYearDate;
 
         this.validateForm();
         this.fetchAllDoctorHoliday();
@@ -145,7 +145,6 @@ this.maxDate = nextYearDate.toISOString().slice(0, 16); // Fix format
         Object.assign(this.tableParams, this.form.value);
         this.doctorHolidayService.getAllByProcDoctorHolidays(this.tableParams).subscribe({
           next: (response) => {
-            debugger
             this.count = response.data.totalCount;
             this.dataSource = response.data.dataList;
             if (this.count == 0) {
@@ -184,8 +183,7 @@ this.maxDate = nextYearDate.toISOString().slice(0, 16); // Fix format
           },
         });
        }
-    
-      handleDateSelection(fieldName: 'fromDate' | 'toDate') {
+       handleDateSelection(fieldName: 'fromDate' | 'toDate') {
         const control = this.form.get(fieldName);
         if (!control) return;
       
@@ -203,18 +201,53 @@ this.maxDate = nextYearDate.toISOString().slice(0, 16); // Fix format
         }
       
         const maxDate = new Date(this.maxDate);
-        
+      
         // Restrict date to not exceed maxDate
         if (selectedDate > maxDate) {
           this.form.patchValue({ [fieldName]: this.maxDate });
           return;
         }
       
+        // Adjust for the time zone by getting the UTC equivalent
         selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
-        const iso = selectedDate.toISOString();
       
-        this.form.patchValue({ [fieldName]: iso });
+        // Format the date to ISO without the time (if needed)
+        const isoDate = selectedDate.toISOString().split('T')[0]; // Get only the date part (YYYY-MM-DD)
+      
+        // Patch the formatted date into the form
+        this.form.patchValue({ [fieldName]: isoDate });
       }
+      
+      // handleDateSelection(fieldName: 'fromDate' | 'toDate') {
+      //   const control = this.form.get(fieldName);
+      //   if (!control) return;
+      
+      //   const value = control.value;
+      
+      //   if (!value) {
+      //     this.form.patchValue({ [fieldName]: null });
+      //     return;
+      //   }
+      
+      //   const selectedDate = new Date(value);
+      //   if (isNaN(selectedDate.getTime())) {
+      //     this.form.patchValue({ [fieldName]: null });
+      //     return;
+      //   }
+      
+      //   const maxDate = new Date(this.maxDate);
+        
+      //   // Restrict date to not exceed maxDate
+      //   if (selectedDate > maxDate) {
+      //     this.form.patchValue({ [fieldName]: this.maxDate });
+      //     return;
+      //   }
+      
+      //   selectedDate.setMinutes(selectedDate.getMinutes() - selectedDate.getTimezoneOffset());
+      //   const iso = selectedDate.toISOString();
+      
+      //   this.form.patchValue({ [fieldName]: iso });
+      // }
       // Function to open the popup
       openDayPopup(dayNames: string[]): void {
         this.dialog.open(DayNamePopupComponent, {

@@ -117,7 +117,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard,RoleGuard],
       },
       {
-        path: 'patientCheckupDescription',
+        path: 'PatientHistory',
         loadChildren: () =>
             import('./patient-checkup-description/patient-checkup-description.module').then(
                 (_) => _.PatientCheckupDescriptionModule
@@ -137,13 +137,14 @@ export const routes: Routes = [
                 (_) => _.DoctorHolidayManagementModule
               ),
         data: {
-          title: 'doctorHoliDay',
+          title: 'DoctorHoliDay',
           urls: [{ title: 'DoctorHoliDay'}, { title: 'doctorHoliDay' }],
           allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
          
         },
         canActivate: [AuthGuard,RoleGuard],
       },
+      
     ],
   },
   {

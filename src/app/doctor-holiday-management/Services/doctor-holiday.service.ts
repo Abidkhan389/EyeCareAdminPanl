@@ -33,8 +33,7 @@ export class DoctorHolidayService {
                 })
               );
             }
-            getDoctorHolidayByDoctorIdForPatientAppointment(modal: any): Observable<any> {
-              debugger
+            getDoctorHolidayByDoctorIdForPatientAppointment(modal: any): Observable<any> {              
               const endpoint = `${this.apiUrl}/GetDoctorHolidayByDoctorIdForPatientAppointment`;
               return this.http.post<any>(endpoint, modal).pipe( 
                 finalize(() => {

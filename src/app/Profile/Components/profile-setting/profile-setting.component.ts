@@ -71,11 +71,9 @@ export class ProfileSettingComponent implements OnInit {
     let model = Object.assign({});
     model.emailOrPhoneNumber=localStorage.getItem('email');
     model.userId= localStorage.getItem('id');
-    debugger
     this.profileSettingService.GetUserProfileByEmailAndId(model).subscribe({
       next: (response: RepoResponse<any[]>) => {
         if (response.success) {
-          debugger  
           this.UserForm.patchValue(response.data); 
           this.UserForm.get('emailorPhoneNumber')?.disable();
           this.entityId=this.UserForm.get('entityId')?.value;
