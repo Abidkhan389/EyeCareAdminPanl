@@ -23,6 +23,9 @@ import { PatientAppointmentService } from '../../Services/patient-appointment.se
 import { AddEditPatientAppointmentComponent } from './add-edit-patient-appointment/add-edit-patient-appointment.component';
 import { AddEditPatientCheckupDescriptionComponent } from 'src/app/patient-checkup-description/Components/patientcheckup-description/add-edit-patient-checkup-description/add-edit-patient-checkup-description.component';
 import { PatientCheckUpDescriptionService } from 'src/app/patient-checkup-description/Services/patient-check-up-description.service';
+import { TokenHelper } from 'src/app/_common/tokenHelper';
+import { AuthService } from 'src/app/auth/services/auth.service';
+import { ROLES } from 'src/app/shared/models/ROLES';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -54,8 +57,11 @@ export class PatientAppointmentListComponent {
   count: number = 0;
   validationMessages = Messages.validation_messages;
   maxDate: string;
+ loginuserRole:any;
+ ROLES = ROLES;
   constructor(private patientCheckUpDescriptionService: PatientCheckUpDescriptionService,private patientAppointmentService:PatientAppointmentService, private dilog: MatDialog, private fb: FormBuilder,private modalService: NgbModal,
-      protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,private confirmationService: ConfirmationService){
+      protected router: Router,private route: ActivatedRoute,private message: MatSnackBar,
+      private confirmationService: ConfirmationService, private authService: AuthService){
     this.tableParams = { start: 0, limit: 5, sort: '', order: 'ASC', search: null };
   }
   ngOnInit(): void {
@@ -63,6 +69,7 @@ export class PatientAppointmentListComponent {
     this.maxDate = nextMonthDate.toISOString().split('T')[0]; 
     this.validateForm();
     this.fetchAllPatientAppointment();
+    this.loginuserRole = localStorage.getItem('roles');
   }
   validateForm(){
     this.form = this.fb.group({
@@ -217,7 +224,7 @@ export class PatientAppointmentListComponent {
       next: (value) => {
         if (value) {
             // Navigate to patientCheckupDescription route
-        this.router.navigate(['/patientCheckupDescription']);
+        this.router.navigate(['/PatientHistory']);
         }
       },
     });

@@ -17,9 +17,9 @@ const patientcheckupDescriptionRoutes: Routes = [
         path: 'view/:id',
         component: ViewpatientcheckupDescriptionComponent,
         data: {
-          title: 'PatientCheckupDescription',
+          title: 'PatientHistory',
           urls: [
-            { title: 'Dashboard', url: '/patientCheckupDescription' },
+            { title: 'Dashboard', url: '/PatientHistory' },
             { title: 'PatientCheckupDescription' },
           ],
         },

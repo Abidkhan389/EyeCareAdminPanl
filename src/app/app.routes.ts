@@ -117,7 +117,7 @@ export const routes: Routes = [
         canActivate: [AuthGuard,RoleGuard],
       },
       {
-        path: 'patientCheckupDescription',
+        path: 'PatientHistory',
         loadChildren: () =>
             import('./patient-checkup-description/patient-checkup-description.module').then(
                 (_) => _.PatientCheckupDescriptionModule

@@ -46,7 +46,7 @@ export const navItems: NavItem[] = [
   {
     displayName: 'Patient History',
     iconName: 'mdi:calendar-clock', // Represents scheduling and availability
-    route: '/patientCheckupDescription',
+    route: '/PatientHistory',
     allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor,ROLES.Rerecptionist],
   },
   {

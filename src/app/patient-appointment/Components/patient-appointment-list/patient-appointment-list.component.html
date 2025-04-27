@@ -195,7 +195,7 @@
                 <mat-header-cell *matHeaderCellDef class="status-icon">CheckUp Status</mat-header-cell>
                 <mat-cell *matCellDef="let patient">
                     <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
-                        <button (click)="patientAppointmentForDescription(patient)" mat-icon-button class="status-icon" matTooltip="Patient In Queue">
+                        <button  [disabled]="loginuserRole !== ROLES.Doctor"  (click)="patientAppointmentForDescription(patient)" mat-icon-button class="status-icon" matTooltip="Patient In Queue">
                             <mat-icon>schedule</mat-icon>
                         </button>
                     </ng-container>
