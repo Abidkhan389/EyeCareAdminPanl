@@ -7,6 +7,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Messages } from 'src/app/shared/Validators/validation-messages';
+import { showErrorMessage, showInfoMessage, showSuccessMessage } from 'src/app/_common/messages';
 
 @Component({
   selector: 'app-patient-discount',
@@ -41,17 +42,16 @@ export class PatientDiscountComponent {
         });
     }
     AddEdit(){
-       let model = Object.assign({}, this.PatientForm.getRawValue());
-          
-          // let phn=Helpers.appendPhoneNumber(this.UserForm.get("mobileNumber").value)
-          // if(phn){
-          //   model.mobileNumber = phn;
-          // }
-          if (this.data.patientId){
-            model.patientId = this.data.patientId
-            model.doctorId=this.data.doctorId
-          }
+      let model = Object.assign({}, this.PatientForm.getRawValue());
+
+      // If patientId is in the form of a string with `{}` around it, remove them
+      if (this.data.patientId) {
+        // Assuming this.data.patientId is a string, clean it up
+        model.patientId = this.data.patientId.replace(/[{}]/g, ""); // Removes curly braces
+        model.doctorId = this.data.doctorId;
+      }
           this.patientAppointmentService.addEditPatientDiscount(model).subscribe((data: any) => {
+            debugger;
             if(data.success)
             {
               showSuccessMessage(data.message);
@@ -69,12 +69,5 @@ export class PatientDiscountComponent {
     this.dialogref.close();
   }
 
-}
-function showSuccessMessage(message: any) {
-  throw new Error('Function not implemented.');
-}
-
-function showErrorMessage(message: any) {
-  throw new Error('Function not implemented.');
 }
 

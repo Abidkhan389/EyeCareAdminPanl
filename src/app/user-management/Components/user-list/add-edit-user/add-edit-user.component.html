@@ -63,8 +63,8 @@
                    [class.col-xl-6]="!isDoctor" [class.col-lg-6]="!isDoctor" 
                    [class.col-md-6]="!isDoctor" [class.col-sm-6]="!isDoctor">
                 <mat-form-field appearance="outline" class="w-100">
-                  <mat-label>Email</mat-label>
-                  <input matInput formControlName="email" placeholder="Enter Email" />
+                  <mat-label>Email/Phone</mat-label>
+                  <input matInput formControlName="email" placeholder="Enter Email/Phone" />
                   <mat-error *ngIf="UserForm.controls['email'].touched && !UserForm.controls['email'].valid">
                     <ng-container *ngFor="let validation of validationMessages.value">
                       <span *ngIf="UserForm.controls['email'].hasError(validation.type)">
