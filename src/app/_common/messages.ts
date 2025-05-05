@@ -43,7 +43,7 @@ export const showWarningMessage = (message:any, showCancelButton:any, confirmBut
 
 export const showConfirmationMessage = (confirmMessage?:any, confirmButtonText?:any, title?:any) => {
     return Swal.fire({
-        title: confirmMessage != null ? confirmMessage : 'Are you sure to delete the record?',
+        title: confirmMessage != null ? confirmMessage : 'Are you sure you want to delete the record?',
         text: title != null ? 'You will not be able to recover this file!' : title,
         icon: 'warning',
         showCancelButton: true,

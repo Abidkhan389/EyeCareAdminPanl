@@ -46,5 +46,8 @@ export class DoctorAvailabilityService {
       })
     );
   }
+  deleteDoctorAvalability(Ids:any): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${Ids}`);
+  }
 
 }

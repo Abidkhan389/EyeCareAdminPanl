@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
-import { showSuccessMessage, showErrorMessage } from 'src/app/_common/messages';
+import { showSuccessMessage, showErrorMessage, showConfirmationMessage, showDeletedSuccessfully } from 'src/app/_common/messages';
 import { Table } from 'src/app/interfaces/ITable';
 import { MaterialModule } from 'src/app/material.module';
 import { ConfirmationService } from 'src/app/shared/services/confirmation.service';
@@ -21,6 +21,7 @@ import { DoctorAvailabilityService } from '../../Services/doctor-availability.se
 import { AddEditDoctorAvailabilityComponent } from './add-edit-doctor-availability/add-edit-doctor-availability.component';
 import { Helpers } from 'src/app/_common/_helper/app_helper';
 import { DayOfWeek } from 'src/app/_common/_helper/enum';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-doctor-availability-list',
@@ -36,9 +37,10 @@ form: FormGroup;
   doctorAvailability: any[] = [];
   modalOptions: NgbModalOptions = {};
   selectedRows = new SelectionModel<any>(true, []);
-  dataSource !: MatTableDataSource<any>;
+  dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+  // displayedColumns: string[] = ['select','sn.', 'status','doctorName','dayName','doctorTimeSlots','appointmentDurationMinutes','actions'];
   displayedColumns: string[] = ['sn.', 'status','doctorName','dayName','doctorTimeSlots','appointmentDurationMinutes','actions'];
   weekDays: { id: number; name: string }[] = [];
   pageSize = 5;
@@ -131,7 +133,7 @@ form: FormGroup;
       .subscribe({
         next: (response) => {
           this.count = response.data.totalCount;
-          this.dataSource = response.data.dataList;
+          this.dataSource = new MatTableDataSource(response.data.dataList);
           this.noData = this.count === 0;
           this.dataSource.sort = this.sort;
         },
@@ -209,7 +211,43 @@ form: FormGroup;
   
     return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   }
+  toggleAllRows() {
+    if (this.isAllSelected()) {
+      this.selectedRows.clear();
+      return;
+    }
+      debugger;
+    this.selectedRows.select(...this.dataSource.data);
+  }
+  isAllSelected() {
+    const numSelected = this.selectedRows.selected.length;
+    const numRows = this.dataSource.data.length;
+    return numSelected === numRows;
+  }
+  deleteClassRoom(Ids: any) {
+    showConfirmationMessage().then((result: any) => {
+      if (result.isConfirmed) {
+        this.doctorAvailabilityService.deleteDoctorAvalability(Ids).subscribe(
+          (response) => {
+            showDeletedSuccessfully('The record has been deleted successfully.');
+            this.fetchAlldoctorAvailability();
+          },
+          (error) => {
+            showErrorMessage('Failed to delete data. Please try again.');
+          }
+        );
+      } else if (result.isDismissed) {
+        showErrorMessage('Delete Cancelled', 'Cancelled');
+      }
+    });
+  }
   
   
+   // Function to delete multiple classrooms
+   deleteSelectedClassrooms(): void {
+    let selectedIds = this.selectedRows.selected.map((row) => row.availabilityId);
+    if (selectedIds.length > 0) this.deleteClassRoom(selectedIds);
+    this.selectedRows.clear(); // Clear the selection
+  }
   
 }
