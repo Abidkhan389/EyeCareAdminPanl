@@ -23,13 +23,15 @@ export abstract class ApiService implements IBaseService {
 
 
   processPayload<T>(payload: IPayload<T>, messageTypeIds?: string[]) {
+    debugger;
     const message = payload.message;
-    messageTypeIds = messageTypeIds || [MessageTypes.error, MessageTypes.failure];
-    const messageTypeId = messageTypeIds.find(o => o === message.messageTypeId);
-    if (messageTypeId) {
-      return (payload.message);
+    // messageTypeIds = messageTypeIds || [MessageTypes.error, MessageTypes.failure];
+    // const messageTypeId = messageTypeIds.find(o => o === message.messageTypeId);
+    if (payload.success) {
+      debugger;
+     return (payload);
     } else {
-      return (payload.data);
+       return (payload.message);
     }
   }
 

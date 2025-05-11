@@ -70,6 +70,11 @@ export function SelectRequiredValidator(control: FormControl) {
     return null;
 }
 
+export function atLeastOneItemValidator(control: AbstractControl): ValidationErrors | null {
+  const formArray = control as any;
+  return formArray && formArray.length > 0 ? null : { required: true };
+}
+
 
 
 

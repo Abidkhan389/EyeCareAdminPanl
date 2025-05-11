@@ -13,7 +13,7 @@ import { MaterialModule } from 'src/app/material.module';
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { Messages } from 'src/app/shared/Validators/validation-messages';
-import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
+import { atLeastOneItemValidator, NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 
 @Component({
   selector: 'app-add-edit-doctor-availability',
@@ -96,7 +96,7 @@ export class AddEditDoctorAvailabilityComponent implements OnInit {
       doctorId: [null, Validators.required],
       appointmentDurationMinutes: [null, Validators.required],
       dayIds: this.fb.array([]),
-      doctorTimeSlots: this.fb.array([]),
+      doctorTimeSlots: this.fb.array([], atLeastOneItemValidator),
     });
 
   }
@@ -162,9 +162,9 @@ export class AddEditDoctorAvailabilityComponent implements OnInit {
     if (this.data.id)
       model.Id = this.data.id
     this.doctorAvailabilityService.addEditDoctorAvaibality(model).subscribe((data: any) => {
-      if(data.success)
+      if(data)
             {
-              showSuccessMessage(data.message);
+              //showSuccessMessage(data.message);
               this.dialogref.close(true);
             }
             else{
