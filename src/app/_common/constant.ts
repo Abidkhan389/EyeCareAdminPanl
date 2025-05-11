@@ -1,3 +1,5 @@
+import { environment } from "src/environments/environment";
+
 export const MessageTypes = {
     error: "Error",
     info: "Info",
@@ -5,6 +7,25 @@ export const MessageTypes = {
     success: "Success",
     warning: "Warning",
     question: "Question"
+}
+var baseUrl = environment.baseUrl;
+var DooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
+var medicineTypeUrl=baseUrl + 'Medicinetype/'
+export const APIPaths = {
+
+   
+
+    //----------DooctorAvailability URLS--------------
+    getAllDoctorAvailability: DooctorAvailabilityUrl + 'getAllByProc',
+    DoctorAvaailabilityActiveInActive: DooctorAvailabilityUrl + 'ActiveInActive',
+    addEditDoctorAvaibality: DooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
+    getByIdDoctorAvaibality: DooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
+     //----------Medicine Type URLS--------------
+    getAllMedicineType: medicineTypeUrl + 'getAllByProc',
+    updateMedicineTypeStatus: medicineTypeUrl + 'ActiveInActive',
+    getMedicineTypeById: medicineTypeUrl + 'getMedicineTypeById',
+    addEditmedicineType: medicineTypeUrl + 'addEditmedicineType',
+   
 }
 
 export const ResultMessages = {

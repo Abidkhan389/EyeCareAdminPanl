@@ -40,84 +40,100 @@
     </form>
 </div>
 <div class="row mb-2">
-    <div class="col-sm-12 " style="margin-top: 10px;">
-        <button class="btn-icon-only btn-shadow btn btn-primary float-end" (click)="AddEdit()" title="Add New">
-            <i class="fa fa-plus"></i> <span>Add New</span>
-        </button>
-
+    <div class="colxl-12 col-lg-12 col-md-12 col-sm-12 col-12 d-flex justify-content-end align-items-center" style="margin-top: 10px;">
+      <!-- <button
+        class="btn-icon-only btn-shadow btn btn-primary me-2"
+        [disabled]="selectedRows.selected.length === 0"
+        (click)="deleteSelectedClassrooms()"
+      >
+        Delete Selected Doctor Time
+      </button>
+   -->
+      <button
+        class="btn-icon-only btn-shadow btn btn-primary"
+        (click)="AddEdit()"
+        title="Add New"
+      >
+        <i class="fa fa-plus"></i> <span>Add New</span>
+      </button>
     </div>
-</div>
-<div class=" material striped">
+  </div>
+  
+  
+  <div class="material striped table-container">
     <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
-    <table  class="striped-table"  mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)" style=" max-width: 100%;
-            width: 100%;">
-        <div class="row">
-            <!-- Hashing -->
-            <ng-container matColumnDef="sn.">
-                <th mat-header-cell *matHeaderCellDef> #. </th>
-                <td mat-cell *matCellDef="let medicineType">{{medicineType.serialNo}}</td>
-            </ng-container>
-            <!-- Status Column -->
-            <ng-container matColumnDef="status" prop="status">
-                <th mat-header-cell *matHeaderCellDef> Status </th>
-                <td mat-cell *matCellDef="let medicineType">
-                    <mat-slide-toggle [disabled]="loading" [checked]="medicineType.status == 1"
-                        (change)="updateStatus($event.checked, medicineType)">
-                        <i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
-                    </mat-slide-toggle>
-                </td>
-            </ng-container>
-
-            <!-- Actions Column -->
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef> Actions </th>
-                <td mat-cell *matCellDef="let doctoravailability">
-                    <button mat-icon-button class="action-button" color="primary"
-                        (click)="ViewDoctorAvailability(doctoravailability.availabilityId)" matTooltip="View">
-                        <mat-icon>visibility</mat-icon> <!-- Eye icon -->
-                    </button>
-                    <button mat-icon-button color="primary" *ngIf="doctoravailability.status == 1"
-                        (click)="AddEdit(doctoravailability.availabilityId)" matTooltip="Edit">
-                        <mat-icon>edit</mat-icon> <!-- Eye icon -->
-                    </button>
-                </td>
-            </ng-container>
-            <!-- doctorName Column -->
-            <ng-container matColumnDef="doctorName">
-                <th mat-header-cell *matHeaderCellDef >Doctor Name</th>
-                <td mat-cell *matCellDef="let doctoravailability"> {{doctoravailability.doctorName}} </td>
-            </ng-container>
-             <!-- dayName Column -->
-             <ng-container matColumnDef="dayName">
-                <th mat-header-cell *matHeaderCellDef >Day Name</th>
-                <td mat-cell *matCellDef="let doctoravailability"> {{doctoravailability.dayName}} </td>
-            </ng-container>
-              <!-- appointmentDurationMinutes Column -->
-              <ng-container matColumnDef="appointmentDurationMinutes">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Appintment Duration</th>
-                <td mat-cell *matCellDef="let doctoravailability"> {{doctoravailability.appointmentDurationMinutes}} </td>
-            </ng-container>
-            <!-- doctorTimeSlots Column -->
-            <ng-container matColumnDef="doctorTimeSlots">
-                <th mat-header-cell *matHeaderCellDef>Time Slots</th>
-                <td mat-cell *matCellDef="let doctoravailability">
-                    {{ getFormattedTimeSlots(doctoravailability?.doctorTimeSlots) }}
-                </td>
-            </ng-container>
-            
-
-            
-            
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let doctoravailability; columns: displayedColumns;"></tr>
-            <!-- Row shown when there is no matching data. -->
-            <tr class="mat-row" *matNoDataRow>
-                <td style="text-align: center;" class="mat-cell" [attr.colspan]="displayedColumns.length">
-                    No data found.
-                </td>
-            </tr>
-        </div>
-    </table>
-    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit" showFirstLastButtons
-        [pageSizeOptions]="[5,10,25,50, 100]"></mat-paginator>
-</div>
+  
+    <!-- Scrollable Table Wrapper -->
+    <div class="table-wrapper">
+      <table class="striped-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="onSort($event)">
+        <!-- <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox (change)="$event ? toggleAllRows() : null" [checked]="selectedRows.hasValue() && isAllSelected()" [indeterminate]="selectedRows.hasValue() && !isAllSelected()">
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selectedRows.toggle(row) : null" [checked]="selectedRows.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container> -->
+  
+        <ng-container matColumnDef="sn.">
+          <th mat-header-cell *matHeaderCellDef>#.</th>
+          <td mat-cell *matCellDef="let medicineType">{{medicineType.serialNo}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status" prop="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let medicineType">
+            <mat-slide-toggle [disabled]="loading" [checked]="medicineType.status == 1" (change)="updateStatus($event.checked, medicineType)">
+              <i class="fa fa-spinner fa-pulse" *ngIf="loading"></i>
+            </mat-slide-toggle>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let doctoravailability">
+            <button mat-icon-button class="action-button" color="primary" (click)="ViewDoctorAvailability(doctoravailability.availabilityId)" matTooltip="View">
+              <mat-icon>visibility</mat-icon> <!-- Eye icon -->
+            </button>
+            <button mat-icon-button color="primary" *ngIf="doctoravailability.status == 1" (click)="AddEdit(doctoravailability.availabilityId)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon> <!-- Edit icon -->
+            </button>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="doctorName">
+          <th mat-header-cell *matHeaderCellDef>Doctor Name</th>
+          <td mat-cell *matCellDef="let doctoravailability">{{doctoravailability.doctorName}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="dayName">
+          <th mat-header-cell *matHeaderCellDef>Day Name</th>
+          <td mat-cell *matCellDef="let doctoravailability">{{doctoravailability.dayName}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="appointmentDurationMinutes">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Appointment Duration</th>
+          <td mat-cell *matCellDef="let doctoravailability">{{doctoravailability.appointmentDurationMinutes}}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="doctorTimeSlots">
+          <th mat-header-cell *matHeaderCellDef>Time Slots</th>
+          <td mat-cell *matCellDef="let doctoravailability">{{ getFormattedTimeSlots(doctoravailability?.doctorTimeSlots) }}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let doctoravailability; columns: displayedColumns;"></tr>
+  
+        <tr class="mat-row" *matNoDataRow>
+          <td style="text-align: center;" class="mat-cell" [attr.colspan]="displayedColumns.length">
+            No data found.
+          </td>
+        </tr>
+      </table>
+    </div>
+  
+    <mat-paginator [length]="count" (page)="onPaginate($event)" [pageSize]="tableParams.limit" showFirstLastButtons [pageSizeOptions]="[5,10,25,50, 100]"></mat-paginator>
+  </div>
+  

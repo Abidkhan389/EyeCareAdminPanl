@@ -1,0 +1,23 @@
+.table-wrapper {
+    width: 100%;
+    overflow-x: auto; /* Enables horizontal scrolling */
+    white-space: nowrap; /* Prevents text wrapping */
+}
+.striped-table {
+    min-width: 1000px; /* Ensures table does not shrink too much */
+    width: 100%;
+}
+
+/* Adjusting column width */
+.wide-column {
+    min-width: 200px;  /* Increase width for CNIC and Appointment Time */
+}
+
+/* Ensure columns take width according to content */
+.mat-column-actions
+ {
+    width: auto;
+    min-width: fit-content; /* Adjusts based on content */
+    white-space: nowrap; /* Prevents wrapping */
+    padding: 8px 16px; /* Adds some spacing */
+}

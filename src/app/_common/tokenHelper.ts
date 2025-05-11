@@ -37,9 +37,9 @@ export class TokenHelper {
 
                 if (!user.authenticated)
                     user.authenticated = true;
-
+                debugger;
                 let name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
-                let roles = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'];
+                let roles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
                 let sid = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameIdentifier'];
                 let timeZoneId = decodedToken['TimeZoneId'];
                 let image = decodedToken['Image'];
