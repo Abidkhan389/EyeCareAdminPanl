@@ -71,12 +71,10 @@ export class DoctorAvailabilityService  extends ApiService{
   //   );
   // }
    getByIdDoctorAvaibality(model: any) {
-    debugger;
     const guid = model?.Id || model?.id || model; // extract the string value
   let params = new HttpParams().set('Id', guid.toString());
     let onSuccess = (value:any) => {
       let data = value;
-      debugger;
       if (data.success) {
 
         return data;

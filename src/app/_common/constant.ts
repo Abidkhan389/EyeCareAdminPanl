@@ -10,6 +10,7 @@ export const MessageTypes = {
 }
 var baseUrl = environment.baseUrl;
 var DooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
+var medicineTypeUrl=baseUrl + 'Medicinetype/'
 export const APIPaths = {
 
    
@@ -19,6 +20,11 @@ export const APIPaths = {
     DoctorAvaailabilityActiveInActive: DooctorAvailabilityUrl + 'ActiveInActive',
     addEditDoctorAvaibality: DooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
     getByIdDoctorAvaibality: DooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
+     //----------Medicine Type URLS--------------
+    getAllMedicineType: medicineTypeUrl + 'getAllByProc',
+    updateMedicineTypeStatus: medicineTypeUrl + 'ActiveInActive',
+    getMedicineTypeById: medicineTypeUrl + 'getMedicineTypeById',
+    addEditmedicineType: medicineTypeUrl + 'addEditmedicineType',
    
 }
 

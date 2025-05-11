@@ -116,7 +116,7 @@ export class AddeditmecinetypeComponent {
     if (this.data.MedicineTypeId)
       model.medicineTypeId = this.data.MedicineTypeId
       this.medicineTypeService.addEditMedicineType(model).subscribe((data: any) => {
-      if(data.success)
+      if(data)
                  {
                    showSuccessMessage(data.message);
                    this.dialogref.close(true);
