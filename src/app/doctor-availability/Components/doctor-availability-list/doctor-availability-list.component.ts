@@ -75,7 +75,7 @@ form: FormGroup;
       status: event ? 1 : 0
     };
   
-    this.doctorAvailabilityService.activeInActive(model)
+    this.doctorAvailabilityService.DoctorAvaailabilityActiveInActive(model)
       .pipe(
         finalize(() => {
           this.loading = false;  // Ensure loading false after API completes
@@ -132,6 +132,7 @@ form: FormGroup;
       )
       .subscribe({
         next: (response) => {
+          debugger;
           this.count = response.data.totalCount;
           this.dataSource = new MatTableDataSource(response.data.dataList);
           this.noData = this.count === 0;
@@ -225,21 +226,21 @@ form: FormGroup;
     return numSelected === numRows;
   }
   deleteClassRoom(Ids: any) {
-    showConfirmationMessage().then((result: any) => {
-      if (result.isConfirmed) {
-        this.doctorAvailabilityService.deleteDoctorAvalability(Ids).subscribe(
-          (response) => {
-            showDeletedSuccessfully('The record has been deleted successfully.');
-            this.fetchAlldoctorAvailability();
-          },
-          (error) => {
-            showErrorMessage('Failed to delete data. Please try again.');
-          }
-        );
-      } else if (result.isDismissed) {
-        showErrorMessage('Delete Cancelled', 'Cancelled');
-      }
-    });
+    // showConfirmationMessage().then((result: any) => {
+    //   if (result.isConfirmed) {
+    //     this.doctorAvailabilityService.deleteDoctorAvalability(Ids).subscribe(
+    //       (response) => {
+    //         showDeletedSuccessfully('The record has been deleted successfully.');
+    //         this.fetchAlldoctorAvailability();
+    //       },
+    //       (error) => {
+    //         showErrorMessage('Failed to delete data. Please try again.');
+    //       }
+    //     );
+    //   } else if (result.isDismissed) {
+    //     showErrorMessage('Delete Cancelled', 'Cancelled');
+    //   }
+    // });
   }
   
   
