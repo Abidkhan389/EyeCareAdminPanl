@@ -11,10 +11,13 @@ export const MessageTypes = {
 var baseUrl = environment.baseUrl;
 var DooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
 var medicineTypeUrl=baseUrl + 'Medicinetype/'
+var medicineUrl=baseUrl + 'Medicine/'
+var IdentityUrl= baseUrl+'Account/'
 export const APIPaths = {
 
    
-
+    //----------------- Identity URLS----------------
+    getAllDoctors:IdentityUrl+'getAllDoctors',
     //----------DooctorAvailability URLS--------------
     getAllDoctorAvailability: DooctorAvailabilityUrl + 'getAllByProc',
     DoctorAvaailabilityActiveInActive: DooctorAvailabilityUrl + 'ActiveInActive',
@@ -25,6 +28,17 @@ export const APIPaths = {
     updateMedicineTypeStatus: medicineTypeUrl + 'ActiveInActive',
     getMedicineTypeById: medicineTypeUrl + 'getMedicineTypeById',
     addEditmedicineType: medicineTypeUrl + 'addEditmedicineType',
+     //----------Medicine  URLS--------------
+    getAllMedicines: medicineUrl + 'getAllByProc',
+    updateMedicinesStatus: medicineUrl + 'activeInActive',
+    GetMedicineById: medicineUrl + 'getMedicineById',
+    AddEditmedicine: medicineUrl + 'addEditmedicine',
+    getMedicineTypesList: medicineUrl + 'getMedicineTypesList',
+    getAllDoctorMedicine: medicineUrl + 'getAllDoctorMedicine',
+    getMedicinePotencyByMedicineTypeId: medicineUrl + 'getMedicinePotencyByMedicineTypeId',
+    getDoctorMedicinePotencyById: medicineUrl + 'getDoctorMedicinePotencyById',
+    createDoctorMedicineMapping: medicineUrl + 'createDoctorMedicineMapping',
+    getDoctorMedicineMappingList: medicineUrl + 'getDoctorMedicineMappingList',
    
 }
 

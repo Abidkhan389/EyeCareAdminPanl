@@ -91,6 +91,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
       }))
       .subscribe(result => {
         if (result) {
+          debugger
           this.medicineList = result.data;
         }
       },
