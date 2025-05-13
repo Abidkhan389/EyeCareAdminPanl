@@ -17,11 +17,16 @@
                 <div class=" col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
                     <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Select Doctor</mat-label>
-                        <mat-select formControlName="doctorId" >
-                            <mat-option *ngFor="let doctor of doctorList" [value]="doctor.id">
-                                {{ doctor.userName }}
-                            </mat-option>
-                        </mat-select>
+                        <mat-select
+                        formControlName="doctorId"
+                        [appRoleBasedDisable]="['Admin', 'SuperAdmin']"
+                        [currentUserRoles]="lodgedInUserRole"
+                        [loggedInDoctorId]="lodgedInDoctorId"
+                      >
+                        <mat-option *ngFor="let doctor of doctorList" [value]="doctor.id">
+                          {{ doctor.userName }}
+                        </mat-option>
+                      </mat-select>
                         <mat-error
                             *ngIf="DoctorHolidayForm.controls['doctorId'].touched && !DoctorHolidayForm.controls['doctorId'].valid">
                             <ng-container *ngFor="let validation of validationMessages.value">
@@ -31,6 +36,7 @@
                             </ng-container>
                         </mat-error>
                     </mat-form-field>
+                    
                 </div>
                 <div class=" col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12 mb-3">
                     <mat-form-field appearance="outline" class="w-100">

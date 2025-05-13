@@ -10,6 +10,7 @@ import { Helpers } from 'src/app/_common/_helper/app_helper';
 import { DayOfWeek } from 'src/app/_common/_helper/enum';
 import { ResultMessages } from 'src/app/_common/constant';
 import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
+import { AuthService } from 'src/app/auth/services/auth.service';
 import { DoctorHolidayService } from 'src/app/doctor-holiday-management/Services/doctor-holiday.service';
 import { MaterialModule } from 'src/app/material.module';
 import { PatientAppointmentService } from 'src/app/patient-appointment/Services/patient-appointment.service';
@@ -33,11 +34,17 @@ export class AddEditDoctorHolidaysComponent {
   doctorList: any;
   minDate: Date = new Date(); // Today's date
   maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 1)); // Next 1 month limit
+  lodgedInUserRole:any;
+  lodgedInDoctorId:any;
    constructor(private doctorHolidayService: DoctorHolidayService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditDoctorHolidaysComponent>,
-      private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,public patientAppointmentService: PatientAppointmentService) {
+      private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any,public patientAppointmentService: PatientAppointmentService
+    ,private authService: AuthService) {
   
     }
     ngOnInit(): void {
+      const currentUser = this.authService.getCurrentUser();
+      this.lodgedInUserRole = currentUser?.roles || [];
+      this.lodgedInDoctorId=currentUser.id
       this.validateform();
       this.GetAllDoctors();
       if (this.data.doctorHolidayId) {
