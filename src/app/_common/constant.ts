@@ -9,20 +9,21 @@ export const MessageTypes = {
     question: "Question"
 }
 var baseUrl = environment.baseUrl;
-var DooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
+var dooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
 var medicineTypeUrl=baseUrl + 'Medicinetype/'
 var medicineUrl=baseUrl + 'Medicine/'
-var IdentityUrl= baseUrl+'Account/'
+var identityUrl= baseUrl+'Account/'
+var doctorHolidayUrl= baseUrl + 'DoctorHoliday/'
 export const APIPaths = {
 
    
     //----------------- Identity URLS----------------
-    getAllDoctors:IdentityUrl+'getAllDoctors',
+    getAllDoctors:identityUrl+'getAllDoctors',
     //----------DooctorAvailability URLS--------------
-    getAllDoctorAvailability: DooctorAvailabilityUrl + 'getAllByProc',
-    DoctorAvaailabilityActiveInActive: DooctorAvailabilityUrl + 'ActiveInActive',
-    addEditDoctorAvaibality: DooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
-    getByIdDoctorAvaibality: DooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
+    getAllDoctorAvailability: dooctorAvailabilityUrl + 'getAllByProc',
+    DoctorAvaailabilityActiveInActive: dooctorAvailabilityUrl + 'ActiveInActive',
+    addEditDoctorAvaibality: dooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
+    getByIdDoctorAvaibality: dooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
      //----------Medicine Type URLS--------------
     getAllMedicineType: medicineTypeUrl + 'getAllByProc',
     updateMedicineTypeStatus: medicineTypeUrl + 'ActiveInActive',
@@ -39,7 +40,12 @@ export const APIPaths = {
     getDoctorMedicinePotencyById: medicineUrl + 'getDoctorMedicinePotencyById',
     createDoctorMedicineMapping: medicineUrl + 'createDoctorMedicineMapping',
     getDoctorMedicineMappingList: medicineUrl + 'getDoctorMedicineMappingList',
-   
+    //--------------- Doctor Holiday-----------------
+   getAllByProcDoctorHolidays:doctorHolidayUrl+'getAllByProc',
+   activeInActive:doctorHolidayUrl+'activeInActive',
+   getByIdDoctorHoliday:doctorHolidayUrl+'getByIdDoctorHoliday',
+   getDoctorHolidayByDoctorIdForPatientAppointment:doctorHolidayUrl+'getDoctorHolidayByDoctorIdForPatientAppointment',
+   addEditDoctorHoliday:doctorHolidayUrl+'addEditDoctorHoliday',
 }
 
 export const ResultMessages = {
