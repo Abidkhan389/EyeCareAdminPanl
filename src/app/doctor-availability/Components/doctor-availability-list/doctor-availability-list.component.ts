@@ -132,7 +132,6 @@ form: FormGroup;
       )
       .subscribe({
         next: (response) => {
-          debugger;
           this.count = response.data.totalCount;
           this.dataSource = new MatTableDataSource(response.data.dataList);
           this.noData = this.count === 0;
@@ -217,7 +216,6 @@ form: FormGroup;
       this.selectedRows.clear();
       return;
     }
-      debugger;
     this.selectedRows.select(...this.dataSource.data);
   }
   isAllSelected() {

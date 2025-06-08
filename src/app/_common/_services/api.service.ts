@@ -24,7 +24,6 @@ export abstract class ApiService implements IBaseService {
 
   processPayload<T>(payload: IPayload<T>, messageTypeIds?: string[]) {
     const message = payload.message;
-    debugger
      //messageTypeIds = messageTypeIds || [MessageTypes.error, MessageTypes.failure];
     // const messageTypeId = messageTypeIds.find(o => o === message.messageTypeId);
     if (payload.success) {

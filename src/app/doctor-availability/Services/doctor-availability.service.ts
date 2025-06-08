@@ -54,7 +54,6 @@ export class DoctorAvailabilityService  extends ApiService{
     DoctorAvaailabilityActiveInActive(model: any) {
     let onSuccess = (value:any) => {
       let data = value;
-      debugger;
       return data
     };
     return this.service(this.post(APIPaths.DoctorAvaailabilityActiveInActive, model)).pipe(

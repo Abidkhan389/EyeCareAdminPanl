@@ -51,7 +51,6 @@ export class MedicinetypeService extends ApiService {
   updateMedicineTypeStatus(model: any) {
     let onSuccess = (value: any) => {
       let data = value;
-      debugger;
       return data
     };
     return this.service(this.post(APIPaths.updateMedicineTypeStatus, model)).pipe(

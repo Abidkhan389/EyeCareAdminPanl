@@ -52,7 +52,6 @@ export class MedicinesService extends ApiService {
   updateMedicinesStatus(model: any) {
     let onSuccess = (value: any) => {
       let data = value;
-      debugger;
       return data
     };
     return this.service(this.post(APIPaths.updateMedicinesStatus, model)).pipe(
@@ -254,15 +253,12 @@ getAllMedicineTypes() {
   //   );
   // }
    addEditDoctorMedicines(model: any) {
-    debugger
           let onSuccess = (value:any) => {
             let data = value;
             if (data.success) {
-              debugger
               showSuccessMessage(data.message)
               return true;
             } else {
-              debugger
               showErrorMessage(data.message)
               return false;
             }
@@ -284,7 +280,6 @@ getAllMedicineTypes() {
       let onSuccess = (value:any) => {
         let data = value;
         if (data.success) {
-          debugger
           return data;
         } else {
           showErrorMessage(data.message)

@@ -50,7 +50,6 @@ export class DoctorHolidayService extends ApiService {
   activeInActive(model: any) {
     let onSuccess = (value: any) => {
       let data = value;
-      debugger;
       return data
     };
     return this.service(this.post(APIPaths.activeInActive, model)).pipe(
@@ -116,7 +115,6 @@ export class DoctorHolidayService extends ApiService {
   addEditDoctorHoliday(model: any) {
     let onSuccess = (value: any) => {
       let data = value;
-      debugger
       if (data.success) {
         return data;
       } else {
