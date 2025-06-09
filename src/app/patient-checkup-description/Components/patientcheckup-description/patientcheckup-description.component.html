@@ -39,8 +39,8 @@
                     <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                       <mat-form-field appearance="outline" class="w-100">
                         <mat-label>Last Name</mat-label>
-                        <input matInput formControlName="lasttName" placeholder="Enter Last Name">
-                        <mat-error *ngIf="form.controls['lasttName'].hasError('required')">
+                        <input matInput formControlName="lastName" placeholder="Enter Last Name">
+                        <mat-error *ngIf="form.controls['lastName'].hasError('required')">
                           Last Name is required.
                         </mat-error>
                       </mat-form-field>
@@ -146,8 +146,8 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> doctor Name </th>
                 <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
             </ng-container>
-             <!-- fisrtName   coloum -->
-            <ng-container matColumnDef="fisrtName">
+             <!-- firstName   coloum -->
+            <ng-container matColumnDef="firstName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
                 <td mat-cell *matCellDef="let patient"> {{ patient?.firstName }} </td>
             </ng-container>
@@ -176,38 +176,6 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Appointment Date (YY-MM-DD)</th>
                 <td mat-cell *matCellDef="let patient"> {{ patient?.appointmentDate | date: 'yyyy-MM-dd' }} </td>
             </ng-container>
-         
-
-
-            <!-- <ng-container matColumnDef="lastName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient.lastName }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="gender">
-                <th mat-header-cell *matHeaderCellDef> Gender </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient?.gender }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="cnic">
-                <th mat-header-cell *matHeaderCellDef> CNIC </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient?.cnic }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="city">
-                <th mat-header-cell *matHeaderCellDef> City </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient?.city }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="patientPhoneNumber">
-                <th mat-header-cell *matHeaderCellDef> Phone Number </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient?.patientPhoneNumber }} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="doctoerName">
-                <th mat-header-cell *matHeaderCellDef> Doctor Name </th>
-                <td mat-cell *matCellDef="let patient"> {{ patient?.doctorName }} </td>
-            </ng-container> -->
 
             <!-- Header Row -->
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -237,14 +205,12 @@
     <div class="modal-body">
         <div class="outer-border" id="print">
             <div class="inner-dotted-border">
-                <div class="container font-style-print">
-       
-       
-                    <div class="row p-y-15">
+                <div class="container font-style-print">       
+                    <div class="row">
                       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12">
                         <span class="f-w-600 f-s-15 mat-body-1">Patient Name: </span>
                         <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
-                          {{ patientAppointmentCheckUpDescription?.firstName }}{{patientAppointmentCheckUpDescription?.lastName}}
+                          {{ patientAppointmentCheckUpDescription?.firstName }} {{patientAppointmentCheckUpDescription?.lastName}}
                         </h6>
                       </div>
                       <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3 col-12  middleColoumStyle">
@@ -323,10 +289,8 @@
                           <td>{{ patientAppointmentCheckUpDescription?.rightPeriphery || 'N/A' }}</td>
                         </tr>
                       </tbody>
-                    </table>
-                    
-
-                    <div class="row p-y-15">
+                    </table>                                    
+                    <div class="row">
                         <span class="f-w-600 f-s-15 mat-body-1">Complaint: </span>
                         <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                           {{ patientAppointmentCheckUpDescription?.complaint  || 'N/A'}}
@@ -338,7 +302,8 @@
                           {{ patientAppointmentCheckUpDescription?.diagnosis  || 'N/A'}}
                         </h6>
                     </div>
-                    <div class="row p-y-15">
+                 
+                    <div class="row">
                       <span class="f-w-600 f-s-15 mat-body-1">Plan: </span>
                       <h6 class="m-t-5 m-b-0 f-w-500 f-s-14 mat-body-2">
                         {{ patientAppointmentCheckUpDescription?.plan  || 'N/A'}}
@@ -346,7 +311,7 @@
                   </div>
                     
                     <div class="medicine-history-section">
-                      <h4 class="mb-2">Prescribed Medicines</h4>
+                      <!-- <h4 class="mb-2">Prescribed Medicines</h4> -->
                     
                       <ng-container *ngIf="patientAppointmentCheckUpDescription?.medicine?.length > 0; else noMedicine">
                         <table class="table table-bordered table-striped">
@@ -364,7 +329,7 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <tr *ngFor="let med of patientAppointmentCheckUpDescription.medicine; let i = index">
+                            <tr *ngFor="let med of patientAppointmentCheckUpDescription.medicine; let i = index; trackBy: trackByIndex">
                               <td>{{ i + 1 }}</td>
                               <td>{{ med.medicineName }} {{ med.potency }}</td>
                               <td>{{ med.morning ? '✔️' : '❌' }}</td>
