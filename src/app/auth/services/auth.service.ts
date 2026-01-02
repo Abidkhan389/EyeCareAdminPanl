@@ -2,23 +2,27 @@ import { AlertService } from './../../shared/services/alert.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router, Routes } from '@angular/router';
-import { catchError, Observable, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
 import { TokenHelper } from 'src/app/_common/tokenHelper';
+import { ApiService } from 'src/app/_common/_services/api.service';
+import { APIPaths, APIToken } from 'src/app/_common/constant';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService {
+export class AuthService extends ApiService {
   private readonly loginUrl = '/login?useCookies=false&useSessionCookies=false';
   private readonly RegisterUrl =
     '/register?useCookies=false&useSessionCookies=false';
     private apiUrl = 'api/Account';
 
   constructor(
-    private http: HttpClient,
+   private http: HttpClient,
     private router: Router,
     private alertService: AlertService
-  ) {}
+  ) {
+    super(http);
+  }
 
   getCurrentUser(): { userName: string; roles: string[]; id?: string } {
     const roles = localStorage.getItem('roles')?.split(',') ?? [];
@@ -96,20 +100,36 @@ export class AuthService {
     lastName?: string;
     profilePicture?: string;
     id?: string;
-    user?:any;
+    user?:any;  
   }) {
     
-    localStorage.setItem('authToken', response.token ?? '');
     localStorage.setItem('firstName', response.firstName ?? '');
     localStorage.setItem('lastName', response.lastName ?? '');
-    localStorage.setItem('id', response.user.id ?? '');
-    localStorage.setItem('profilePicture', response.user.profilePicture ?? '');
+    localStorage.setItem('id', response.id ?? '');
+    localStorage.setItem('profilePicture', response.profilePicture ?? '');
     localStorage.setItem('roles', response.roles.toString());
-    localStorage.setItem('email', response.user.email ?? '');
-    localStorage.setItem('FullName', response.firstName ?? '' + response.lastName ?? '');
+    localStorage.setItem('email', response.email ?? '');
+    localStorage.setItem('FullName', response.firstName ?? '' + response.lastName);
   }
   public static filterRoutes(routes: Routes): Routes {
     const userRoles = localStorage.getItem('roles')?.split(',') ?? [];
     return routes;
+  }
+
+   refreshToken() {
+  const model = {
+    refreshToken: localStorage.getItem(APIToken.refreshTokenKey)
+  };
+
+    let onSuccess = (value: any) => {let data = value; return data; };
+
+    return this.service(this.post(APIPaths.refreshToken, model)).pipe(
+        map(value => this.processPayload(value)),
+        map(onSuccess)
+      );
+  }
+   saveTokens(token: string, refreshToken: string) {
+    localStorage.setItem(APIToken.accessTokenKey, token);
+    localStorage.setItem(APIToken.refreshTokenKey, refreshToken);
   }
 }

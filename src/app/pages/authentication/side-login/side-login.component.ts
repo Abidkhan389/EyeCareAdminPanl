@@ -78,8 +78,8 @@ hide = signal(true);
         .subscribe({
           next: (response:any) => {
             if (response.data) {
-                TokenHelper.setToken(response.data.token);
-                
+                TokenHelper.setToken(response.data);
+                 //this.authService.saveTokens(response.token,response.refreshToken);
               AuthService.SaveUserInfo(response.data);
               AuthService.RedirectUserHome(response.data, this.router);
             } else {

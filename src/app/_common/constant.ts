@@ -19,6 +19,7 @@ export const APIPaths = {
    
     //----------------- Identity URLS----------------
     getAllDoctors:identityUrl+'getAllDoctors',
+    refreshToken: identityUrl + 'refreshToken',
     //----------DooctorAvailability URLS--------------
     getAllDoctorAvailability: dooctorAvailabilityUrl + 'getAllByProc',
     DoctorAvaailabilityActiveInActive: dooctorAvailabilityUrl + 'ActiveInActive',
@@ -102,4 +103,9 @@ export const ResultMessages = {
     successfullyUpdate: "Update Successfully"
 
 
+}
+// ------------------ Access Token Key ----------------
+export const APIToken = {
+    accessTokenKey: 'EyeCare',
+    refreshTokenKey: 'EyeCareRefreshToken'
 }
