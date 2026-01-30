@@ -56,7 +56,8 @@ export class AuthService extends ApiService {
   }
 
   logout() {
-    localStorage.removeItem('authToken');
+    localStorage.removeItem(APIToken.accessTokenKey);
+    localStorage.removeItem(APIToken.refreshTokenKey);
     localStorage.removeItem('roles');
     localStorage.removeItem('firstName');
     localStorage.removeItem('lastName');

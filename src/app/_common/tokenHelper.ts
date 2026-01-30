@@ -8,6 +8,11 @@ export class TokenHelper {
     public static getAccessToken(): string {
         return localStorage.getItem(APIToken.accessTokenKey) ?? '';
     }
+
+    public static getRefreshToken() {
+        return localStorage.getItem(APIToken.refreshTokenKey) ?? '';
+    }
+
     public static setAccessToken(token: string): void {
         return localStorage.setItem(APIToken.accessTokenKey, token);
     }
