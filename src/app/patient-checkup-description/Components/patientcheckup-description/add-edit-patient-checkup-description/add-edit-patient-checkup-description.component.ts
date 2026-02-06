@@ -32,7 +32,7 @@ export class AddEditPatientCheckupDescriptionComponent implements OnInit {
   patientDescription: any;
   medicineList: any;
   editCase: boolean = false;
-  monthDays: number[] = Array.from({ length: 30 }, (_, i) => i + 1);
+  monthDays: number[] = Array.from({ length: 60 }, (_, i) => i + 1);
   medicinePotencyListArray: any[] = []; 
   constructor(public patientCheckUpDescriptionService: PatientCheckUpDescriptionService, private medicineService: MedicinesService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditPatientCheckupDescriptionComponent>,
     private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
