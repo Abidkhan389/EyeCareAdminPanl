@@ -64,7 +64,7 @@
   </div>
 
   <span class="flex-1-auto"></span>
-  <button mat-mini-fab color="inherit" (click)="openPatientReports()" matTooltip="Reports">
+  <button *ngIf="isSuperAdmin" mat-mini-fab color="inherit" (click)="openPatientReports()" matTooltip="Reports">
     <mat-icon>assignment</mat-icon>
   </button>
   <button mat-mini-fab color="inherit" aria-label="lightdark" class="d-flex justify-content-center" (click)="setDark()">
