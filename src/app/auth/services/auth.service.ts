@@ -2,11 +2,13 @@ import { AlertService } from './../../shared/services/alert.service';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router, Routes } from '@angular/router';
-import { catchError, map, Observable, throwError } from 'rxjs';
+import { catchError, from, map, Observable, switchMap, throwError } from 'rxjs';
 import { TokenHelper } from 'src/app/_common/tokenHelper';
 import { ApiService } from 'src/app/_common/_services/api.service';
 import { APIPaths, APIToken } from 'src/app/_common/constant';
-
+//o Auth imports
+import { OAuthService } from 'angular-oauth2-oidc';
+import { googleAuthConfig } from '../configration/googleAuthConfig';
 @Injectable({
   providedIn: 'root',
 })
@@ -19,9 +21,11 @@ export class AuthService extends ApiService {
   constructor(
    private http: HttpClient,
     private router: Router,
+    private oAuth: OAuthService,
     private alertService: AlertService
   ) {
     super(http);
+    this.oAuth.configure(googleAuthConfig);
   }
 
   getCurrentUser(): { userName: string; roles: string[]; id?: string } {
@@ -64,7 +68,10 @@ export class AuthService extends ApiService {
     localStorage.removeItem('profilePicture');
     localStorage.removeItem('email');
     TokenHelper.removeAccessToken();
-
+     // This method redirects the user to Google's End Session Endpoint,
+    // which gives them a chance to log out of Google completely.
+    this.oAuth.logoutUrl = 'https://accounts.google.com/logout'; // <-- Ensure this is set
+    this.oAuth.logOut(true); 
     this.router.navigate(['authentication/login']);
   }
 
@@ -129,8 +136,35 @@ export class AuthService extends ApiService {
         map(onSuccess)
       );
   }
-   saveTokens(token: string, refreshToken: string) {
+   saveTokens(token: string, refreshToken?: string) {
     localStorage.setItem(APIToken.accessTokenKey, token);
-    localStorage.setItem(APIToken.refreshTokenKey, refreshToken);
+    localStorage.setItem(APIToken.refreshTokenKey, refreshToken ?? "");
   }
+  // ---------------------
+  // GOOGLE LOGIN
+  // ---------------------
+   googleLogin() {
+    this.oAuth.loadDiscoveryDocument();
+    this.oAuth.initLoginFlow(); // opens Google popup/screen
+  }
+
+processGoogleLogin(): Observable<any> {
+  return from(this.oAuth.loadDiscoveryDocumentAndTryLogin()).pipe(
+    switchMap(() => {
+      if (!this.oAuth.hasValidIdToken()) {
+        return throwError(() => 'No valid Google token');
+      }
+
+      const model = {
+        idToken: this.oAuth.getIdToken()
+      };
+
+      return this.service(
+        this.post(APIPaths.googleLogin, model)
+      );
+    }),
+    map(value => this.processPayload(value))
+  );
+}
+
 }

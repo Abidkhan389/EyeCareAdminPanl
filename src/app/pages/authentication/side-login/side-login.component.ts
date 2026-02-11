@@ -15,7 +15,6 @@ import { LoadingService } from 'src/app/shared/services/loading.service';
 import { AlertService } from 'src/app/shared/services/alert.service';
 import { finalize, first } from 'rxjs';
 import { ALERT_TYPE } from 'src/app/shared/models/alert';
-import { LoadingComponent } from 'src/app/shared/components/loading/loading.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TokenHelper } from 'src/app/_common/tokenHelper';
 
@@ -41,7 +40,9 @@ hide = signal(true);
     private authService: AuthService,
     private loadingService: LoadingService,
     private alertService: AlertService
-  ) {}
+  ) {
+    
+  }
 
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -101,5 +102,9 @@ hide = signal(true);
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+  loginWithGoogle() {
+    // Trigger Google login
+  this.authService.googleLogin();
   }
 }

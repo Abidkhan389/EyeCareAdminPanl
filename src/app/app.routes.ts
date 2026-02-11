@@ -6,8 +6,7 @@ import { ROLES } from './shared/models/ROLES';
 import { RoleGuard } from './auth/RoleGuard';
 
 export const routes: Routes = [
-  {
-    path: '',
+  { path: '',
     component: FullComponent,
     children: [
       {
@@ -166,6 +165,13 @@ export const routes: Routes = [
         },
       },
     ],
+  },
+  {
+     path: 'signin-google',
+    loadComponent: () =>
+      import('../app/pages/authentication/google-callback/google-callback.component').then(
+        (m) => m.GoogleCallbackComponent 
+      ),
   },
   {
     path: '**',

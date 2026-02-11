@@ -15,6 +15,8 @@ import { Route, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { PatientReportsByDoctorComponent } from 'src/app/auth/patient-reports-by-doctor/patient-reports-by-doctor.component';
+import { ROLES } from 'src/app/shared/models/ROLES';
 
 interface notifications {
   id: number;
@@ -68,6 +70,7 @@ export class HeaderComponent {
   @Output() toggleMobileNav = new EventEmitter<void>();
   @Output() toggleMobileFilterNav = new EventEmitter<void>();
   @Output() toggleCollapsed = new EventEmitter<void>();
+  isSuperAdmin = false;
   userDetail: loginUserDetail = {
     userFullName: '',
     userRole: '',
@@ -126,6 +129,8 @@ export class HeaderComponent {
     return profile.title;
   }
   ngOnInit(): void {
+    const rolesStr = localStorage.getItem('roles') || '';
+  this.isSuperAdmin = rolesStr.split(',').includes(ROLES.SuperAdmin);
     this.userDetail.userFullName =
       localStorage.getItem('firstName') +
       ' ' +
@@ -150,7 +155,14 @@ export class HeaderComponent {
   setDark() {
     this.settings.toggleTheme();
   }
-
+  openPatientReports() {
+    this.dialog.open(PatientReportsByDoctorComponent, {
+      width: '60%',
+      autoFocus: false,
+      disableClose: true,
+      data: {} // pass any data if needed
+    });
+  }
   openDialog() {
     const dialogRef = this.dialog.open(AppSearchDialogComponent);
 
