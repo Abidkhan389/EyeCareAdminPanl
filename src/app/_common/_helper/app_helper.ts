@@ -29,8 +29,8 @@ export class Helpers {
         return item;
     }
 
-    public static getMinDate(value:any): NgbDateStruct {
-    
+    public static getMinDate(value: any): NgbDateStruct {
+
         let currentDate = new Date();
         let date: NgbDateStruct = {
             year: currentDate.getFullYear() - value,
@@ -46,7 +46,7 @@ export class Helpers {
         }
         return null; // Ensure all paths return a value
     }
-    
+
 
     public static insertSlashInDate(control: any) {
         var str: string = control ? control.value : null;
@@ -55,7 +55,7 @@ export class Helpers {
             str = str.replace(/\s+/g, '');
             var date: string | null = null;  // Initialize with null
             var lenw = str.split('/');
-    
+
             if (lenw.length == 1) {
                 var res = str.split('');
                 if (res.length == 8) {
@@ -70,17 +70,17 @@ export class Helpers {
                     date = res[0] + res[1] + '/' + res[2] + res[3] + '/' + lenw[1];
                 }
             }
-    
+
             if (date && date.match(re)) {
                 return date;
             }
         }
         return null;
     }
-    
 
-    public static getMaxDate(value:any): NgbDateStruct {
-        
+
+    public static getMaxDate(value: any): NgbDateStruct {
+
         let currentDate = new Date();
         let date: NgbDateStruct = {
             year: currentDate.getFullYear() - value,
@@ -97,7 +97,7 @@ export class Helpers {
         });
     }
 
-    public static toggleButton($event:any) {
+    public static toggleButton($event: any) {
         let classToToggle: string = 'active';
         $event.target.parentElement.parentElement.children[0].classList.remove(classToToggle);
         $event.target.parentElement.parentElement.children[1].classList.remove(classToToggle);
@@ -108,23 +108,23 @@ export class Helpers {
         let pipe = new DatePipe('en-US');
         let d = new Date(date);
         let value = pipe.transform(d, 'dd/MM/yyyy');
-    
+
         if (!value) {
             return null; // Handle the case where transformation fails
         }
-    
+
         var adata = value.split('/');
         var mm = parseInt(adata[1], 10);
         var dd = parseInt(adata[0], 10);
         var yyyy = parseInt(adata[2], 10);
-    
+
         return {
             year: yyyy,
             month: mm,
             day: dd
         };
     }
-    
+
 
     public static isDefaultAvatar(image: string) {
         let img: string = '../../../../../../../assets/images/avatar1.png';
@@ -134,11 +134,11 @@ export class Helpers {
     }
     public static appendPhoneNumber(val: any) {
         if (val.length == 9) {
-          let mobile = '03' + val;
-          return mobile;
+            let mobile = '03' + val;
+            return mobile;
         }
         return null;
-      }
+    }
     public static isDefaultPicture(image: string) {
         let img: string = '../../../../../../../assets/img/logos/placeholder.png';
         if (image != null && image != "null" && image != "" && image != undefined && image != "undefined")
@@ -146,7 +146,7 @@ export class Helpers {
         return img;
     }
 
-    public static validateExtension(fileName:any, allowedFileTypes:any) {
+    public static validateExtension(fileName: any, allowedFileTypes: any) {
         allowedFileTypes = allowedFileTypes.replace(/\s+/g, '');
         if (allowedFileTypes != "*") {
             var allowedFiles = allowedFileTypes.split(',');
@@ -159,16 +159,16 @@ export class Helpers {
         return true;
     }
 
-    public static formatBytes(bytes:any, limit:any) {
+    public static formatBytes(bytes: any, limit: any) {
         let mb = (Math.round(((bytes / 1024) / 1024) * 100) / 100);
         if (mb > limit) {
-           showErrorMessage("Image size can not be more than " + limit + " MB.");
+            showErrorMessage("Image size can not be more than " + limit + " MB.");
             return false;
         }
         return true;
     };
 
-    public static textEllipsis(value:any, limit:any) {
+    public static textEllipsis(value: any, limit: any) {
         if (value.length > limit)
             return value.substring(0, limit) + '...';
         else
@@ -188,7 +188,7 @@ export class Helpers {
         return arr.join('+');
     }
 
-    public static enumToArray(e:any): Object[] {
+    public static enumToArray(e: any): Object[] {
         return Object.keys(e).filter(key => typeof e[key] === 'number')
             .map(key => ({ id: e[key], name: key.replace(/_/g, ' ') }))
     }
@@ -198,9 +198,9 @@ export class Helpers {
             .filter(key => typeof e[key] === 'string')
             .map(key => ({ id: key, name: e[key] }));  // Ensure id is the key and name is the value
     }
-    
 
-    public static currencyFormat(value:any) {
+
+    public static currencyFormat(value: any) {
         if (value) {
             return parseInt(value.replace(/,/g, ""))
                 .toString()
@@ -214,7 +214,7 @@ export class Helpers {
 
     }
 
-    public static calculateValue(value:any, item:any, units:any) {
+    public static calculateValue(value: any, item: any, units: any) {
         let obj = item;
         let unit = units
         if (unit && unit != "null") {
@@ -228,34 +228,34 @@ export class Helpers {
 
     }
 
-    public static removeValidators(form: UntypedFormGroup, controlArr:any) {
+    public static removeValidators(form: UntypedFormGroup, controlArr: any) {
         for (var value of controlArr) {
             form.controls[value.controlName].clearValidators();
             form.controls[value.controlName].updateValueAndValidity();
         }
     }
 
-    public static addValidators(form: UntypedFormGroup, controlArr:any) {
+    public static addValidators(form: UntypedFormGroup, controlArr: any) {
         for (var value of controlArr) {
             form.controls[value.controlName].setValidators(value.controlValidatoion);
             form.controls[value.controlName].updateValueAndValidity();
         }
     }
 
-    public static removeCtrlValidators(form: UntypedFormGroup, formCtrl:any) {
+    public static removeCtrlValidators(form: UntypedFormGroup, formCtrl: any) {
         form.controls[formCtrl].clearValidators();
         form.controls[formCtrl].updateValueAndValidity();
 
     }
 
-    public static addCtrlValidators(form: UntypedFormGroup, formCtrl:any, valdation:any) {
+    public static addCtrlValidators(form: UntypedFormGroup, formCtrl: any, valdation: any) {
 
         form.controls[formCtrl].setValidators(valdation);
         form.controls[formCtrl].updateValueAndValidity();
 
     }
 
-    public static dateFormatforfilter(date:any) {
+    public static dateFormatforfilter(date: any) {
         if (date) {
             var lenw = date.split('/');
             if (lenw.length == 1) {
@@ -270,7 +270,7 @@ export class Helpers {
             return date;
     }
 
-    public static getDaysBetweenDates(start:any, end:any, dayName:any) {
+    public static getDaysBetweenDates(start: any, end: any, dayName: any) {
         var result = [];
         let day: number = parseInt(DAYS_OF_WEEK[dayName.toUpperCase()]);
         // Copy start date
@@ -287,38 +287,49 @@ export class Helpers {
 
     public static getHolidaysBetweenDates(start: any, end: any, days: string[]): NgbDateStruct[] {
         var result: NgbDateStruct[] = [];
-        
+
         days.forEach((dayName: any) => {
             let day: number = parseInt(DAYS_OF_WEEK[dayName.toUpperCase()]);
-    
+
             // Copy start date
             var current = new Date(start);
-    
+
             // Shift to next of required days
             current.setDate(current.getDate() + (day - current.getDay() + 7) % 7);
-    
+
             // While less than end date, add dates to result array
             while (current < new Date(end)) {
                 let date = new Date(+current);
                 let formattedDate = Helpers.dateToNgbDateStruct(date);
-    
+
                 if (formattedDate) { // Ensure it's not null before pushing
                     result.push(formattedDate);
                 }
-    
+
                 current.setDate(current.getDate() + 7);
             }
         });
-    
+
         return result;
     }
-    
-    
 
-    static getvalidDate = function (d:any) { return new Date(d) }
 
-    public static validateDateBetweenTwoDates(fromDate:any, toDate:any, givenDate:any) {
+
+    static getvalidDate = function (d: any) { return new Date(d) }
+
+    public static validateDateBetweenTwoDates(fromDate: any, toDate: any, givenDate: any) {
         return this.getvalidDate(givenDate) <= this.getvalidDate(toDate) && this.getvalidDate(givenDate) >= this.getvalidDate(fromDate);
     }
+    public static formatDate(date: Date | null): string | null {
+        if (!date) return null;
+
+        const year = date.getFullYear();
+        const month = ('0' + (date.getMonth() + 1)).slice(-2);
+        const day = ('0' + date.getDate()).slice(-2);
+
+        return `${year}-${month}-${day}`; // yyyy-MM-dd
+    }
+
+
 }
 

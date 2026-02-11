@@ -1,13 +1,10 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { ENTER, COMMA } from '@angular/cdk/keycodes';
+
 import { CommonModule } from '@angular/common';
 import { Component, Inject, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { Helpers } from 'src/app/_common/_helper/app_helper';
-import { DayOfWeek } from 'src/app/_common/_helper/enum';
 import { ResultMessages } from 'src/app/_common/constant';
 import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { AuthService } from 'src/app/auth/services/auth.service';

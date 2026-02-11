@@ -32,6 +32,7 @@ import { MaterialModule } from './material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { appHttpInterceptor } from './shared/services/http-interceptor.service';
 import { AuthService } from './auth/services/auth.service';
+import { provideOAuthClient } from 'angular-oauth2-oidc';
 
 export function HttpLoaderFactory(http: HttpClient): any {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -51,20 +52,22 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withInterceptors([appHttpInterceptor])),
     provideClientHydration(),
     provideAnimationsAsync(),
-
+    // 👉 ADD THIS LINE FOR GOOGLE OAUTH
+    provideOAuthClient(),
     importProvidersFrom(
       FormsModule,
       ReactiveFormsModule,
       MaterialModule,
       TablerIconsModule.pick(TablerIcons),
       NgScrollbarModule,
+       
       TranslateModule.forRoot({
         loader: {
           provide: TranslateLoader,
           useFactory: HttpLoaderFactory,
           deps: [HttpClient],
         },
-      })
+      }),
     ),
   ],
 };

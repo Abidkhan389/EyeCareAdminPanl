@@ -26,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
 import { RoleBasedDisableDirective } from './directives/role-based-disable.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -59,6 +60,7 @@ import { RoleBasedDisableDirective } from './directives/role-based-disable.direc
     TranslateModule,
     MatPaginatorModule,
     NgbModule,
+    DragDropModule 
 
   ],
   exports: [
@@ -89,7 +91,8 @@ import { RoleBasedDisableDirective } from './directives/role-based-disable.direc
     TranslateModule,
     MatPaginatorModule,
     NgbModule,
-    RoleBasedDisableDirective
+    RoleBasedDisableDirective,
+    DragDropModule 
   ],
 })
 export class SharedModule {}

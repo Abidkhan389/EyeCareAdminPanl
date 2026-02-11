@@ -15,6 +15,7 @@ import { Route, Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { PatientReportsByDoctorComponent } from 'src/app/auth/patient-reports-by-doctor/patient-reports-by-doctor.component';
 
 interface notifications {
   id: number;
@@ -150,7 +151,14 @@ export class HeaderComponent {
   setDark() {
     this.settings.toggleTheme();
   }
-
+  openPatientReports() {
+    this.dialog.open(PatientReportsByDoctorComponent, {
+      width: '60%',
+      autoFocus: false,
+      disableClose: true,
+      data: {} // pass any data if needed
+    });
+  }
   openDialog() {
     const dialogRef = this.dialog.open(AppSearchDialogComponent);
 

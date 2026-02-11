@@ -14,12 +14,14 @@ var medicineTypeUrl=baseUrl + 'Medicinetype/'
 var medicineUrl=baseUrl + 'Medicine/'
 var identityUrl= baseUrl+'Account/'
 var doctorHolidayUrl= baseUrl + 'DoctorHoliday/'
+var repostUrl = baseUrl + 'reports/'
 export const APIPaths = {
 
    
     //----------------- Identity URLS----------------
     getAllDoctors:identityUrl+'getAllDoctors',
     refreshToken: identityUrl + 'refreshToken',
+    googleLogin: identityUrl + 'googleLogin',
     //----------DooctorAvailability URLS--------------
     getAllDoctorAvailability: dooctorAvailabilityUrl + 'getAllByProc',
     DoctorAvaailabilityActiveInActive: dooctorAvailabilityUrl + 'ActiveInActive',
@@ -47,6 +49,8 @@ export const APIPaths = {
    getByIdDoctorHoliday:doctorHolidayUrl+'getByIdDoctorHoliday',
    getDoctorHolidayByDoctorIdForPatientAppointment:doctorHolidayUrl+'getDoctorHolidayByDoctorIdForPatientAppointment',
    addEditDoctorHoliday:doctorHolidayUrl+'addEditDoctorHoliday',
+   //--------------- Reports -----------------
+    GetCheckedPatientHistoryByDoctorReport : repostUrl + 'GetCheckedPatientHistoryByDoctorReport'
 }
 
 export const ResultMessages = {
