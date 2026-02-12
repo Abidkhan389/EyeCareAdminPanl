@@ -1,52 +1,71 @@
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+
 export class excelGeneratorService {
-     static exportDoctorPatientReport(data: any[], fileName: string) {
-       const rows: any[] = [];
+  static exportDoctorPatientReport(data: any[], fileName: string) {
+    const rows: any[] = [];
 
-    data.forEach((docBlock, index) => {
+    data.forEach((docBlock) => {
 
-      // Doctor header
-      rows.push({
-        Doctor: `${docBlock.doctor.doctorFirstName} ${docBlock.doctor.doctorLastName}`,
-        CNIC: docBlock.doctor.doctorCnic,
-        Mobile: docBlock.doctor.doctorMobile,
-        Patients: docBlock.TotalPatients
-      });
+      // Doctor header (single row, clean)
+      rows.push([
+        'Doctor',
+        `${docBlock.doctor.doctorFirstName} ${docBlock.doctor.doctorLastName}`,
+        'CNIC',
+        docBlock.doctor.doctorCnic,
+        'Mobile',
+        docBlock.doctor.doctorMobile,
+        'Total Patients',
+        docBlock.totalPatients
+      ]);
 
-      // Empty line
-      rows.push({});
+      // Empty row
+      rows.push([]);
 
-      // Patient table header
-      rows.push({
-        PatientName: 'Patient Name',
-        CNIC: 'CNIC',
-        City: 'City',
-        Mobile: 'Mobile',
-        TimeSlot: 'TimeSlot',
-        Fee: 'Fee',
-        AppointmentDate: 'Appointment Date'
-      });
+      // Patient table header (will be bold)
+      const patientHeaderRowIndex = rows.length;
+      rows.push([
+        'Patient Name',
+        'CNIC',
+        'City',
+        'Mobile',
+        'TimeSlot',
+        'Fee',
+        'Appointment Date'
+      ]);
 
       // Patient rows
       docBlock.patients.forEach((p: any) => {
-        rows.push({
-          PatientName: `${p.patientFirstName} ${p.patientLastName}`,
-          CNIC: p.patientCnic,
-          City: p.patientCity,
-          Mobile: p.patientMobile,
-          TimeSlot: p.timeSlot,
-          Fee: p.docterDiscountFee,
-          AppointmentDate: new Date(p.appointmentDate).toLocaleDateString()
-        });
+        rows.push([
+          `${p.patientFirstName} ${p.patientLastName}`,
+          p.patientCnic,
+          p.patientCity,
+          p.patientMobile,
+          p.timeSlot,
+          p.docterDiscountFee,
+          new Date(p.appointmentDate).toLocaleDateString()
+        ]);
       });
 
       // Space between doctors
-      rows.push({});
-      rows.push({});
+      rows.push([]);
+      rows.push([]);
     });
 
-    const worksheet = XLSX.utils.json_to_sheet(rows);
+    const worksheet = XLSX.utils.aoa_to_sheet(rows);
+
+    // ---- Bold patient header rows ----
+    Object.keys(worksheet).forEach(cell => {
+      if (!cell.startsWith('!')) {
+        const row = parseInt(cell.replace(/[A-Z]/g, ''), 10) - 1;
+        if (rows[row] && rows[row][0] === 'Patient Name') {
+          worksheet[cell].s = {
+            font: { bold: true }
+          };
+        }
+      }
+    });
+
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Report');
 
@@ -59,6 +78,6 @@ export class excelGeneratorService {
       type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     });
 
-   saveAs(blob, `${fileName}.xlsx`);
+    saveAs(blob, `${fileName}.xlsx`);
   }
 }
