@@ -124,7 +124,7 @@ export const routes: Routes = [
         data: {
           title: 'PatientCheckupDescription',
           urls: [{ title: 'PatientCheckupDescription'}, { title: 'PatientCheckupDescription' }],
-          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
+          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor,ROLES.Rerecptionist],
          
         },
         canActivate: [AuthGuard,RoleGuard],
