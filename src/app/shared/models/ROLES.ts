@@ -3,4 +3,5 @@ export const ROLES = {
     Admin: 'Admin',
     Rerecptionist: 'Receptionist',
     Doctor:'Doctor',
+    DoctorAssistant:'DoctorAssistant'
   };
