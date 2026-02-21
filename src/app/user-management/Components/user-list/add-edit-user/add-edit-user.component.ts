@@ -116,7 +116,8 @@ export class AddEditUserComponent extends DropDownUtils {
 
             //this.checkFormValidity(this.UserForm);
             this.isDoctor = result.data.roleName === ROLES.Doctor;
-            this.updateDoctorValidators();
+            this.isDoctorAssistant = result.data.roleName === ROLES.DoctorAssistant;
+            this.updateValidators();
             // ✅ Remove password validation & disable field
             const passwordControl = this.UserForm.get('password');
             passwordControl?.clearValidators();
@@ -149,14 +150,27 @@ export class AddEditUserComponent extends DropDownUtils {
 
   //   console.log('✅ Form Valid Status:', form.valid);
   // }
-  updateDoctorValidators() {
-    if (this.isDoctor) {
-      this.UserForm.get('fee')?.setValidators([Validators.required]);
-    } else {
-      this.UserForm.get('fee')?.clearValidators();
-    }
-    this.UserForm.get('fee')?.updateValueAndValidity();
+  updateValidators() {
+  // Doctor Fee validator
+  const feeControl = this.UserForm.get('fee');
+  if (this.isDoctor) {
+    feeControl?.setValidators([Validators.required]);
+  } else {
+    feeControl?.clearValidators();
+    feeControl?.setValue(null); // clear value if not doctor
   }
+  feeControl?.updateValueAndValidity();
+
+  // DoctorAssistant validator
+  const doctorControl = this.UserForm.get('doctorId');
+  if (this.isDoctorAssistant) {
+    doctorControl?.setValidators([Validators.required]);
+  } else {
+    doctorControl?.clearValidators();
+    doctorControl?.setValue(null); // clear value if not assistant
+  }
+  doctorControl?.updateValueAndValidity();
+}
   AddEdit() {
 
     this.loading = true;
