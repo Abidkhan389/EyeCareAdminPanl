@@ -10,15 +10,15 @@ import { showErrorMessage } from 'src/app/_common/messages';
 })
 export class PatientCheckUpHistryReportsService extends ApiService {
 
-  constructor(private http : HttpClient) {
+  constructor(private http: HttpClient) {
     super(http);
-   }
-    GetCheckedPatientHistoryByDoctorReport(model: any) {
-  return this.service(
-    this.post(APIPaths.GetCheckedPatientHistoryByDoctorReport, model)
-  ).pipe(
-    map(value => this.processPayload(value))
-  );
-}
+  }
+  GetCheckedPatientHistoryByDoctorReport(model: any) {
+    return this.service(
+      this.post(APIPaths.GetCheckedPatientHistoryByDoctorReport, model)
+    ).pipe(
+      map(value => this.processPayload(value))
+    );
+  }
 
 }

@@ -9,6 +9,7 @@ import { APIPaths, APIToken } from 'src/app/_common/constant';
 //o Auth imports
 import { OAuthService } from 'angular-oauth2-oidc';
 import { googleAuthConfig } from '../configration/googleAuthConfig';
+import { ROLES } from 'src/app/shared/models/ROLES';
 @Injectable({
   providedIn: 'root',
 })
@@ -88,7 +89,7 @@ export class AuthService extends ApiService {
     },
     router: Router
   ) {
-    if (response.roles.includes('Admin') || response.roles.includes('SuperAdmin') || response.roles.includes('Doctor') || response.roles.includes('Receptionist') )
+    if (response.roles.includes(ROLES.Admin) || response.roles.includes(ROLES.SuperAdmin) || response.roles.includes(ROLES.Doctor) || response.roles.includes(ROLES.Rerecptionist) || response.roles.includes(ROLES.DoctorAssistant))
     {
       router.navigate(['']);
     }      

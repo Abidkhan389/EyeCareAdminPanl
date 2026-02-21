@@ -5,6 +5,7 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
+import { DropDownUtils } from 'src/app/_common/DropDownUtils';
 import { showErrorMessage, showSuccessMessage } from 'src/app/_common/messages';
 import { MaterialModule } from 'src/app/material.module';
 import { ROLES } from 'src/app/shared/models/ROLES';
@@ -13,7 +14,9 @@ import { Patterns } from 'src/app/shared/Validators/patterns';
 import { Messages } from 'src/app/shared/Validators/validation-messages';
 import { NoWhitespaceValidator } from 'src/app/shared/Validators/validators';
 import { UserManagementService } from 'src/app/user-management/Services/user-management.service';
-
+import { LookUpService } from 'src/app/_common/_services/look-up.service';
+import { IdoctorDto } from 'src/app/_common/_interfaces/doctor/IdoctorDto';
+import { R } from '@angular/cdk/keycodes';
 @Component({
   selector: 'app-add-edit-user',
   standalone: true,
@@ -21,19 +24,42 @@ import { UserManagementService } from 'src/app/user-management/Services/user-man
   templateUrl: './add-edit-user.component.html',
   styleUrl: './add-edit-user.component.scss'
 })
-export class AddEditUserComponent {
+export class AddEditUserComponent extends DropDownUtils {
+  // Role-based config
+  roleConfig: Record<string, { 
+    isDoctor?: boolean; 
+    isDoctorAssistant?: boolean; 
+    validators?: { controlName: string; validators: any[] }[] 
+  }> = {
+    [ROLES.Doctor]: {
+      isDoctor: true,
+      validators: [
+        { controlName: 'fee', validators: [Validators.required] }
+      ]
+    },
+    [ROLES.DoctorAssistant]: {
+      isDoctorAssistant: true,
+      validators: [
+        { controlName: 'doctorId', validators: [Validators.required] }
+      ]
+    }
+    // Add more roles here if needed
+  };
   isDoctor = false;
+  isDoctorAssistant = false;
   UserForm: FormGroup;
   loading: any;
   validationMessages = Messages.validation_messages;
   userList: any;
   RolesList: any;
+  doctorList: IdoctorDto[] = [];
   hide = signal(true);
   minDate: Date = new Date(); // Today's date
   maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 4));
   constructor(private userManagementService: UserManagementService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditUserComponent>,
-    private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) {
-
+    private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, protected lookupService: LookUpService) {
+    super(lookupService);
+    this.getAllDoctorDDL().subscribe(data => (this.doctorList = data));
   }
   ngOnInit(): void {
     this.getAllRoles();
@@ -44,7 +70,7 @@ export class AddEditUserComponent {
   }
   validateform() {
     this.UserForm = this.fb.group({
-      email: ['', Validators.compose([NoWhitespaceValidator, Validators.required,Validators.pattern(Patterns.emailOrPhoneRegex), Validators.maxLength(80)])],
+      email: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.emailOrPhoneRegex), Validators.maxLength(80)])],
       firstName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       lastName: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       password: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.minLength(8), Validators.maxLength(20)])],
@@ -52,8 +78,9 @@ export class AddEditUserComponent {
       cnic: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.CnicPattern), Validators.minLength(15), Validators.maxLength(15)])],
       city: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       roleId: [null, Validators.required],
+      doctorId: [null, Validators.required],
       fee: [null]
-    });     
+    });
   }
 
   //Getting Roles
@@ -82,14 +109,15 @@ export class AddEditUserComponent {
       .subscribe({
         next: (result: any) => { // ✅ Explicitly define type (Consider using an interface)
           if (result.success) {
-          // ✅ Moved inside `if` block
+            // ✅ Moved inside `if` block
 
             const formattedCNIC = this.formatCNICValue(result.data.cnic || '');
-             this.UserForm.patchValue({ ...result.data, cnic: formattedCNIC });
+            this.UserForm.patchValue({ ...result.data, cnic: formattedCNIC });
 
             //this.checkFormValidity(this.UserForm);
             this.isDoctor = result.data.roleName === ROLES.Doctor;
-            this.updateDoctorValidators();
+            this.isDoctorAssistant = result.data.roleName === ROLES.DoctorAssistant;
+            this.updateValidators();
             // ✅ Remove password validation & disable field
             const passwordControl = this.UserForm.get('password');
             passwordControl?.clearValidators();
@@ -119,23 +147,36 @@ export class AddEditUserComponent {
   //       console.log(`❌ Field: ${field}`, control.errors);
   //     }
   //   });
-  
+
   //   console.log('✅ Form Valid Status:', form.valid);
   // }
-  updateDoctorValidators() {
-    if (this.isDoctor) {
-      this.UserForm.get('fee')?.setValidators([Validators.required]);
-    } else {
-      this.UserForm.get('fee')?.clearValidators();
-    }
-    this.UserForm.get('fee')?.updateValueAndValidity();
+  updateValidators() {
+  // Doctor Fee validator
+  const feeControl = this.UserForm.get('fee');
+  if (this.isDoctor) {
+    feeControl?.setValidators([Validators.required]);
+  } else {
+    feeControl?.clearValidators();
+    feeControl?.setValue(null); // clear value if not doctor
   }
+  feeControl?.updateValueAndValidity();
+
+  // DoctorAssistant validator
+  const doctorControl = this.UserForm.get('doctorId');
+  if (this.isDoctorAssistant) {
+    doctorControl?.setValidators([Validators.required]);
+  } else {
+    doctorControl?.clearValidators();
+    doctorControl?.setValue(null); // clear value if not assistant
+  }
+  doctorControl?.updateValueAndValidity();
+}
   AddEdit() {
-    
+
     this.loading = true;
     let model = Object.assign({}, this.UserForm.getRawValue());
-    if(model.fee=="")
-      model.fee=null;
+    if (model.fee == "")
+      model.fee = null;
     if (this.data.userId)
       model.id = this.data.userId
     this.userManagementService.addEditUser(model).subscribe((data: any) => {
@@ -164,17 +205,75 @@ export class AddEditUserComponent {
     this.dialogref.close();
   }
   onRoleChange(): void {
-    const selectedRole = this.RolesList.find(
-      (r: any) => r.id === this.UserForm.get('roleId')?.value
-    );
-    this.isDoctor = selectedRole?.name === 'Doctor';
+    const selectedRoleId = this.UserForm.get('roleId')?.value;
+    const selectedRole = this.RolesList.find((r: { id: any; }) => r.id === selectedRoleId);
 
-    if (this.isDoctor) {
-      this.UserForm.get('fee')?.setValidators([Validators.required]);
-    } else {
-      this.UserForm.get('fee')?.clearValidators();
-      this.UserForm.get('fee')?.setValue('');
-    }
-    this.UserForm.get('fee')?.updateValueAndValidity();
+    // Reset flags
+    this.isDoctor = false;
+    this.isDoctorAssistant = false;
+
+    if (!selectedRole) return; // Safety check
+
+    const config = this.roleConfig[selectedRole.name];
+
+    // Set flags dynamically
+    if (config?.isDoctor) this.isDoctor = true;
+    if (config?.isDoctorAssistant) this.isDoctorAssistant = true;
+
+    // Reset all relevant controls first
+    ['fee', 'doctorId'].forEach(controlName => {
+      const control = this.UserForm.get(controlName);
+      control?.clearValidators();
+      control?.setValue(null);
+      control?.updateValueAndValidity();
+    });
+
+    // Apply validators from config
+    config?.validators?.forEach(v => {
+      const control = this.UserForm.get(v.controlName);
+      if (control) {
+        control.setValidators(v.validators);
+        control.updateValueAndValidity();
+      }
+    });
   }
+  get columnClass(): string {
+  return this.isDoctor || this.isDoctorAssistant
+    ? 'col-xl-4 col-lg-4 col-md-4 col-sm-4 col-12'
+    : 'col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12';
+}
+  // onRoleChange(): void {
+  //   const selectedRoleId = this.UserForm.get('roleId')?.value;
+  //   const selectedRole = this.RolesList.find((r: any) => r.id === selectedRoleId);
+  //   // Reset Flags
+  //   this.isDoctor = false;
+  //   this.isDoctorAssistant = false;
+  //   if (!selectedRole) return; // Safety check
+  //   // set flags based on role name
+  //   switch (selectedRole.name) {
+  //     case ROLES.Doctor:
+  //       this.isDoctor = true;
+  //       break;
+  //     case ROLES.DoctorAssistant:
+  //       this.isDoctorAssistant = true;
+  //       break;
+  //   }
+  //    // Fee validator for Doctor
+  //    const feeControl = this.UserForm.get('fee');
+  //    if(this.isDoctor){
+  //     feeControl?.setValidators([Validators.required]);
+  //     } else {  
+  //       feeControl?.clearValidators();
+  //       feeControl?.setValue(null); // Clear fee if not doctor
+  //    }
+  //    feeControl?.updateValueAndValidity(); // Update validation status
+  //    const doctorControl = this.UserForm.get('doctorId');
+  //    if(this.isDoctorAssistant){
+  //     doctorControl?.setValidators([Validators.required]);
+  //     } else {
+  //       doctorControl?.clearValidators();
+  //       doctorControl?.setValue(null); // Clear doctor selection if not assistant
+  //    }
+  //    doctorControl?.updateValueAndValidity(); // Update validation status
+  // }
 }

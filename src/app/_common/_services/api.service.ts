@@ -5,6 +5,7 @@ import { Helpers } from '../_helper/app_helper';
 import { MessageTypes } from '../constant';
 import { IPayload } from '../_interfaces/payload';
 import { PayloadMapper } from '../_interfaces/payloadMapper';
+import { showErrorMessage } from '../messages';
 
 export interface IBaseService {
   service: <T>(cb: Observable<{}>) => Observable<any>;
@@ -69,4 +70,17 @@ export abstract class ApiService implements IBaseService {
       return this.httpClient.get<T>(endPoint)
   }
 
+  /**
+   * Central handler for list payloads
+   * Shows error message automatically if success = false
+   */
+  protected handleListPayload<T>(payload: IPayload<T[]>): T[] {
+    if (payload.success) {
+      return payload.data ?? [];
+    } else {
+      showErrorMessage(payload.message);
+      return [];
+    }
+  }
+  
 }
