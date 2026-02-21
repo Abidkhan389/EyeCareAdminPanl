@@ -159,7 +159,7 @@
                     <ng-container *ngIf="patient.checkUpStatus === 0; else checkedIcon">
                         <button mat-icon-button color="primary" 
                             [disabled]="!(loginuserRole === ROLES.Doctor || loginuserRole === ROLES.DoctorAssistant)"
-                            (click)="patientAppointmentCheckUp(patient)" matTooltip="Patient In Queue">
+                            (click)="patientAppointmentCheckUpConfirmation(patient)" matTooltip="Patient In Queue">
                             <mat-icon>schedule</mat-icon>
                         </button>
                     </ng-container>

@@ -1,6 +1,6 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, model, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
@@ -11,7 +11,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { NgbModalOptions, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs';
 import { ResultMessages } from 'src/app/_common/constant';
-import { showSuccessMessage, showErrorMessage } from 'src/app/_common/messages';
+import { showSuccessMessage, showErrorMessage, showConfirmationMessage } from 'src/app/_common/messages';
 import { Table } from 'src/app/interfaces/ITable';
 import { MaterialModule } from 'src/app/material.module';
 import { ConfirmationService } from 'src/app/shared/services/confirmation.service';
@@ -251,28 +251,40 @@ export class PatientAppointmentListComponent {
     });
 
   }
-  patientAppointmentCheckUp(patient: any) {
-  this.loading = true;
-
-  const model: IcheckupStatus = {
-    patientId: patient.patientId,
-    doctorId: patient.doctorId
-  };
-
-  this.patientAppointmentService
-    .updatePatientAppointmentStatus(model)
-    .pipe(
-      finalize(() => (this.loading = false))
-    )
-    .subscribe({
-      next: (res: boolean) => {
-        if (res) {
-          this.fetchAllPatientAppointment();
-        }
-      },
-      error: () => {
-        this.showErrorMessage('Failed to update patient appointment status.');
+  patientAppointmentCheckUpConfirmation(patient: any) {
+    showConfirmationMessage(
+      'Confirm checkup?',            // confirmMessage
+      'Yes, Mark as Checked Up',     // confirmButtonText
+      'Patient Checkup'              // title
+    ).then((result) => {
+      if (result.isConfirmed) {
+        this.patientAppointmentCheckUp(patient);
       }
     });
-}
+  }
+  patientAppointmentCheckUp(patient: any) {
+
+    this.loading = true;
+
+    const model: IcheckupStatus = {
+      patientId: patient.patientId,
+      doctorId: patient.doctorId
+    };
+
+    this.patientAppointmentService
+      .updatePatientAppointmentStatus(model)
+      .pipe(
+        finalize(() => (this.loading = false))
+      )
+      .subscribe({
+        next: (res: boolean) => {
+          if (res) {
+            this.fetchAllPatientAppointment();
+          }
+        },
+        error: () => {
+          this.showErrorMessage('Failed to update patient appointment status.');
+        }
+      });
+  }
 }
