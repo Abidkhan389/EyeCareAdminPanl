@@ -254,7 +254,7 @@ export class PatientAppointmentListComponent {
   patientAppointmentCheckUpConfirmation(patient: any) {
     showConfirmationMessage(
       'Confirm checkup?',            // confirmMessage
-      'Yes, Mark as Checked Up',     // confirmButtonText
+      'Yes, Checked Up',     // confirmButtonText
       'Patient Checkup'              // title
     ).then((result) => {
       if (result.isConfirmed) {
