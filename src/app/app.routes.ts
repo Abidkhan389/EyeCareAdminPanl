@@ -22,7 +22,7 @@ export const routes: Routes = [
         data: {
           title: 'Starter',
           urls: [{ title: 'Starter', url: '/starter' }, { title: 'Starter' }],
-           allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor],
+           allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor,ROLES.DoctorAssistant],
         },
         canActivate: [AuthGuard],
       },

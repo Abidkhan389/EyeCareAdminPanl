@@ -76,29 +76,36 @@ export class AuthService extends ApiService {
     this.router.navigate(['authentication/login']);
   }
 
-  static RedirectUserHome(
-    response: {
-      token?: string;
-      message?: string;
-      roles: string[];
-      email?: string;
-      firstName?: string;
-      lastName?: string;
-      profilePicture?: string;
-      id?: string;
-    },
-    router: Router
-  ) {
-    if (response.roles.includes(ROLES.Admin) || response.roles.includes(ROLES.SuperAdmin) || response.roles.includes(ROLES.Doctor) || response.roles.includes(ROLES.Rerecptionist) || response.roles.includes(ROLES.DoctorAssistant))
-    {
-      router.navigate(['']);
-    }      
-    if (response.roles.includes('PARENT') || response.roles.includes('STUDENT'))
-      router.navigate(['/parent']);
-    if (response.roles.includes('TEACHER')) router.navigate(['/learning']);
-    if (response.roles.includes('DRIVER')) router.navigate(['/route']);
-    if (response.roles.includes('FINANCE')) router.navigate(['/billing']);
+ static RedirectUserHome(
+  response: {
+    token?: string;
+    message?: string;
+    roles: string[];
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    profilePicture?: string;
+    id?: string;
+  },
+  router: Router
+) {
+  const roles = response.roles;
+
+  if (roles.includes(ROLES.Admin) || roles.includes(ROLES.SuperAdmin) || roles.includes(ROLES.Doctor) || roles.includes(ROLES.Rerecptionist) || roles.includes(ROLES.DoctorAssistant)) {
+    router.navigate(['']);
+  } else if (roles.includes('PARENT') || roles.includes('STUDENT')) {
+    router.navigate(['/parent']);
+  } else if (roles.includes('TEACHER')) {
+    router.navigate(['/learning']);
+  } else if (roles.includes('DRIVER')) {
+    router.navigate(['/route']);
+  } else if (roles.includes('FINANCE')) {
+    router.navigate(['/billing']);
+  } else {
+    // Optional: fallback if no role matches
+    router.navigate(['/']);
   }
+}
 
   public static SaveUserInfo(response: {
     token?: string;

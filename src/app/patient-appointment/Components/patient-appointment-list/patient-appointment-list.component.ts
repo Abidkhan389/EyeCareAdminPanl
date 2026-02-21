@@ -27,6 +27,7 @@ import { TokenHelper } from 'src/app/_common/tokenHelper';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { ROLES } from 'src/app/shared/models/ROLES';
 import { PatientDiscountComponent } from './patient-discount/patient-discount.component';
+import { IcheckupStatus } from 'src/app/_common/_interfaces/doctor/IcheckupStatus';
 
 @Component({
   selector: 'app-patient-appointment-list',
@@ -250,4 +251,28 @@ export class PatientAppointmentListComponent {
     });
 
   }
+  patientAppointmentCheckUp(patient: any) {
+  this.loading = true;
+
+  const model: IcheckupStatus = {
+    patientId: patient.patientId,
+    doctorId: patient.doctorId
+  };
+
+  this.patientAppointmentService
+    .updatePatientAppointmentStatus(model)
+    .pipe(
+      finalize(() => (this.loading = false))
+    )
+    .subscribe({
+      next: (res: boolean) => {
+        if (res) {
+          this.fetchAllPatientAppointment();
+        }
+      },
+      error: () => {
+        this.showErrorMessage('Failed to update patient appointment status.');
+      }
+    });
+}
 }

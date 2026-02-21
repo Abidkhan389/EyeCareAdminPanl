@@ -17,8 +17,7 @@ export class LookUpService extends ApiService {
     return this.service<IdoctorDto[]>(
       this.get(APIPaths.getAllDoctors)
     ).pipe(
-      map(payload => this.processPayload(payload)),
-      map(payload => this.handleListPayload(payload))   // ✅ Centralized handling
+      map(payload => this.processPayload(payload))
     );
   }
 }

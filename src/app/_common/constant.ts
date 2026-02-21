@@ -15,6 +15,7 @@ var medicineUrl=baseUrl + 'Medicine/'
 var identityUrl= baseUrl+'Account/'
 var doctorHolidayUrl= baseUrl + 'DoctorHoliday/'
 var repostUrl = baseUrl + 'reports/'
+var patientUrl = baseUrl + 'Patient/'
 export const APIPaths = {
 
    
@@ -50,7 +51,9 @@ export const APIPaths = {
    getDoctorHolidayByDoctorIdForPatientAppointment:doctorHolidayUrl+'getDoctorHolidayByDoctorIdForPatientAppointment',
    addEditDoctorHoliday:doctorHolidayUrl+'addEditDoctorHoliday',
    //--------------- Reports -----------------
-    GetCheckedPatientHistoryByDoctorReport : repostUrl + 'GetCheckedPatientHistoryByDoctorReport'
+    GetCheckedPatientHistoryByDoctorReport : repostUrl + 'GetCheckedPatientHistoryByDoctorReport',
+   //--------------- Patient -----------------
+   updatePatientAppointmentStatus: patientUrl + 'updatePatientAppointmentStatus'
 }
 
 export const ResultMessages = {
