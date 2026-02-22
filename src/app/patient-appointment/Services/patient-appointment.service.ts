@@ -4,6 +4,7 @@ import { Observable, catchError, finalize, map, tap, throwError } from 'rxjs';
 import { IcheckupStatus } from 'src/app/_common/_interfaces/doctor/IcheckupStatus';
 import { ApiService } from 'src/app/_common/_services/api.service';
 import { APIPaths } from 'src/app/_common/constant';
+import { showErrorMessage } from 'src/app/_common/messages';
 import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
@@ -91,11 +92,24 @@ export class PatientAppointmentService extends ApiService {
   }
 
   updatePatientAppointmentStatus(model: IcheckupStatus): Observable<boolean> {
-    return this.service<boolean>(
-      this.post(APIPaths.updatePatientAppointmentStatus, model)
-    ).pipe(
-      map(payload => this.processPayload(payload))
-    );
-  }
+
+  let onSuccess = (value: any) => {
+    let data = value;
+
+    if (data) {   // agar API true/false return kar rahi hai
+      return data;
+    } else {
+      showErrorMessage("Something went wrong");
+      return false;
+    }
+  };
+
+  return this.service<boolean>(
+    this.post(APIPaths.updatePatientAppointmentStatus, model)
+  ).pipe(
+    map(value => this.processPayload(value)),
+    map(onSuccess)
+  );
+}
 
 }

@@ -23,26 +23,26 @@ export abstract class ApiService implements IBaseService {
   constructor(protected httpClient: HttpClient) { }
 
 
-  // processPayload<T>(payload: IPayload<T>, messageTypeIds?: string[]) {
-  //   const message = payload.message;
-  //    //messageTypeIds = messageTypeIds || [MessageTypes.error, MessageTypes.failure];
-  //   // const messageTypeId = messageTypeIds.find(o => o === message.messageTypeId);
-  //   if (payload.success) {
+  processPayload<T>(payload: IPayload<T>, messageTypeIds?: string[]) {
+    const message = payload.message;
+     //messageTypeIds = messageTypeIds || [MessageTypes.error, MessageTypes.failure];
+    // const messageTypeId = messageTypeIds.find(o => o === message.messageTypeId);
+    if (payload.success) {
      
-  //    return (payload);
-  //   } else {
-  //      return (payload);
-  //   }
-  // }
-  processPayload<T>(payload: IPayload<T>): T {
-  if (payload.success) {
-    showSuccessMessage(payload.message);
-    return payload.data!;  // ✅ sirf actual data return karo
-  } else {
-    showErrorMessage(payload.message);
-    throw new Error(typeof payload.message === 'string' ? payload.message : JSON.stringify(payload.message)); // optional but recommended
+     return (payload);
+    } else {
+       return (payload);
+    }
   }
-}
+//   processPayload<T>(payload: IPayload<T>): T {
+//   if (payload.success) {
+//     // showSuccessMessage(payload.message);
+//     return payload.data!;  // ✅ sirf actual data return karo
+//   } else {
+//     showErrorMessage(payload.message);
+//     throw new Error(typeof payload.message === 'string' ? payload.message : JSON.stringify(payload.message)); // optional but recommended
+//   }
+// }
 
   service<T>(cb: Observable<{}>): Observable<IPayload<T>> {
     const onFulfilled = (value: any) => new PayloadMapper().fromObject<T>(value) as IPayload<T>;
