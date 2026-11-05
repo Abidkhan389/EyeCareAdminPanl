@@ -17,6 +17,7 @@ import { finalize, first } from 'rxjs';
 import { ALERT_TYPE } from 'src/app/shared/models/alert';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TokenHelper } from 'src/app/_common/tokenHelper';
+import { APIToken } from 'src/app/_common/constant';
 import { toDataURL } from 'qrcode';
 
 type LoginStep = 'credentials' | 'setup' | 'code' | 'recovery-codes';
@@ -50,6 +51,7 @@ export class AppSideLoginComponent {
   form = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.minLength(6)]),
     password: new FormControl('', [Validators.required]),
+    rememberDevice: new FormControl(false),
   });
 
   // --- Two-Factor Authentication state ---
@@ -58,11 +60,13 @@ export class AppSideLoginComponent {
   qrCodeDataUrl: string | null = null;
   otpSecret: string | null = null;
   recoveryCodes: string[] = [];
-  private pendingCredentials: { email: string; password: string } | null = null;
+  private pendingCredentials: { email: string; password: string; rememberDevice: boolean } | null = null;
   private pendingLoginData: any = null;
 
+  private readonly CODE_PATTERN = /^\d{6}$/;
+
   twoFactorForm = new FormGroup({
-    code: new FormControl('', [Validators.required]),
+    code: new FormControl('', [Validators.required, Validators.pattern(this.CODE_PATTERN)]),
   });
 
   get f() {
@@ -79,6 +83,7 @@ export class AppSideLoginComponent {
     this.pendingCredentials = {
       email: this.form.getRawValue().email ?? '',
       password: this.form.getRawValue().password ?? '',
+      rememberDevice: this.form.getRawValue().rememberDevice ?? false,
     };
 
     this.doLogin(null, null);
@@ -110,6 +115,8 @@ export class AppSideLoginComponent {
       password: this.pendingCredentials.password,
       twoFactorCode,
       twoFactorRecoveryCode,
+      rememberDevice: this.pendingCredentials.rememberDevice,
+      trustedDeviceToken: localStorage.getItem(APIToken.trustedDeviceTokenKey),
     };
 
     this.authService
@@ -145,6 +152,7 @@ export class AppSideLoginComponent {
     if (data?.requiresTwoFactor) {
       this.useRecoveryCode = false;
       this.twoFactorForm.reset();
+      this.applyTwoFactorValidators();
 
       if (data.setupRequired) {
         this.otpSecret = data.secret;
@@ -195,6 +203,9 @@ export class AppSideLoginComponent {
   }
 
   private completeLogin(data: any) {
+    if (data.trustedDeviceToken) {
+      localStorage.setItem(APIToken.trustedDeviceTokenKey, data.trustedDeviceToken);
+    }
     TokenHelper.setToken(data);
     AuthService.SaveUserInfo(data);
     AuthService.RedirectUserHome(data, this.router);
@@ -203,6 +214,17 @@ export class AppSideLoginComponent {
   toggleRecoveryCode() {
     this.useRecoveryCode = !this.useRecoveryCode;
     this.twoFactorForm.reset();
+    this.applyTwoFactorValidators();
+  }
+
+  private applyTwoFactorValidators() {
+    const control = this.twoFactorForm.get('code');
+    if (this.useRecoveryCode) {
+      control?.setValidators([Validators.required, Validators.minLength(5)]);
+    } else {
+      control?.setValidators([Validators.required, Validators.pattern(this.CODE_PATTERN)]);
+    }
+    control?.updateValueAndValidity();
   }
 
   backToCredentials() {
