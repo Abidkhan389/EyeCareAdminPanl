@@ -159,7 +159,16 @@
                     </mat-form-field>
                 </div>
             </div>
-           
+
+            <!-- Two-Factor Authentication (SuperAdmin only) -->
+            <div class="row" *ngIf="isSuperAdmin">
+                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12 d-flex align-items-center">
+                    <mat-slide-toggle formControlName="twoFactorEnabled" color="primary">
+                        Two-Factor Authentication
+                    </mat-slide-toggle>
+                </div>
+            </div>
+
              <!-- Modal Footer -->
                 <div class="modal-footer d-flex justify-content-end">
                     <button mat-raised-button color="secondary" class="closeButtonMargin" type="button" (click)="closeClick()">

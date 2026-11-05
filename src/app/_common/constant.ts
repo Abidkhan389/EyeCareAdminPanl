@@ -114,5 +114,6 @@ export const ResultMessages = {
 // ------------------ Access Token Key ----------------
 export const APIToken = {
     accessTokenKey: 'EyeCare',
-    refreshTokenKey: 'EyeCareRefreshToken'
+    refreshTokenKey: 'EyeCareRefreshToken',
+    trustedDeviceTokenKey: 'EyeCareTrustedDevice'
 }
