@@ -25,6 +25,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { TranslateModule } from '@ngx-translate/core';
 import { MatPaginatorIntl, MatPaginatorModule } from '@angular/material/paginator';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap'; 
+import { RoleBasedDisableDirective } from './directives/role-based-disable.directive';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 @NgModule({
   declarations: [
     LoadingComponent,
@@ -32,6 +34,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AddressComponent,
     ConfirmDeleteModalComponent,
     AdminOnlyDirective,
+    RoleBasedDisableDirective
   ],
   imports: [
     CommonModule,
@@ -56,7 +59,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatStepperModule,
     TranslateModule,
     MatPaginatorModule,
-    NgbModule 
+    NgbModule,
+    DragDropModule 
+
   ],
   exports: [
     LoadingComponent,
@@ -85,7 +90,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatStepperModule,
     TranslateModule,
     MatPaginatorModule,
-    NgbModule 
+    NgbModule,
+    RoleBasedDisableDirective,
+    DragDropModule 
   ],
 })
 export class SharedModule {}

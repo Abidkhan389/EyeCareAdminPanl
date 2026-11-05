@@ -1,0 +1,60 @@
+<div *ngIf="loading" class="loading-spinner-overlay">
+  <mat-spinner></mat-spinner>
+</div>
+
+<div cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="dialog-container">
+  <div class="col-lg-12 modal-content">
+    <!-- Close Button -->
+    <div class="modal-header row d-flex justify-content-end">
+      <button mat-icon-button class="close-btn buttonMargin" (click)="closeClick()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <form [formGroup]="reportForm" (ngSubmit)="GetCheckedPatientHistoryByDoctorReport()">
+        <div class="row">
+          <!-- From Date -->
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>From Date</mat-label>
+              <input matInput [matDatepicker]="fromDatePicker" formControlName="fromDate" placeholder="From Date"
+                [max]="maxDate" [min]="minDate">
+              <mat-datepicker-toggle matSuffix [for]="fromDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #fromDatePicker></mat-datepicker>
+              <mat-error *ngIf="reportForm.controls['fromDate'].touched && reportForm.controls['fromDate'].invalid">
+                <span class="text-danger" *ngIf="reportForm.controls['fromDate'].hasError('required')">
+                  From Date is required.
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- To Date -->
+          <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>To Date</mat-label>
+              <input matInput [matDatepicker]="toDatePicker" formControlName="toDate" placeholder="To Date"
+                [max]="maxDate" [min]="minDate">
+              <mat-datepicker-toggle matSuffix [for]="toDatePicker"></mat-datepicker-toggle>
+              <mat-datepicker #toDatePicker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+         <!-- Modal Footer -->
+    <div class="modal-footer d-flex justify-content-end">
+      <button mat-raised-button color="secondary" class="closeButtonMargin" type="button" (click)="closeClick()">
+        <i class="fa fa-close"></i> Cancel
+      </button>
+
+      <button mat-raised-button color="primary" type="submit" class="saveButton" [disabled]="reportForm.invalid">
+        Report
+      </button>
+    </div>
+      </form>
+    </div>
+
+   
+  </div>
+</div>

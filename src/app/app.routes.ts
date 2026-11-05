@@ -6,8 +6,7 @@ import { ROLES } from './shared/models/ROLES';
 import { RoleGuard } from './auth/RoleGuard';
 
 export const routes: Routes = [
-  {
-    path: '',
+  { path: '',
     component: FullComponent,
     children: [
       {
@@ -23,7 +22,7 @@ export const routes: Routes = [
         data: {
           title: 'Starter',
           urls: [{ title: 'Starter', url: '/starter' }, { title: 'Starter' }],
-           allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor],
+           allowedRoles: [ ROLES.SuperAdmin,ROLES.Admin,ROLES.Rerecptionist,ROLES.Doctor,ROLES.DoctorAssistant],
         },
         canActivate: [AuthGuard],
       },
@@ -41,7 +40,7 @@ export const routes: Routes = [
             ROLES.SuperAdmin,
             ROLES.Admin,
             ROLES.Doctor,
-            ROLES.Rerecptionist
+            ROLES.Rerecptionist,ROLES.DoctorAssistant
           ],
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -97,7 +96,7 @@ export const routes: Routes = [
         data: {
           title: 'PatientAppointment',
           urls: [{ title: 'PatientAppointment', url: '/patientAppointment' }, { title: 'PatientAppointment' }],
-          allowedRoles: [ROLES.SuperAdmin, ROLES.Doctor,ROLES.Rerecptionist],
+          allowedRoles: [ROLES.SuperAdmin, ROLES.Doctor,ROLES.Rerecptionist,ROLES.DoctorAssistant],
          
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -125,7 +124,7 @@ export const routes: Routes = [
         data: {
           title: 'PatientCheckupDescription',
           urls: [{ title: 'PatientCheckupDescription'}, { title: 'PatientCheckupDescription' }],
-          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor],
+          allowedRoles: [ROLES.SuperAdmin,ROLES.Admin, ROLES.Doctor,ROLES.Rerecptionist,ROLES.DoctorAssistant],
          
         },
         canActivate: [AuthGuard,RoleGuard],
@@ -166,6 +165,13 @@ export const routes: Routes = [
         },
       },
     ],
+  },
+  {
+     path: 'signin-google',
+    loadComponent: () =>
+      import('../app/pages/authentication/google-callback/google-callback.component').then(
+        (m) => m.GoogleCallbackComponent 
+      ),
   },
   {
     path: '**',

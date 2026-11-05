@@ -51,7 +51,6 @@ export class PatientDiscountComponent {
         model.doctorId = this.data.doctorId;
       }
           this.patientAppointmentService.addEditPatientDiscount(model).subscribe((data: any) => {
-            debugger;
             if(data.success)
             {
               showSuccessMessage(data.message);

@@ -1,29 +1,38 @@
 import { jwtDecode } from 'jwt-decode';
 import { AuthenticatedUser } from '../interfaces/IAuthenticatedUser';
 import { IJwtToken } from '../interfaces/IJwtToken';
-const APIPaths = {
-    accessTokenKey: 'EyeCare'
-}
+import { APIToken } from './constant';
+
 export class TokenHelper {
 
     public static getAccessToken(): string {
-        return localStorage.getItem(APIPaths.accessTokenKey) ?? '';
-    }
-    public static setAccessToken(token: string): void {
-        return localStorage.setItem(APIPaths.accessTokenKey, token);
+        return localStorage.getItem(APIToken.accessTokenKey) ?? '';
     }
 
-    public static setToken(token: any): void {
-        this.setAccessToken(token);
-        localStorage.setItem("image", token.img);
+    public static getRefreshToken() {
+        return localStorage.getItem(APIToken.refreshTokenKey) ?? '';
+    }
+
+    public static setAccessToken(token: string): void {
+        return localStorage.setItem(APIToken.accessTokenKey, token);
+    }
+     public static setRefreshToken(token: string): void {
+        return localStorage.setItem(APIToken.refreshTokenKey, token);
+    }
+
+    public static setToken(data: any): void {
+        
+        this.setAccessToken(data.token);
+        this.setRefreshToken(data.refreshToken);
+        localStorage.setItem("profilePicture", data.profilePicture);
     }
 
     public static removeAccessToken(): void {
-        return localStorage.removeItem(APIPaths.accessTokenKey);
+        return localStorage.removeItem(APIToken.accessTokenKey);
     }
 
     public static getBearerToken() {
-        const token = localStorage.getItem(APIPaths.accessTokenKey);
+        const token = localStorage.getItem(APIToken.accessTokenKey);
         return {
             Authorization: token ? 'Bearer ' + token : null
         };
@@ -37,7 +46,6 @@ export class TokenHelper {
 
                 if (!user.authenticated)
                     user.authenticated = true;
-                debugger;
                 let name = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
                 let roles = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
                 let sid = decodedToken['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameIdentifier'];

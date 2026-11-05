@@ -9,23 +9,51 @@ export const MessageTypes = {
     question: "Question"
 }
 var baseUrl = environment.baseUrl;
-var DooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
+var dooctorAvailabilityUrl = baseUrl + 'DoctorAvailability/'
 var medicineTypeUrl=baseUrl + 'Medicinetype/'
+var medicineUrl=baseUrl + 'Medicine/'
+var identityUrl= baseUrl+'Account/'
+var doctorHolidayUrl= baseUrl + 'DoctorHoliday/'
+var repostUrl = baseUrl + 'reports/'
+var patientUrl = baseUrl + 'Patient/'
 export const APIPaths = {
 
    
-
+    //----------------- Identity URLS----------------
+    getAllDoctors:identityUrl+'getAllDoctors',
+    refreshToken: identityUrl + 'refreshToken',
+    googleLogin: identityUrl + 'googleLogin',
     //----------DooctorAvailability URLS--------------
-    getAllDoctorAvailability: DooctorAvailabilityUrl + 'getAllByProc',
-    DoctorAvaailabilityActiveInActive: DooctorAvailabilityUrl + 'ActiveInActive',
-    addEditDoctorAvaibality: DooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
-    getByIdDoctorAvaibality: DooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
+    getAllDoctorAvailability: dooctorAvailabilityUrl + 'getAllByProc',
+    DoctorAvaailabilityActiveInActive: dooctorAvailabilityUrl + 'ActiveInActive',
+    addEditDoctorAvaibality: dooctorAvailabilityUrl + 'AddEditDoctorAvaibality',
+    getByIdDoctorAvaibality: dooctorAvailabilityUrl + 'GetByIdDoctorAvaibality',
      //----------Medicine Type URLS--------------
     getAllMedicineType: medicineTypeUrl + 'getAllByProc',
     updateMedicineTypeStatus: medicineTypeUrl + 'ActiveInActive',
     getMedicineTypeById: medicineTypeUrl + 'getMedicineTypeById',
     addEditmedicineType: medicineTypeUrl + 'addEditmedicineType',
-   
+     //----------Medicine  URLS--------------
+    getAllMedicines: medicineUrl + 'getAllByProc',
+    updateMedicinesStatus: medicineUrl + 'activeInActive',
+    GetMedicineById: medicineUrl + 'getMedicineById',
+    AddEditmedicine: medicineUrl + 'addEditmedicine',
+    getMedicineTypesList: medicineUrl + 'getMedicineTypesList',
+    getAllDoctorMedicine: medicineUrl + 'getAllDoctorMedicine',
+    getMedicinePotencyByMedicineTypeId: medicineUrl + 'getMedicinePotencyByMedicineTypeId',
+    getDoctorMedicinePotencyById: medicineUrl + 'getDoctorMedicinePotencyById',
+    createDoctorMedicineMapping: medicineUrl + 'createDoctorMedicineMapping',
+    getDoctorMedicineMappingList: medicineUrl + 'getDoctorMedicineMappingList',
+    //--------------- Doctor Holiday-----------------
+   getAllByProcDoctorHolidays:doctorHolidayUrl+'getAllByProc',
+   activeInActive:doctorHolidayUrl+'activeInActive',
+   getByIdDoctorHoliday:doctorHolidayUrl+'getByIdDoctorHoliday',
+   getDoctorHolidayByDoctorIdForPatientAppointment:doctorHolidayUrl+'getDoctorHolidayByDoctorIdForPatientAppointment',
+   addEditDoctorHoliday:doctorHolidayUrl+'addEditDoctorHoliday',
+   //--------------- Reports -----------------
+    GetCheckedPatientHistoryByDoctorReport : repostUrl + 'GetCheckedPatientHistoryByDoctorReport',
+   //--------------- Patient -----------------
+   updatePatientAppointmentStatus: patientUrl + 'updatePatientAppointmentStatus'
 }
 
 export const ResultMessages = {
@@ -82,4 +110,10 @@ export const ResultMessages = {
     successfullyUpdate: "Update Successfully"
 
 
+}
+// ------------------ Access Token Key ----------------
+export const APIToken = {
+    accessTokenKey: 'EyeCare',
+    refreshTokenKey: 'EyeCareRefreshToken',
+    trustedDeviceTokenKey: 'EyeCareTrustedDevice'
 }

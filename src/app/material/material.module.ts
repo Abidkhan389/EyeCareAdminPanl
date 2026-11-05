@@ -44,7 +44,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 import { LayoutModule } from '@angular/cdk/layout';
 
 /**
@@ -146,6 +146,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatBottomSheetModule,
     LayoutModule,
   ],
-  providers: [],
+  providers: [
+     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' } 
+  ],
 })
 export class MaterialModule {}

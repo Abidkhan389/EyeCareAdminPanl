@@ -95,7 +95,7 @@ export class AddEditPatientAppointmentComponent {
         gender: [null, Validators.required],
         doctorId : [null, Validators.required],
         doctorFee : [null, Validators.required],
-        age: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(11), Validators.maxLength(11)])],
+        age: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(1), Validators.maxLength(3)])],
         appoitmentDate:  ['', Validators.compose([NoWhitespaceValidator, Validators.required])],
         timeSlot:['', Validators.compose([NoWhitespaceValidator, Validators.required])],
         phoneNumber: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.Num), Validators.minLength(11), Validators.maxLength(11)])],

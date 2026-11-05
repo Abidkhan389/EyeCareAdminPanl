@@ -1,3 +1,71 @@
+@media print {
+  html,
+  body {
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+    overflow: visible !important;
+    box-sizing: border-box !important;
+    -webkit-print-color-adjust: exact !important; // Ensures colors print correctly
+    color-adjust: exact !important;
+  }
+
+  * {
+    box-sizing: border-box !important;
+  }
+
+  // Hide unwanted modal components
+  .modal,
+  .modal-backdrop,
+  .modal-body,
+  .modal-footer,
+  .modal-header,
+  .btn,
+  .no-print {
+    display: none !important;
+    visibility: hidden !important;
+  }
+
+  // Main printable area
+  #print {
+    margin: 0 !important;
+    padding: 20px !important;
+    page-break-inside: avoid !important;
+  }
+
+  .container,
+  .row {
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 auto !important;
+  }
+
+  // Tables should not break across pages
+  table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    page-break-inside: avoid !important;
+  }
+
+  th,
+  td {
+    border: 1px solid #000 !important;
+    padding: 6px !important;
+    text-align: left !important;
+  }
+
+  // Avoid breaking inside elements
+  .page-break {
+    page-break-before: always !important;
+  }
+
+  // Remove browser-imposed margins on PDF/A4
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
+
 .status-icon {
     margin-top: 12px; /* Adjust as needed */
 }
@@ -18,7 +86,7 @@
 }
 
 /* Ensure columns take width according to content */
-.mat-column-cnic,.mat-column-city,.mat-column-fisrtName,.mat-column-lastName,.mat-column-doctorName,
+.mat-column-cnic,.mat-column-city,.mat-column-firstName,.mat-column-lastName,.mat-column-doctorName,
 .mat-column-phoneNumber, .mat-column-actions, .mat-column-appointmentDate
  {
     width: auto;
@@ -54,5 +122,4 @@
     font-family: Arial, sans-serif;
     font-size: 12pt;
   }
-  
   

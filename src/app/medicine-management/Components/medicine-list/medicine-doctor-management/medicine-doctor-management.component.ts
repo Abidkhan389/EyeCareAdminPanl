@@ -133,14 +133,14 @@ export class MedicineDoctorManagementComponent implements OnInit{
       model.medicineId = this.data.MedicineId
       model.id = this.doctormedicineId
 
-      this.medicineService.addEditDoctorMedicines(model).subscribe((data: any) => {
-        if(data.success)
+      this.medicineService.addEditDoctorMedicines(model).subscribe((result: any) => {
+        if(result)
           {
-            showSuccessMessage(data.message);
+            
             this.dialogref.close(true);
           }
           else{
-            showErrorMessage(data.message);
+           
             this.loading = false;
           }
     });
