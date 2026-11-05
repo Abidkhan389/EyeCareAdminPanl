@@ -17,6 +17,7 @@ import { UserManagementService } from 'src/app/user-management/Services/user-man
 import { LookUpService } from 'src/app/_common/_services/look-up.service';
 import { IdoctorDto } from 'src/app/_common/_interfaces/doctor/IdoctorDto';
 import { R } from '@angular/cdk/keycodes';
+import { AuthService } from 'src/app/auth/services/auth.service';
 @Component({
   selector: 'app-add-edit-user',
   standalone: true,
@@ -56,10 +57,12 @@ export class AddEditUserComponent extends DropDownUtils {
   hide = signal(true);
   minDate: Date = new Date(); // Today's date
   maxDate: Date = new Date(new Date().setFullYear(new Date().getFullYear() + 4));
+  isSuperAdmin = false;
   constructor(private userManagementService: UserManagementService, private fb: FormBuilder, protected router: Router, private dialogref: MatDialogRef<AddEditUserComponent>,
-    private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, protected lookupService: LookUpService) {
+    private dilog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, protected lookupService: LookUpService, private authService: AuthService) {
     super(lookupService);
     this.getAllDoctorDDL().subscribe(data => (this.doctorList = data));
+    this.isSuperAdmin = this.authService.getCurrentUser().roles.includes(ROLES.SuperAdmin);
   }
   ngOnInit(): void {
     this.getAllRoles();
@@ -79,7 +82,8 @@ export class AddEditUserComponent extends DropDownUtils {
       city: ['', Validators.compose([NoWhitespaceValidator, Validators.required, Validators.pattern(Patterns.titleRegex), Validators.maxLength(20)])],
       roleId: [null, Validators.required],
       doctorId: [null, Validators.required],
-      fee: [null]
+      fee: [null],
+      twoFactorEnabled: [false]
     });
   }
 

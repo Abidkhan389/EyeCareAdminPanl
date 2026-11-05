@@ -17,6 +17,9 @@ import { finalize, first } from 'rxjs';
 import { ALERT_TYPE } from 'src/app/shared/models/alert';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { TokenHelper } from 'src/app/_common/tokenHelper';
+import { toDataURL } from 'qrcode';
+
+type LoginStep = 'credentials' | 'setup' | 'code' | 'recovery-codes';
 
 @Component({
   selector: 'app-side-login',
@@ -33,7 +36,7 @@ import { TokenHelper } from 'src/app/_common/tokenHelper';
 })
 export class AppSideLoginComponent {
   options = this.settings.getOptions();
-hide = signal(true);
+  hide = signal(true);
   constructor(
     private settings: CoreService,
     private router: Router,
@@ -41,7 +44,7 @@ hide = signal(true);
     private loadingService: LoadingService,
     private alertService: AlertService
   ) {
-    
+
   }
 
   form = new FormGroup({
@@ -49,62 +52,173 @@ hide = signal(true);
     password: new FormControl('', [Validators.required]),
   });
 
+  // --- Two-Factor Authentication state ---
+  step: LoginStep = 'credentials';
+  useRecoveryCode = false;
+  qrCodeDataUrl: string | null = null;
+  otpSecret: string | null = null;
+  recoveryCodes: string[] = [];
+  private pendingCredentials: { email: string; password: string } | null = null;
+  private pendingLoginData: any = null;
+
+  twoFactorForm = new FormGroup({
+    code: new FormControl('', [Validators.required]),
+  });
+
   get f() {
     return this.form.controls;
   }
 
   submit(e: Event) {
-    // console.log(this.form.value);
     e.preventDefault();
 
     if (this.form.invalid) {
       return;
     }
 
+    this.pendingCredentials = {
+      email: this.form.getRawValue().email ?? '',
+      password: this.form.getRawValue().password ?? '',
+    };
+
+    this.doLogin(null, null);
+  }
+
+  verifyTwoFactor(e: Event) {
+    e.preventDefault();
+
+    if (this.twoFactorForm.invalid || !this.pendingCredentials) {
+      return;
+    }
+
+    const code = this.twoFactorForm.getRawValue().code ?? '';
+    this.doLogin(
+      this.useRecoveryCode ? null : code,
+      this.useRecoveryCode ? code : null
+    );
+  }
+
+  private doLogin(twoFactorCode: string | null, twoFactorRecoveryCode: string | null) {
+    if (!this.pendingCredentials) {
+      return;
+    }
+
     this.loadingService.show();
 
-    if (this.form.valid) {
-      //const { uname, password } = this.form.value;
-      let model = { ...this.form.getRawValue() } as any;
-      model.twoFactorCode = null;
-      model.twoFactorRecoveryCode = null;
-      this.authService
-        .login(model)
-        .pipe(
-          first(),
-          finalize(() => {
-            this.loadingService.hide();
-          })
-        )
-        .subscribe({
-          next: (response:any) => {
-            if (response.data) {
-                TokenHelper.setToken(response.data);
-                 //this.authService.saveTokens(response.token,response.refreshToken);
-              AuthService.SaveUserInfo(response.data);
-              AuthService.RedirectUserHome(response.data, this.router);
-            } else {
-              this.alertService.alert(
-                'Login failed. Username or password maybe incorrect!',
-                ALERT_TYPE.ERROR
-              );
-            }
-          },
-          error: (error:any) => {
-            this.alertService.alert(
-              'Login failed. Username or password maybe incorrect!',
-              ALERT_TYPE.ERROR
-            );
-          },
-        });
+    const model: any = {
+      email: this.pendingCredentials.email,
+      password: this.pendingCredentials.password,
+      twoFactorCode,
+      twoFactorRecoveryCode,
+    };
+
+    this.authService
+      .login(model)
+      .pipe(
+        first(),
+        finalize(() => {
+          this.loadingService.hide();
+        })
+      )
+      .subscribe({
+        next: (response: any) => this.handleLoginResponse(response),
+        error: () => {
+          this.alertService.alert(
+            'Login failed. Username or password maybe incorrect!',
+            ALERT_TYPE.ERROR
+          );
+        },
+      });
+  }
+
+  private handleLoginResponse(response: any) {
+    if (!response.success) {
+      this.alertService.alert(
+        response.message ?? 'Login failed. Username or password maybe incorrect!',
+        ALERT_TYPE.ERROR
+      );
+      return;
+    }
+
+    const data = response.data;
+
+    if (data?.requiresTwoFactor) {
+      this.useRecoveryCode = false;
+      this.twoFactorForm.reset();
+
+      if (data.setupRequired) {
+        this.otpSecret = data.secret;
+        this.step = 'setup';
+        this.generateQrCode(data.otpAuthUri);
+      } else {
+        this.step = 'code';
+      }
+      return;
+    }
+
+    if (!data) {
+      this.alertService.alert(
+        'Login failed. Username or password maybe incorrect!',
+        ALERT_TYPE.ERROR
+      );
+      return;
+    }
+
+    if (data.recoveryCodes?.length) {
+      // First time the authenticator is confirmed - show the one-time recovery
+      // codes before finishing the login.
+      this.recoveryCodes = data.recoveryCodes;
+      this.pendingLoginData = data;
+      this.step = 'recovery-codes';
+      return;
+    }
+
+    this.completeLogin(data);
+  }
+
+  private generateQrCode(otpAuthUri: string) {
+    this.qrCodeDataUrl = null;
+    toDataURL(otpAuthUri)
+      .then((url) => (this.qrCodeDataUrl = url))
+      .catch(() => {
+        this.alertService.alert(
+          'Unable to generate the QR code. Please use the manual key instead.',
+          ALERT_TYPE.WARNING
+        );
+      });
+  }
+
+  continueAfterRecoveryCodes() {
+    if (this.pendingLoginData) {
+      this.completeLogin(this.pendingLoginData);
     }
   }
+
+  private completeLogin(data: any) {
+    TokenHelper.setToken(data);
+    AuthService.SaveUserInfo(data);
+    AuthService.RedirectUserHome(data, this.router);
+  }
+
+  toggleRecoveryCode() {
+    this.useRecoveryCode = !this.useRecoveryCode;
+    this.twoFactorForm.reset();
+  }
+
+  backToCredentials() {
+    this.step = 'credentials';
+    this.pendingCredentials = null;
+    this.qrCodeDataUrl = null;
+    this.otpSecret = null;
+    this.twoFactorForm.reset();
+  }
+
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
   }
   loginWithGoogle() {
     // Trigger Google login
-  this.authService.googleLogin();
+    this.authService.googleLogin();
   }
 }

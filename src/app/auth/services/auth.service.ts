@@ -125,7 +125,7 @@ export class AuthService extends ApiService {
     localStorage.setItem('profilePicture', response.profilePicture ?? '');
     localStorage.setItem('roles', response.roles.toString());
     localStorage.setItem('email', response.email ?? '');
-    localStorage.setItem('FullName', response.firstName ?? '' + response.lastName);
+    const fullName = `${response.firstName ?? ''} ${response.lastName ?? ''}`.trim(); localStorage.setItem('FullName', fullName);
   }
   public static filterRoutes(routes: Routes): Routes {
     const userRoles = localStorage.getItem('roles')?.split(',') ?? [];
